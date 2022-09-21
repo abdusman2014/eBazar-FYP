@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red',
   },
   imageContainer: {
-    backgroundColor: defaultStyles.Colors.grey300,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
     padding: 16,
     borderRadius: 10,
     // alignSelf: "center",
@@ -103,7 +103,7 @@ function ItemSoldComponent({ soldCount }) {
 
 const itemSoldComponentStyle = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.Colors.grey300,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
     padding: 8,
     borderRadius: 10,
     marginLeft: 8,

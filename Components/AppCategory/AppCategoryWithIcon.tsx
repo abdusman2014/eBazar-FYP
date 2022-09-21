@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
-    backgroundColor: defaultStyles.Colors.grey300,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
     width: 60,
     height: 60,
     borderRadius: 30,

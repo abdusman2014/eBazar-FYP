@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
 
-    backgroundColor: defaultStyles.Colors.grey300,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
     flexDirection: "row",
     borderRadius: 30,
     alignItems: "center",

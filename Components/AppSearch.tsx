@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Image, TextInput } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 
+
 import defaultStyles from "../Config/styles";
 
 function AppSearch({onValueChange}) {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 50,
-    backgroundColor: defaultStyles.Colors.grey300,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
     flexDirection: "row",
     borderRadius: 10,
     alignItems: "center",

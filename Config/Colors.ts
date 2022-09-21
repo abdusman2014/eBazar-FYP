@@ -13,6 +13,7 @@ export default {
     grey600: "#848484",
     grey700: "#626262",
     grey900: "#333333",
+    primaeryGrey: '#EEEEEE',
     blue600: "#096AD0",
     blue900: "#1F2C3D",
     yellow200: "#feeecd",
