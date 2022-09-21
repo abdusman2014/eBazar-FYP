@@ -23,7 +23,7 @@ function AppCategoryWithoutIcon({ name, isSelected }) {
             : defaultStyles.Colors.black,
         }}
       >
-        {name + " adsasd"}
+        {name }
       </AppText>
     </View>
   );
@@ -31,7 +31,8 @@ function AppCategoryWithoutIcon({ name, isSelected }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
     borderColor: defaultStyles.Colors.black,
     borderWidth: 1.5,
     borderRadius: 20,
