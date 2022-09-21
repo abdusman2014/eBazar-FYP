@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   ScrollView,
+  Pressable,
 } from "react-native";
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
@@ -16,43 +17,18 @@ import AppSpecialOfferComponent from "../Components/AppSpecialOfferComponent";
 import AppText from "../Components/AppText";
 import AppTopBar from "../Components/AppTopBar";
 import defaultStyles from "../Config/styles";
+import HomeScreenMockData from "../MockData/HomeScreenMockData";
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
-  const mockCategoryData = [
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-    { name: "Sofa", image: "../assets/images/sofa-icon.png" },
-  ];
-  const mockItemsData = [
-    {
-      //key: '1',
-      name: "Two-seater gray sofa with two cushions, isolated",
-      rating: 3.5,
-      price: 1200,
-      soldCount: 800,
-      image: "../assets/images/sofa.jpg",
-    },
-    {
-      //key: '2',
-      name: "Two-seater gray sofa with two cushions",
-      rating: 3.5,
-      price: 1200,
-      soldCount: 800,
-      image: "../assets/images/sofa.jpg",
-    },
-    {
-     // key: '3',
-      name: "Two-seater gray sofa with two cushions, isolated",
-      rating: 3.5,
-      price: 1200,
-      soldCount: 800,
-      image: "../assets/images/sofa.jpg",
-    },
-  ];
+  const mockCategoryData = HomeScreenMockData.mockCategoryData;
+  const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
+  const mockItemsData = HomeScreenMockData.mockItemsData;
+  const [
+    mockCategoryitemWithOutImageData,
+    setMockCategoryitemWithOutImageData,
+  ] = React.useState(mockCategoryWithOutImageData);
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -87,27 +63,37 @@ function HomeScreen(props) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {mockCategoryData.map((val, key) => {
+          {mockCategoryitemWithOutImageData.map((val, key) => {
             return (
-              <View style={{ padding: 8 }}>
-                <AppCategoryWithoutIcon name={val.name} isSelected={false} />
-              </View>
+              <Pressable
+                style={{ padding: 8 }}
+                onPress={() => {
+                  const category = [...mockCategoryitemWithOutImageData];
+                  category[key].isSelected = !category[key].isSelected;
+                  setMockCategoryitemWithOutImageData([...category]);
+                }}
+              >
+                <AppCategoryWithoutIcon
+                  name={val.name}
+                  isSelected={val.isSelected}
+                />
+              </Pressable>
             );
           })}
         </ScrollView>
         <AppSpaceComponent />
-        
-       <FlatList
-       data={mockItemsData}
-       style={{padding: 16}}
-       //keyExtractor={(item, index) => index}
-       numColumns={2}
-       renderItem={(item)=>(
-        <View style={{ marginBottom: 24 }}>
-        <AppItemComponent item={mockItemsData[0]} />
-      </View>
-       )}
-       />
+
+        <FlatList
+          data={mockItemsData}
+          style={{ padding: 16 }}
+          //keyExtractor={(item, index) => index}
+          numColumns={2}
+          renderItem={(item) => (
+            <View style={{ marginBottom: 24 }}>
+              <AppItemComponent item={mockItemsData[0]} />
+            </View>
+          )}
+        />
         
         <AppSpaceComponent height={50} />
       </ScrollView>
@@ -119,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 12,
     top: 12,
-    //backgroundColor: 'red'
+    backgroundColor: defaultStyles.Colors.white,
   },
 });
 
