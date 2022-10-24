@@ -64,12 +64,12 @@ export default {
       md: {
         semiBold: {
           fontSize: 14,
-          lineHeight: 20,
+          //lineHeight: 20,
           fontFamily: fontFamily.opensans.semibold,
         } as TextStyle,
         regular: {
           fontSize: 14,
-          lineHeight: 20,
+          //lineHeight: 20,
 
           fontFamily: fontFamily.opensans.regular,
         } as TextStyle,
@@ -77,12 +77,12 @@ export default {
       large: {
         regular: {
           fontSize: 16,
-          lineHeight: 28,
+         // lineHeight: 28,
           fontFamily: fontFamily.opensans.regular,
         },
         bold: {
           fontSize: 16,
-          lineHeight: 28,
+         // lineHeight: 28,
           fontWeight: "bold",
           fontFamily: fontFamily.opensans.bold,
         },
