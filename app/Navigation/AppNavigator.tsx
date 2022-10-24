@@ -8,6 +8,9 @@ import CartsScreen from "../Screens/CartsScreen";
 import OrdersScreen from "../Screens/OrdersScreen";
 import { EvilIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons';
+
+
 import defaultStyles from "../Config/styles";
 
 // import GeofencesNavigator from "./GeofencesNavigator";
@@ -29,13 +32,12 @@ const getTabBarVisibility = (route) => {
 export const AppNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
       // tabBar={(props) => <ApptabBar {...props} />}
       tabBarOptions={{
         activeTintColor: defaultStyles.Colors.black,
         inactiveTintColor: defaultStyles.Colors.grey500,
         style: {
-          borderTopColor: '#66666666',
+          borderTopColor: "#66666666",
           backgroundColor: defaultStyles.Colors.white,
           elevation: 10,
         },
@@ -46,7 +48,7 @@ export const AppNavigator = () => {
         component={HomeScreen}
         options={({ route }) => ({
           tabBarLabel: "Home",
-
+          headerShown: false,
           // dynamic display of tab navigator
           tabBarVisible: getTabBarVisibility(route),
           tabBarIcon: ({ color, size }) => (
@@ -58,6 +60,13 @@ export const AppNavigator = () => {
         name={routes.CART_SCREEN}
         component={CartsScreen}
         options={{
+          headerStyle: {
+            backgroundColor: defaultStyles.Colors.grey100,
+          },
+          
+          headerShadowVisible: false,
+          headerShown: true,
+          headerTitle: 'My Cart',
           tabBarLabel: "Cart",
           tabBarIcon: ({ color, size }) => (
             <EvilIcons name="cart" size={size} color={color} />
