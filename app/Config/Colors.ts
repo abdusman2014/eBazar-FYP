@@ -7,6 +7,7 @@ export default {
     green550: "#79EFBD",
     green400: "#74DB70",
     grey100: "#fbfbfb",
+    grey200: "#f2eded",
     grey300: "#EEEEEE",
     grey400: "#D8D8D8",
     grey500: "#a9a9a9",
