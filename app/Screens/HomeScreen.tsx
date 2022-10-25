@@ -1,5 +1,5 @@
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
   Pressable,
+  Button,
 } from "react-native";
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
@@ -36,7 +37,9 @@ function HomeScreen(props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const initialSnapPoints = useMemo(() => ['25%', 'CONTENT_HEIGHT'], []);
+  const handleClosePress = () => bottomSheetRef.current.close()
+
+  const initialSnapPoints = useMemo(() => ['75%', 'CONTENT_HEIGHT'], []);
 
   const {
   animatedHandleHeight,
@@ -44,7 +47,10 @@ function HomeScreen(props) {
   animatedContentHeight,
   handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
-
+  
+ const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -121,17 +127,18 @@ function HomeScreen(props) {
         ref={bottomSheetRef}
         index={0}
         snapPoints={animatedSnapPoints}
-        //onChange={handleSheetChanges}
+        onChange={handleSheetChanges}
         handleHeight={animatedHandleHeight}
         contentHeight={animatedContentHeight}
         enablePanDownToClose={true}
       >
-      <BottomSheetView
-        //style={styles.contentContainer}
-       onLayout={handleContentLayout}
-      >
-        <FilterMenu></FilterMenu>
-      </BottomSheetView>
+        <BottomSheetView
+          //style={styles.contentContainer}
+        onLayout={handleContentLayout}
+        >
+          <FilterMenu></FilterMenu>
+          <Button title="Close Sheet" onPress={handleClosePress} />
+        </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>
   );
