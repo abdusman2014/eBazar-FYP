@@ -1,11 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, View, Image, Pressable, Alert } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,12 +8,39 @@ import Item from "../Model/Item";
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
+import useCartStore from "../state-management/UserCart";
 
 export default function CartItemComponent({ order }) {
+  const { incrementItemCount, decrementItemCount, removeItemFromCart } =
+    useCartStore();
   const item: Item = order.item;
   console.log("item: ", item, ", ", order.noOfItems);
 
-  //  console.log("item: ", order);
+  const handleOnPressIncrementItemButton = () => {
+    incrementItemCount(order.orderId);
+  };
+  const handleOnPressDeleteButton = () => {
+    showAlert(
+      "Remove Item",
+      "Are you sure you want to remove item from cart?",
+      () => {
+        removeItemFromCart(order.orderId);
+      }
+    );
+  };
+  const handleOnPressDecrementItemButton = () => {
+    if (order.noOfItems === 1) {
+      showAlert(
+        "Remove Item",
+        "Are you sure you want to remove item from cart?",
+        () => {
+          removeItemFromCart(order.orderId);
+        }
+      );
+    } else {
+      decrementItemCount(order.orderId);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -43,20 +63,26 @@ export default function CartItemComponent({ order }) {
             {item.name}
           </AppText>
           <View style={{ flex: 1 }} />
-          <MaterialIcons
-            name="delete-outline"
-            size={24}
-            color="black"
-            //style={{ marginLeft: 8 }}
-          />
+          <Pressable onPress={handleOnPressDeleteButton}>
+            <MaterialIcons
+              name="delete-outline"
+              size={24}
+              color="black"
+              //style={{ marginLeft: 8 }}
+            />
+          </Pressable>
         </View>
         <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AppText style={defaultStyles.typography.body.large.bold}>
             {"Rs."} {item.price}
           </AppText>
           <View style={{ flex: 1 }} />
-          <NoOfItemsConponent noOfItems={order.noOfItems} />
+          <NoOfItemsConponent
+            noOfItems={order.noOfItems}
+            onPressPlusBtn={handleOnPressIncrementItemButton}
+            onPressMinusBtn={handleOnPressDecrementItemButton}
+          />
         </View>
         <AppSpaceComponent height={15} />
       </View>
@@ -91,10 +117,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function NoOfItemsConponent({ noOfItems }) {
+function NoOfItemsConponent({ noOfItems, onPressPlusBtn, onPressMinusBtn }) {
   return (
     <View style={NoOfItemsConponentStyle.container}>
-      <AntDesign name="minus" size={16} color="black" />
+      <Pressable onPress={onPressMinusBtn}>
+        <AntDesign name="minus" size={16} color="black" />
+      </Pressable>
       <AppText
         style={[
           defaultStyles.typography.body.large.bold,
@@ -103,7 +131,9 @@ function NoOfItemsConponent({ noOfItems }) {
       >
         {noOfItems}
       </AppText>
-      <AntDesign name="plus" size={16} color="black" />
+      <Pressable onPress={onPressPlusBtn}>
+        <AntDesign name="plus" size={16} color="black" />
+      </Pressable>
     </View>
   );
 }
@@ -117,3 +147,20 @@ const NoOfItemsConponentStyle = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+function showAlert(title: string, message: string, onPressOkBtn) {
+  Alert.alert("Alert Title", "My Alert Msg", [
+    {
+      text: "Cancel",
+      onPress: () => console.log("Cancel Pressed"),
+      style: "cancel",
+    },
+    {
+      text: "OK",
+      onPress: () => {
+        onPressOkBtn();
+        console.log("OK Pressed");
+      },
+    },
+  ]);
+}

@@ -3,7 +3,6 @@
     "name": "eBazar",
     "owner": "ebazar",
     "slug": "eBazar",
- 
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app//assets/icon.png",
@@ -30,6 +29,11 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "607a3020-a29a-4407-9fc4-9197c5f27f33"
+      }
     }
   }
 }

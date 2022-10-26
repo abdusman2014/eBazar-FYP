@@ -12,6 +12,7 @@ import { Feather } from '@expo/vector-icons';
 
 
 import defaultStyles from "../Config/styles";
+import OrdersNavigator from "./OrdersNavigator";
 
 // import GeofencesNavigator from "./GeofencesNavigator";
 
@@ -57,16 +58,10 @@ export const AppNavigator = () => {
         })}
       />
       <Tab.Screen
-        name={routes.CART_SCREEN}
-        component={CartsScreen}
+        name={routes.CART_NAVIGATOR}
+        component={OrdersNavigator}
         options={{
-          headerStyle: {
-            backgroundColor: defaultStyles.Colors.grey100,
-          },
-          
-          headerShadowVisible: false,
-          headerShown: true,
-          headerTitle: 'My Cart',
+          headerShown:false,
           tabBarLabel: "Cart",
           tabBarIcon: ({ color, size }) => (
             <EvilIcons name="cart" size={size} color={color} />
@@ -88,25 +83,7 @@ export const AppNavigator = () => {
           headerTitle: "Fleets",
         }}
       />
-      {/* <Tab.Screen
-        name={routes.GEOFENCES}
-        component={GeofencesNavigator}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="mapbox" color={color} size={size} />
-          )
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name={routes.PROFILE}
-        component={AccountScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-          headerShown: true,
-        }}
-      /> */}
+     
     </Tab.Navigator>
   );
 };

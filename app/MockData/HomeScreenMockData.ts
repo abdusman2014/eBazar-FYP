@@ -30,7 +30,7 @@ const mockItemsData : Item[] = [
   {
     //key: '2',
     itemId: 2,
-    name: "Two-seater gray sofa with two cushions",
+    name: "Three-seater gray sofa with two cushions",
     rating: 3.5,
     price: 1200,
     soldCount: 800,
@@ -39,7 +39,7 @@ const mockItemsData : Item[] = [
   {
     // key: '3',
     itemId: 3,
-    name: "Two-seater gray sofa with two cushions, isolated",
+    name: "Four-seater gray sofa with two cushions, isolated",
     rating: 3.5,
     price: 1200,
     soldCount: 800,

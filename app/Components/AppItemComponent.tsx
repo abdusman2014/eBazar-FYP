@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import { StyleSheet, View, Image, Dimensions, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Rating } from "react-native-ratings";
 
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
+import useCartStore from "../state-management/UserCart";
 
 function AppItemComponent({ item }) {
   const name = item.name;
@@ -13,8 +14,17 @@ function AppItemComponent({ item }) {
   const rating = item.rating;
   const image = item.image;
   const soldCount = item.soldCount;
+  const { cartItems, addCartItem } = useCartStore();
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() => {
+        console.log("press");
+        addCartItem(item);
+       
+       // console.log("cart: ", cartItems[0].noOfItems);
+      }}
+    >
       <View style={styles.imageContainer}>
         <Image
           source={require("../assets/images/sofa.jpg")}
@@ -62,7 +72,7 @@ function AppItemComponent({ item }) {
       <AppText style={defaultStyles.typography.body.large.bold}>
         {"$" + price}
       </AppText>
-    </View>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({

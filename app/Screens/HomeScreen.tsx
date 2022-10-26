@@ -86,11 +86,11 @@ function HomeScreen(props) {
         <FlatList
           data={mockItemsData}
           style={{ padding: 16 }}
-          //keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => item.itemId.toString()}
           numColumns={2}
           renderItem={(item) => (
             <View style={{ marginBottom: 24 }}>
-              <AppItemComponent item={mockItemsData[0]} />
+              <AppItemComponent item={item.item} />
             </View>
           )}
         />
