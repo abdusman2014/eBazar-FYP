@@ -14,7 +14,6 @@ import AppText from "../Components/AppText";
 import CartItemComponent from "../Components/CartItemComponent";
 import defaultStyles from "../Config/styles";
 import useCartStore from "../state-management/UserCart";
-import AppSpaceComponent from "../Components/AppSpaceComponent";
 import routes from "../Navigation/routes";
 
 function CartsScreen(props) {
@@ -28,7 +27,7 @@ function CartsScreen(props) {
     });
     return sum;
   };
-  const handleCheckoutButtonPress = ()=>{
+  const handleCheckoutButtonPress = () => {
     props.navigation.navigate(routes.CHECKOUT_SCREEN);
   };
 
@@ -51,13 +50,16 @@ function CartsScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingBottom: 20,
         }}
         data={cartItems}
         style={{ padding: 16 }}
         keyExtractor={(item, index) => item.orderId.toString()}
-        renderItem={(item) => <CartItemComponent order={item.item} />}
+        renderItem={(item) => (
+          <CartItemComponent order={item.item} isFromCartScreen={true} />
+        )}
       />
 
       <View style={styles.bottomCheckOutComponent}>
@@ -71,8 +73,10 @@ function CartsScreen(props) {
         </View>
         <View style={{ flex: 1 }} />
         <AppButtonWithShadow
-          children={
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+          
+          onPress={handleCheckoutButtonPress}
+        >
+           <View style={{ flexDirection: "row", alignItems: "center" }}>
               <AppText
                 style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
               >
@@ -80,9 +84,7 @@ function CartsScreen(props) {
               </AppText>
               <Ionicons name="arrow-redo-circle" size={24} color="white" />
             </View>
-          }
-          onPress={handleCheckoutButtonPress}
-        />
+        </AppButtonWithShadow>
       </View>
     </SafeAreaView>
   );
@@ -90,7 +92,7 @@ function CartsScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
+   
     //top: 12,
 
     flex: 1,

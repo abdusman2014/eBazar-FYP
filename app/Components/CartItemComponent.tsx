@@ -10,7 +10,7 @@ import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
 import useCartStore from "../state-management/UserCart";
 
-export default function CartItemComponent({ order }) {
+export default function CartItemComponent({ order, isFromCartScreen }) {
   const { incrementItemCount, decrementItemCount, removeItemFromCart } =
     useCartStore();
   const item: Item = order.item;
@@ -63,14 +63,17 @@ export default function CartItemComponent({ order }) {
             {item.name}
           </AppText>
           <View style={{ flex: 1 }} />
-          <Pressable onPress={handleOnPressDeleteButton}>
-            <MaterialIcons
-              name="delete-outline"
-              size={24}
-              color="black"
-              //style={{ marginLeft: 8 }}
-            />
-          </Pressable>
+
+          {isFromCartScreen && (
+            <Pressable onPress={handleOnPressDeleteButton}>
+              <MaterialIcons
+                name="delete-outline"
+                size={24}
+                color="black"
+                //style={{ marginLeft: 8 }}
+              />
+            </Pressable>
+          )}
         </View>
         <View style={{ flex: 1 }} />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -78,11 +81,28 @@ export default function CartItemComponent({ order }) {
             {"Rs."} {item.price}
           </AppText>
           <View style={{ flex: 1 }} />
-          <NoOfItemsConponent
-            noOfItems={order.noOfItems}
-            onPressPlusBtn={handleOnPressIncrementItemButton}
-            onPressMinusBtn={handleOnPressDecrementItemButton}
-          />
+          {isFromCartScreen ? (
+            <NoOfItemsConponent
+              noOfItems={order.noOfItems}
+              onPressPlusBtn={handleOnPressIncrementItemButton}
+              onPressMinusBtn={handleOnPressDecrementItemButton}
+            />
+          ) : (
+            <View
+              style={{
+                backgroundColor: defaultStyles.Colors.grey400,
+                height: 30,
+                width: 30,
+                borderRadius: 30,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <AppText style={defaultStyles.typography.labels.large.regular}>
+                {order.noOfItems}
+              </AppText>
+            </View>
+          )}
         </View>
         <AppSpaceComponent height={15} />
       </View>
