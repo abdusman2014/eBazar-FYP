@@ -1,6 +1,23 @@
 import { TextStyle } from "react-native";
 import Colors from "./Colors";
 
+
+export const fontAssets = {
+  "Montserrat-Black": require("../assets/fonts/montserrat/Montserrat-Black.ttf"),
+  "Montserrat-Bold": require("../assets/fonts/montserrat/Montserrat-Bold.ttf"),
+  "Montserrat-Light": require("../assets/fonts/montserrat/Montserrat-Light.ttf"),
+  "Montserrat-Medium": require("../assets/fonts/montserrat/Montserrat-Medium.ttf"),
+  "Montserrat-Regular": require("../assets/fonts/montserrat/Montserrat-Regular.ttf"),
+  "Montserrat-SemiBold": require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
+  "Montserrat-Thin": require("../assets/fonts/montserrat/Montserrat-Thin.ttf"),
+  "OpenSans-Bold": require("../assets/fonts/opensans/OpenSans-Bold.ttf"),
+  "OpenSans-ExtraBold": require("../assets/fonts/opensans/OpenSans-ExtraBold.ttf"),
+  "OpenSans-Italic": require("../assets/fonts/opensans/OpenSans-Italic.ttf"),
+  "OpenSans-Light": require("../assets/fonts/opensans/OpenSans-Light.ttf"),
+  "OpenSans-Regular": require("../assets/fonts/opensans/OpenSans-Regular.ttf"),
+  "OpenSans-SemiBold": require("../assets/fonts/opensans/OpenSans-SemiBold.ttf"),
+};
+
 const fontFamily = {
   montserrat: {
     black: "Montserrat-Black",
