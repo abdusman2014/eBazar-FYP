@@ -7,6 +7,7 @@ import AppText from "../components/AppText";
 import defaultStyles from "../Config/styles";
 import CheckoutScreen from "../Screens/CheckoutScreen";
 import CartsScreen from "../Screens/CartsScreen";
+import AddressScreen from "../Screens/AddressScreen";
 
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
@@ -40,6 +41,23 @@ function OrdersNavigator() {
         headerBackTitleVisible: false }}
       >
         {(props) => <CheckoutScreen {...props} />}
+      </OrdersNavigator.Screen>
+      <OrdersNavigator.Screen
+        name={routes.ADDRESS_SCREEN}
+        options={{ headerTitle: 'Shipping Address',headerBackImage(props) {
+          return (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={defaultStyles.Colors.black}
+              style={{ margin: 12 }}
+            />
+          );
+        },
+        
+        headerBackTitleVisible: false }}
+      >
+        {(props) => <AddressScreen {...props} />}
       </OrdersNavigator.Screen>
     </OrdersNavigator.Navigator>
   );

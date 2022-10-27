@@ -3,5 +3,6 @@ export default {
     CART_NAVIGATOR: 'cartsNavigator',
     CART_SCREEN: 'cartsScreen',
     ORDER_SCREEN: 'ordersScreen',
-    CHECKOUT_SCREEN: 'checkoutScreen'
+    CHECKOUT_SCREEN: 'checkoutScreen',
+    ADDRESS_SCREEN: 'addressScreen',
 };

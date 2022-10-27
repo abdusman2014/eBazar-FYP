@@ -1,6 +1,12 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
+import React, { useEffect } from "react";
+import { Ionicons, Octicons } from "@expo/vector-icons";
 
 import AppText from "../Components/AppText";
 import defaultStyles from "../Config/styles";
@@ -9,8 +15,17 @@ import AppSpaceComponent from "../Components/AppSpaceComponent";
 import useCartStore from "../state-management/UserCart";
 import CartItemComponent from "../Components/CartItemComponent";
 import AppButtonWithShadow from "../Components/AppButtonWithShadow";
+import mockAddresseData from "../MockData/AddressMockData";
+import usePlaceOrderStore from "../state-management/placeOrder";
+import routes from "../Navigation/routes";
 
 export default function CheckoutScreen(props) {
+  const { address, addAddress } = usePlaceOrderStore();
+  useEffect(() => {
+    if (address === null) {
+      addAddress(mockAddresseData[0]);
+    }
+  }, []);
   const { cartItems } = useCartStore();
   const getTotalPriceOFCart = () => {
     let sum = 0;
@@ -19,63 +34,63 @@ export default function CheckoutScreen(props) {
     });
     return sum;
   };
+  const handleOnPressAddressComponent = () => {
+    props.navigation.navigate(routes.ADDRESS_SCREEN);
+  };
+  if (address === null) {
+    return <AppText>loading</AppText>;
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <AppText
-        style={[defaultStyles.typography.body.large.bold, { padding: 12 }]}
-      >
-        Shipping Address
-      </AppText>
-      <View style={{ paddingHorizontal: 12 }}>
-        <AppAddressComponent
-          title={"Home"}
-          description={"House#668, Street#21 I10/4, Islamabad"}
-        />
-      </View>
-      <AppSpaceComponent />
-      <View
-        style={{
-          height: 1,
-          width: "100%",
-          backgroundColor: defaultStyles.Colors.grey400,
-        }}
-      />
-      <AppSpaceComponent height={10} />
-      <AppText
-        style={[
-          defaultStyles.typography.body.large.bold,
-          { paddingHorizontal: 12 },
-        ]}
-      >
-        Order List
-      </AppText>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 20,
-        }}
-        data={cartItems}
-        style={{ padding: 12 }}
-        keyExtractor={(item, index) => item.orderId.toString()}
-        renderItem={(item) => (
-          <CartItemComponent order={item.item} isFromCartScreen={false} />
-        )}
-        ListFooterComponent={() => (
-          <View style={{ marginTop: 8 }}>
-            <PriceDetailComponent
-              cartPrice={getTotalPriceOFCart()}
-              shippingCost={50}
+      <ScrollView>
+        <AppText
+          style={[defaultStyles.typography.body.large.bold, { padding: 12 }]}
+        >
+          Shipping Address
+        </AppText>
+        <View style={{ paddingHorizontal: 12 }}>
+          <Pressable onPress={handleOnPressAddressComponent}>
+            <AppAddressComponent
+              title={address.title}
+              description={address.description}
+              icon={<Octicons name="pencil" size={24} color="black" />}
             />
-          </View>
-        )}
-      />
+          </Pressable>
+        </View>
+        <AppSpaceComponent />
+        <View
+          style={{
+            height: 1,
+            width: "100%",
+            backgroundColor: defaultStyles.Colors.grey400,
+          }}
+        />
+        <AppSpaceComponent height={10} />
+        <AppText
+          style={[
+            defaultStyles.typography.body.large.bold,
+            { paddingHorizontal: 12 },
+          ]}
+        >
+          Order List
+        </AppText>
+        {cartItems.map((item) => (
+          <CartItemComponent order={item} isFromCartScreen={false} />
+        ))}
+        <View style={{ margin: 8, marginBottom: 118 }}>
+          <PriceDetailComponent
+            cartPrice={getTotalPriceOFCart()}
+            shippingCost={50}
+          />
+        </View>
+      </ScrollView>
       <View style={styles.bottomPaymentComponent}>
         <AppButtonWithShadow onPress={() => {}}>
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              width: 300,
+              width: "100%",
               justifyContent: "center",
             }}
           >
@@ -102,8 +117,8 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.Colors.white,
     padding: 22,
     alignItems: "center",
-
-    //position: "absolute",
+    width: "100%",
+    position: "absolute",
     bottom: 0,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
