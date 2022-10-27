@@ -91,7 +91,7 @@ export default function FilterMenu() {
           {mockCategoryitemWithOutImageData.map((val, key) => {
             return (
               <Pressable
-                style={{ padding: 8 }}
+                style={{ padding: 4 }}
                 onPress={() => {
                   const category = [...mockCategoryitemWithOutImageData];
                   category[key].isSelected = !category[key].isSelected;
@@ -112,19 +112,18 @@ export default function FilterMenu() {
       </AppText>
       
       <SliderContainer
-                caption="<Slider/> with track marks"
-                sliderValue={[1]}
-                trackMarks={[3, 7, 11]}>
-      <Slider
-         animateTransitions
-         minimumTrackTintColor="#30a935"
-         thumbStyle={customStyles7.thumb}
-         trackStyle={customStyles7.track}
-         
-         minimumValue={-10}
-         maximumValue={42}
-      />
-    </SliderContainer>
+            caption="Select the minimum and maximum price range"
+            sliderValue={[1000, 99999]}>
+            <Slider
+                animateTransitions
+                maximumTrackTintColor="#d3d3d3"
+                maximumValue={1000000}
+                minimumTrackTintColor="#1fb28a"
+                minimumValue={0}
+                step={1000}
+                thumbTintColor="#1a9274"
+            />
+        </SliderContainer>
       
       <AppText style={defaultStyles.typography.body.large.bold}>
         Sort by
@@ -140,7 +139,7 @@ export default function FilterMenu() {
           {mockCategoryitemWithOutImageData.map((val, key) => {
             return (
               <Pressable
-                style={{ padding: 8 }}
+                style={{ padding: 4 }}
                 onPress={() => {
                   const category = [...mockCategoryitemWithOutImageData];
                   category[key].isSelected = !category[key].isSelected;

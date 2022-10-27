@@ -6,25 +6,23 @@ import { Rating } from "react-native-ratings";
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
-import useCartStore from "../state-management/UserCart";
+import Item from '../Model/Item';
 
-function AppItemComponent({ item }) {
+function AppItemComponent({ item, onPress}) {
   const name = item.name;
   const price = item.price;
   const rating = item.rating;
   const image = item.image;
   const soldCount = item.soldCount;
-  const { cartItems, addCartItem } = useCartStore();
+  
+ 
   return (
+
     <Pressable
       style={styles.container}
-      onPress={() => {
-        console.log("press");
-        addCartItem(item);
-       
-       // console.log("cart: ", cartItems[0].noOfItems);
-      }}
+      onPress={onPress}
     >
+    <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           source={require("../assets/images/sofa.jpg")}
@@ -72,6 +70,7 @@ function AppItemComponent({ item }) {
       <AppText style={defaultStyles.typography.body.large.bold}>
         {"$" + price}
       </AppText>
+    </View>
     </Pressable>
   );
 }
