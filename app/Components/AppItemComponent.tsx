@@ -1,19 +1,27 @@
 import React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import { StyleSheet, View, Image, Dimensions, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Rating } from "react-native-ratings";
 
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
+import Item from '../Model/Item';
 
-function AppItemComponent({ item }) {
+function AppItemComponent({ item, onPress}) {
   const name = item.name;
   const price = item.price;
   const rating = item.rating;
   const image = item.image;
   const soldCount = item.soldCount;
+  
+ 
   return (
+
+    <Pressable
+      style={styles.container}
+      onPress={onPress}
+    >
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
@@ -63,6 +71,7 @@ function AppItemComponent({ item }) {
         {"$" + price}
       </AppText>
     </View>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({

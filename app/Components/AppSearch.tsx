@@ -1,16 +1,17 @@
 import React from "react";
 import { StyleSheet, View, Image, TextInput, Pressable } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
-
+import { EvilIcons, Feather, Entypo } from "@expo/vector-icons";
 
 import defaultStyles from "../Config/styles";
 
 
-function AppSearch({onValueChange, onFilterPress}) {
+function AppSearch({onValueChange, onFilterPress, clicked, searchPhrase, setSearchPhrase, setClicked}) {
   const [text, onChangeText] = React.useState("");
+
   return (
 
     <View style={styles.container}>
+      
       <EvilIcons name="search" size={24} color={defaultStyles.Colors.grey700} />
       <TextInput
         style={styles.input}
@@ -21,8 +22,8 @@ function AppSearch({onValueChange, onFilterPress}) {
         }}
         placeholder="Search"
         value={text}
-      />
-
+      /> 
+       
       <Pressable onPress={onFilterPress}>
       <Image
         source={require("../assets/images/filter.png")}
@@ -52,6 +53,23 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     tintColor: defaultStyles.Colors.grey700,
+  },
+  searchBar__unclicked: {
+    padding: 10,
+    flexDirection: "row",
+    width: "95%",
+    backgroundColor: "#d9dbda",
+    borderRadius: 15,
+    alignItems: "center",
+  },
+  searchBar__clicked: {
+    padding: 10,
+    flexDirection: "row",
+    width: "80%",
+    backgroundColor: "#d9dbda",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
 });
 

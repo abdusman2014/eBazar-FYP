@@ -1,5 +1,5 @@
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   Pressable,
   Button,
 } from "react-native";
+
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
 import AppItemComponent from "../Components/AppItemComponent";
@@ -24,9 +25,15 @@ import HomeScreenMockData from "../MockData/HomeScreenMockData";
 import  { 
   useBottomSheetDynamicSnapPoints,
 } from '@gorhom/bottom-sheet';
+import List from "../Components/List";
+import routes from "../Navigation/routes";
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
+  const [itemSelected, setItemSelected] = React.useState("");
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [clicked, setClicked] = useState(false);
+  const [fakeData, setFakeData] = useState();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
   const mockItemsData = HomeScreenMockData.mockItemsData;
@@ -39,7 +46,7 @@ function HomeScreen(props) {
 
   const handleClosePress = () => bottomSheetRef.current.close()
 
-  const initialSnapPoints = useMemo(() => ['75%', 'CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ['1', '75%', 'CONTENT_HEIGHT'], []);
 
   const {
   animatedHandleHeight,
@@ -52,25 +59,31 @@ function HomeScreen(props) {
     console.log('handleSheetChanges', index);
   }, []);
 
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <AppTopBar />
-        <AppSpaceComponent />
-        <AppSearch onValueChange={onChangeText}onFilterPress = {()=> {
+        <AppSpaceComponent height={undefined} />
+        <AppSearch 
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+          clicked={clicked}
+          setClicked={setClicked}
+          onValueChange={onChangeText}onFilterPress = {()=> {
           bottomSheetRef.current?.expand()
         }} />
         
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
         <SectionHeader title={"Special Offers"} optionText={"See All"} />
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
         <AppSpecialOfferComponent
           headerText={"25%"}
           subHeaderText={"Today's Special"}
           text={"Get discount for every order, only valid for today"}
           image={"../assets/images/sofa.jpg"}
         />
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
 
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {mockCategoryData.map((val, key) => {
@@ -81,9 +94,9 @@ function HomeScreen(props) {
             );
           })}
         </View>
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
         <SectionHeader title={"Most Popular"} optionText={"See All"} />
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
         <ScrollView
           style={{ flexDirection: "row" }}
           horizontal={true}
@@ -107,7 +120,7 @@ function HomeScreen(props) {
             );
           })}
         </ScrollView>
-        <AppSpaceComponent />
+        <AppSpaceComponent height={undefined} />
 
         <FlatList
           data={mockItemsData}
@@ -116,7 +129,13 @@ function HomeScreen(props) {
           numColumns={2}
           renderItem={(item) => (
             <View style={{ marginBottom: 24 }}>
-              <AppItemComponent item={mockItemsData[0]} />
+  
+              <AppItemComponent item={item.item} 
+                onPress={() => {
+                  props.setItem(item.item)
+                  props.navigation.navigate(routes.ITEM_DETAILS_SCREEN)
+                }}
+              />
             </View>
           )}
         />

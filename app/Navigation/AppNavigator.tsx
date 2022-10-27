@@ -14,6 +14,7 @@ import { Feather } from '@expo/vector-icons';
 import defaultStyles from "../Config/styles";
 
 // import GeofencesNavigator from "./GeofencesNavigator";
+import HomeNavigator from './HomeNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,6 +31,8 @@ const getTabBarVisibility = (route) => {
 };
 
 export const AppNavigator = () => {
+  
+  
   return (
     <Tab.Navigator
       // tabBar={(props) => <ApptabBar {...props} />}
@@ -44,8 +47,8 @@ export const AppNavigator = () => {
       }}
     >
       <Tab.Screen
-        name={routes.HOME_SCREEN}
-        component={HomeScreen}
+        name={routes.HOME_NAVIGATOR}
+        component={HomeNavigator}
         options={({ route }) => ({
           tabBarLabel: "Home",
           headerShown: false,
