@@ -14,9 +14,11 @@ import defaultstyles from "../Config/styles";
 import ViewMoreText from "react-native-view-more-text";
 
 import useCartState from "../state-management/UserCart";
+import { Rating } from "react-native-ratings";
+import AppSpaceComponent from "../Components/AppSpaceComponent";
 
 const ItemDetailsScreen = (props) => {
-  const item = props.item;
+  const item: Item = props.item;
   const { addCartItem } = useCartState();
 
   function renderViewMore(onPress) {
@@ -40,11 +42,14 @@ const ItemDetailsScreen = (props) => {
           style={styles.productImg}
           resizeMode="contain"
         />
-        <Text style={styles.name}>Mid Century Sofa</Text>
+        <Text style={styles.name}>{item.name}</Text>
         <AppText style={[defaultstyles.typography.h3, { fontWeight: "bold" }]}>
           Price
         </AppText>
-        <Text style={styles.price}>{item.price}</Text>
+        <Text style={styles.price}>
+          {"Rs. "}
+          {item.price}
+        </Text>
         <AppText style={[defaultstyles.typography.h3, { fontWeight: "bold" }]}>
           Description
         </AppText>
@@ -80,8 +85,16 @@ const ItemDetailsScreen = (props) => {
           style={[styles.btnColor, { backgroundColor: "#FF4500" }]}
         ></TouchableOpacity>
       </View>
-
-      <View style={styles.starContainer}>
+      <AppSpaceComponent/>
+      <Rating
+        ratingColor={"#000000"}
+        ratingBackgroundColor={defaultstyles.Colors.grey300}
+        ratingCount={5}
+        imageSize={40}
+        readonly={true}
+        startingValue={item.rating}
+      />
+      {/* <View style={styles.starContainer}>
         <Image
           style={styles.star}
           source={{ uri: "https://img.icons8.com/color/40/000000/star.png" }}
@@ -102,8 +115,9 @@ const ItemDetailsScreen = (props) => {
           style={styles.star}
           source={{ uri: "https://img.icons8.com/color/40/000000/star.png" }}
         />
-      </View>
+      </View> */}
       <View style={styles.separator}></View>
+      <View style={{flex:1}}/>
       <View style={styles.addToCarContainer}>
         <TouchableOpacity
           style={styles.shareButton}

@@ -14,7 +14,7 @@ export default function CartItemComponent({ order, isFromCartScreen }) {
   const { incrementItemCount, decrementItemCount, removeItemFromCart } =
     useCartStore();
   const item: Item = order.item;
-  console.log("item: ", item, ", ", order.noOfItems);
+
 
   const handleOnPressIncrementItemButton = () => {
     incrementItemCount(order.orderId);
@@ -169,7 +169,7 @@ const NoOfItemsConponentStyle = StyleSheet.create({
 });
 
 function showAlert(title: string, message: string, onPressOkBtn) {
-  Alert.alert("Alert Title", "My Alert Msg", [
+  Alert.alert(title, message, [
     {
       text: "Cancel",
       onPress: () => console.log("Cancel Pressed"),

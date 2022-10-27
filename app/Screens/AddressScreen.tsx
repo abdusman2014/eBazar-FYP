@@ -6,6 +6,8 @@ import mockAddresseData from "../MockData/AddressMockData";
 import AppAddressComponent from "../Components/AppAddressComponent";
 import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import AppText from "../Components/AppText";
+import routes from "../Navigation/routes";
+import Address from "../Model/Address";
 
 export default function AddressScreen(props) {
   const [addresses, setAddresses] = useState(mockAddresseData);
@@ -15,7 +17,7 @@ export default function AddressScreen(props) {
       ...element,
       isSelected: false,
     }));
-    tempAddresses[1].isSelected = true;
+    tempAddresses[0].isSelected = true;
     setAddresses(tempAddresses);
   }, []);
   const handleonPressAddress = (address) => {
@@ -32,6 +34,19 @@ export default function AddressScreen(props) {
     );
 
     setAddresses(tempAddress);
+  };
+  const handlePressOnApply = () => {
+    const address = addresses.filter((item) => item.isSelected);
+//console.log(address);
+    props.navigation.navigate({
+      name: routes.CHECKOUT_SCREEN,
+      params: {
+        addressId: address[0].addressId,
+
+        screen: routes.ADDRESS_SCREEN,
+      },
+      merge: true,
+    });
   };
   return (
     <View style={styles.container}>
@@ -68,8 +83,8 @@ export default function AddressScreen(props) {
           </Pressable>
         )}
       />
-      <View style={{bottom: 10,padding: 8}}>
-      <AppButtonWithShadow onPress={() => {}}>
+      <View style={{ bottom: 10, padding: 8 }}>
+        <AppButtonWithShadow onPress={handlePressOnApply}>
           <View
             style={{
               flexDirection: "row",
@@ -85,7 +100,7 @@ export default function AddressScreen(props) {
             </AppText>
           </View>
         </AppButtonWithShadow>
-        </View>
+      </View>
     </View>
   );
 }

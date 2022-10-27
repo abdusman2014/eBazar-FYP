@@ -7,4 +7,5 @@ export default {
     CHECKOUT_SCREEN: 'checkoutScreen',
     ADDRESS_SCREEN: 'addressScreen',
     ITEM_DETAILS_SCREEN: 'itemDetailsScreen',
+    PAYMENT_SCREEN: 'paymentScreen',
 };

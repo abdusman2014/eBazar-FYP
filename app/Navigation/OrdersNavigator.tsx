@@ -8,6 +8,7 @@ import defaultStyles from "../Config/styles";
 import CheckoutScreen from "../Screens/CheckoutScreen";
 import CartsScreen from "../Screens/CartsScreen";
 import AddressScreen from "../Screens/AddressScreen";
+import PaymentScreen from "../Screens/PaymentScreen";
 
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
@@ -58,6 +59,23 @@ function OrdersNavigator() {
         headerBackTitleVisible: false }}
       >
         {(props) => <AddressScreen {...props} />}
+      </OrdersNavigator.Screen>
+      <OrdersNavigator.Screen
+        name={routes.PAYMENT_SCREEN}
+        options={{ headerTitle: 'Payment Method',headerBackImage(props) {
+          return (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={defaultStyles.Colors.black}
+              style={{ margin: 12 }}
+            />
+          );
+        },
+        
+        headerBackTitleVisible: false }}
+      >
+        {(props) => <PaymentScreen {...props} />}
       </OrdersNavigator.Screen>
     </OrdersNavigator.Navigator>
   );

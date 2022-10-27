@@ -58,8 +58,8 @@ function HomeScreen(props) {
 
 
   return (
-    <SafeAreaView>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView  showsVerticalScrollIndicator={false}>
         <AppTopBar />
         <AppSpaceComponent height={undefined} />
         <AppSearch 
@@ -167,7 +167,7 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-    top: 12,
+    top: 32,
     backgroundColor: defaultStyles.Colors.white,
   },
   contentContainer: {

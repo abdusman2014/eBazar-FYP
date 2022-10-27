@@ -7,6 +7,7 @@ interface Item {
   soldCount: number;
   color: string;
   image: string;
+  description:string
 }
 
 export default Item;

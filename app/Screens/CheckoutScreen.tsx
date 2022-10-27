@@ -22,6 +22,19 @@ import routes from "../Navigation/routes";
 export default function CheckoutScreen(props) {
   const { address, addAddress } = usePlaceOrderStore();
   useEffect(() => {
+    
+     console.log('eneter: ',props.route.params);
+    if (props.route.params?.screen === routes.ADDRESS_SCREEN) {
+      //gets data returned from vehicle list screen
+      const returnAddress = mockAddresseData.filter(
+        (item) => (item.addressId === props.route.params?.addressId)
+      );
+      //console.log(returnAddress,',, ',props.route.params?.addressId)
+      addAddress(returnAddress[0]);
+     // console.log('add',address);
+    }
+  }, [props.route.params]);
+  useEffect(() => {
     if (address === null) {
       addAddress(mockAddresseData[0]);
     }
@@ -48,7 +61,7 @@ export default function CheckoutScreen(props) {
         >
           Shipping Address
         </AppText>
-        <View style={{ paddingHorizontal: 12 }}>
+        {address && <View style={{ paddingHorizontal: 12 }}>
           <Pressable onPress={handleOnPressAddressComponent}>
             <AppAddressComponent
               title={address.title}
@@ -56,7 +69,7 @@ export default function CheckoutScreen(props) {
               icon={<Octicons name="pencil" size={24} color="black" />}
             />
           </Pressable>
-        </View>
+        </View>}
         <AppSpaceComponent />
         <View
           style={{
@@ -75,7 +88,11 @@ export default function CheckoutScreen(props) {
           Order List
         </AppText>
         {cartItems.map((item) => (
-          <CartItemComponent order={item} isFromCartScreen={false} />
+          <CartItemComponent
+            key={Math.random()}
+            order={item}
+            isFromCartScreen={false}
+          />
         ))}
         <View style={{ margin: 8, marginBottom: 118 }}>
           <PriceDetailComponent
@@ -85,7 +102,9 @@ export default function CheckoutScreen(props) {
         </View>
       </ScrollView>
       <View style={styles.bottomPaymentComponent}>
-        <AppButtonWithShadow onPress={() => {}}>
+        <AppButtonWithShadow onPress={() => {
+           props.navigation.navigate(routes.PAYMENT_SCREEN);
+        }}>
           <View
             style={{
               flexDirection: "row",
@@ -95,7 +114,7 @@ export default function CheckoutScreen(props) {
             }}
           >
             <AppText
-              style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
+              style={{ color: defaultStyles.Colors.white, fontWeight: "bold", marginRight: 8 }}
             >
               Continue to payment
             </AppText>

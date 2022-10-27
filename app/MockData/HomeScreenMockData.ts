@@ -30,32 +30,35 @@ const mockItemsData : Item[] = [
   {
     //key: '1',
     itemId: 1,
-    name: "Two-seater sofa with two cushions, isolated",
+    name: "Two-seater sofa ",
     rating: 3.5,
     price: 1200,
     soldCount: 800,
     color: 'gray',
     image: "../assets/images/sofa.jpg",
+    description: 'gray sofa with two cushions, isolated',
   },
   {
     //key: '2',
     itemId: 2,
-    name: "Three-seater gray sofa with two cushions",
+    name: "Three-seater sofa",
     rating: 3.5,
     price: 1200,
     soldCount: 800,
     color: 'gray',
     image: "../assets/images/sofa.jpg",
+    description:'gray sofa with two cushions'
   },
   {
     // key: '3',
     itemId: 3,
-    name: "Four-seater gray sofa with two cushions, isolated",
+    name: "Four-seater sofa",
     rating: 3.5,
     price: 1200,
     soldCount: 800,
     color: 'gray',
     image: "../assets/images/sofa.jpg",
+    description:'gray sofa with two cushions, isolated'
   },
 ];
 
