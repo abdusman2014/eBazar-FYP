@@ -27,6 +27,7 @@ import  {
 } from '@gorhom/bottom-sheet';
 import List from "../Components/List";
 import routes from "../Navigation/routes";
+import Item from "../Model/Item";
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
@@ -132,7 +133,10 @@ function HomeScreen(props) {
   
               <AppItemComponent item={item.item} 
                 onPress={() => {
-                  props.setItem(item.item)
+                  const product: Item = item.item
+                  console.log(item.item);
+                  props.setItem(product);
+                  console.log(props.item);
                   props.navigation.navigate(routes.ITEM_DETAILS_SCREEN)
                 }}
               />

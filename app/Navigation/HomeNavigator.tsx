@@ -8,10 +8,13 @@ import CartsScreen from "../Screens/CartsScreen";
 import HomeScreen from "../Screens/HomeScreen";
 import ItemDetailsScreen from '../Screens/ItemDetailsScreen';
 import Item from "../Model/Item";
+import { useEffect } from "react";
 
 function HomeNavigator() {
-  const [item, setItem] = useState({} as Item);
+  const [item, setItem] = useState(null);
   const HomeNavigator = createStackNavigator();
+
+
 
   return (
     <HomeNavigator.Navigator>
@@ -29,7 +32,7 @@ function HomeNavigator() {
       </HomeNavigator.Screen>
       <HomeNavigator.Screen
         name={routes.ITEM_DETAILS_SCREEN}
-        options={{ headerTitle: item.name ,headerBackImage(props) {
+        options={{ headerTitle: (item !== null)? item.name : "",headerBackImage(props) {
           return (
             <Ionicons
               name="arrow-back"
