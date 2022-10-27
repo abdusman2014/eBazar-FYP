@@ -44,7 +44,7 @@ const ItemDetailsScreen = (props) => {
         <AppText style={[defaultstyles.typography.h3, { fontWeight: "bold" }]}>
           Price
         </AppText>
-        <Text style={styles.price}>Rs/- 20,000</Text>
+        <Text style={styles.price}>{item.price}</Text>
         <AppText style={[defaultstyles.typography.h3, { fontWeight: "bold" }]}>
           Description
         </AppText>

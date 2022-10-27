@@ -31,10 +31,8 @@ import Item from "../Model/Item";
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
-  const [itemSelected, setItemSelected] = React.useState("");
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [fakeData, setFakeData] = useState();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
   const mockItemsData = HomeScreenMockData.mockItemsData;
@@ -45,15 +43,13 @@ function HomeScreen(props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const handleClosePress = () => bottomSheetRef.current.close()
-
-  const initialSnapPoints = useMemo(() => ['1', '75%', 'CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ['-1', 'CONTENT_HEIGHT'], []);
 
   const {
-  animatedHandleHeight,
-  animatedSnapPoints,
-  animatedContentHeight,
-  handleContentLayout,
+    animatedHandleHeight,
+    animatedSnapPoints,
+    animatedContentHeight,
+    handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
   
  const handleSheetChanges = useCallback((index: number) => {
@@ -71,8 +67,9 @@ function HomeScreen(props) {
           setSearchPhrase={setSearchPhrase}
           clicked={clicked}
           setClicked={setClicked}
-          onValueChange={onChangeText}onFilterPress = {()=> {
-          bottomSheetRef.current?.expand()
+          onValueChange={onChangeText}
+          onFilterPress = {()=> {
+            bottomSheetRef.current?.expand()
         }} />
         
         <AppSpaceComponent height={undefined} />
@@ -160,7 +157,7 @@ function HomeScreen(props) {
         onLayout={handleContentLayout}
         >
           <FilterMenu></FilterMenu>
-          <Button title="Close Sheet" onPress={handleClosePress} />
+          
         </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>

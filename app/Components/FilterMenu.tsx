@@ -5,6 +5,9 @@ import AppText from './AppText';
 import AppCategoryWithoutIcon from './AppCategory/AppCategoryWithoutIcon';
 import HomeScreenMockData from '../MockData/HomeScreenMockData';
 import {Slider} from '@miblanchard/react-native-slider';
+import useState from 'react';
+import AppButtonWithShadow from './AppButtonWithShadow';
+import AppSortingData from './AppSorting/AppSortingData';
 
 const DEFAULT_VALUE = 0.2;
 
@@ -13,10 +16,14 @@ export default function FilterMenu() {
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
   const mockItemsData = HomeScreenMockData.mockItemsData;
+  const mockSorting = HomeScreenMockData.mockSorting;
+  
   const [
     mockCategoryitemWithOutImageData,
     setMockCategoryitemWithOutImageData,
   ] = React.useState(mockCategoryWithOutImageData);
+
+  const [mockSortingData, setMockSortingData] = React.useState(mockSorting);
 
   const SliderContainer = (props: {
     caption: string;
@@ -112,15 +119,15 @@ export default function FilterMenu() {
       </AppText>
       
       <SliderContainer
-            caption="Select the minimum and maximum price range"
-            sliderValue={[1000, 99999]}>
+            caption="Select desired minimum and maximum price range"
+            sliderValue={[250000, 750000]}>
             <Slider
                 animateTransitions
                 maximumTrackTintColor="#d3d3d3"
                 maximumValue={1000000}
                 minimumTrackTintColor="#1fb28a"
                 minimumValue={0}
-                step={1000}
+                step={10000}
                 thumbTintColor="#1a9274"
             />
         </SliderContainer>
@@ -136,30 +143,37 @@ export default function FilterMenu() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {mockCategoryitemWithOutImageData.map((val, key) => {
+          {mockSorting.map((val, key) => {
             return (
               <Pressable
                 style={{ padding: 4 }}
                 onPress={() => {
-                  const category = [...mockCategoryitemWithOutImageData];
-                  category[key].isSelected = !category[key].isSelected;
-                  setMockCategoryitemWithOutImageData([...category]);
+                  const AppSortingData = [...mockSortingData];
+                  AppSortingData[key].isSelected = !AppSortingData[key].isSelected;
+                  setMockSortingData([...AppSortingData]);
                 }}
               >
-                <AppCategoryWithoutIcon
-                  name={val.name}
+                <AppSortingData
+                  type={val.type}
                   isSelected={val.isSelected}
                 />
               </Pressable>
             );
           })}
         </ScrollView>
-        
-        <AppText style={defaultStyles.typography.body.large.bold}>
-          Rating
-        </AppText>
-
-        
+        <AppButtonWithShadow 
+          onPress={() => {}}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-end",
+            }}
+          >
+            <AppText style={{ color: "white", fontWeight: "bold", marginRight: 8 }}>
+              Apply
+            </AppText>
+          </View>
+        </AppButtonWithShadow>
     </View>
   )
 }

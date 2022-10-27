@@ -1,6 +1,15 @@
 import Item from "../Model/Item";
 import Category from "../Model/Category";
 
+const mockSorting = [
+  { type: "Popular", isSelected: false},
+  { type: "Most Recent" , isSelected: false},
+  { type: "Price: High to Low" , isSelected: false},
+  { type: "Price: Low to High", isSelected: false },
+  { type: "In-Stock" , isSelected: false},
+  { type: "Nearest" , isSelected: false},
+];
+
 const mockCategoryData : Category[] = [
   { name: "Sofa", image: "../assets/images/sofa-icon.png" },
   { name: "Sofa", image: "../assets/images/sofa-icon.png" },
@@ -54,4 +63,5 @@ export default {
   mockCategoryData,
   mockCategoryWithOutImageData,
   mockItemsData,
+  mockSorting,
 };

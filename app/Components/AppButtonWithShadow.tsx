@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, View, Pressable } from "react-native";
+import { StyleSheet, Platform, View, Pressable, TouchableOpacity } from "react-native";
 import React from "react";
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
