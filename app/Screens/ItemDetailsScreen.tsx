@@ -16,6 +16,9 @@ import ViewMoreText from "react-native-view-more-text";
 import useCartState from "../state-management/UserCart";
 import { Rating } from "react-native-ratings";
 import AppSpaceComponent from "../Components/AppSpaceComponent";
+import AppButtonWithShadow from "../Components/AppButtonWithShadow";
+import defaultStyles from "../Config/styles";
+
 
 const ItemDetailsScreen = (props) => {
   const item: Item = props.item;
@@ -118,14 +121,19 @@ const ItemDetailsScreen = (props) => {
       </View> */}
       <View style={styles.separator}></View>
       <View style={{flex:1}}/>
-      <View style={styles.addToCarContainer}>
+      <AppButtonWithShadow onPress={clickEventListener}> 
+      <AppText style={{ color: defaultStyles.Colors.white, fontWeight: "bold", marginRight: 8 }}>
+        Add To Cart
+      </AppText>
+      </AppButtonWithShadow>
+      {/* <View style={styles.addToCarContainer}>
         <TouchableOpacity
           style={styles.shareButton}
           onPress={clickEventListener}
         >
           <Text style={styles.shareButtonText}>Add To Cart</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

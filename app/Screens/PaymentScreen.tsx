@@ -1,5 +1,7 @@
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import Order from "../Model/Order";
+
 import AppText from "../Components/AppText";
 import defaultStyles from "../Config/styles";
 import AppAddressComponent from "../Components/AppAddressComponent";
@@ -9,7 +11,10 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import routes from "../Navigation/routes";
 
+import useCartStore from "../state-management/UserCart";
+
 export default function PaymentScreen(props) {
+  const {setCartItems} = useCartStore();
   const [COD, setCOD] = useState(false);
   const [card, setCard] = useState(true);
   return (
@@ -77,6 +82,8 @@ export default function PaymentScreen(props) {
             "Order Successfull",
             "You have successfully made order",
             () => {
+              const cart: Order[] = [];
+              setCartItems(cart);
               //removeItemFromCart(order.orderId);
               props.navigation.navigate({
                 name: routes.CART_SCREEN,

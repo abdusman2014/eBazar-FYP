@@ -156,7 +156,9 @@ function HomeScreen(props) {
           //style={styles.contentContainer}
         onLayout={handleContentLayout}
         >
-          <FilterMenu></FilterMenu>
+          <FilterMenu onPress={()=>{
+            bottomSheetRef.current?.close();
+          }}/>
           
         </BottomSheetView>
       </BottomSheet>

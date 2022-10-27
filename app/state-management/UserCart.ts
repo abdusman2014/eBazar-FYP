@@ -6,6 +6,7 @@ import Item from "../Model/Item";
 
 interface CartState {
   cartItems: Order[];
+  setCartItems: (orders: Order[]) => void;
   addCartItem: (item: Item) => void;
   removeItemFromCart: (orderId: number) => void;
   incrementItemCount: (orderId: number) => void;
@@ -33,6 +34,10 @@ const getNoOfItemsOfAnOrder = (orders: Order[], item: Item) => {
 
 const useCartStore = create<CartState>()((set) => ({
   cartItems: [],
+  setCartItems: (orders) =>
+  set((state) => ({
+    cartItems: (state.cartItems = orders)
+  })),
   addCartItem: (item) => {
     set((state) => {
       const result = getNoOfItemsOfAnOrder(state.cartItems, item);

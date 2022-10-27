@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, {useCallback, useMemo, useRef} from 'react'
 import defaultStyles from "../Config/styles";
 import AppText from './AppText';
@@ -8,10 +8,12 @@ import {Slider} from '@miblanchard/react-native-slider';
 import useState from 'react';
 import AppButtonWithShadow from './AppButtonWithShadow';
 import AppSortingData from './AppSorting/AppSortingData';
+import AppSpaceComponent from './AppSpaceComponent';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const DEFAULT_VALUE = 0.2;
 
-export default function FilterMenu() {
+export default function FilterMenu({onPress}) {
   
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
@@ -91,7 +93,7 @@ export default function FilterMenu() {
     </AppText>
 
     <ScrollView
-          style={{ flexDirection: "row" }}
+          //style={{ height: 30 }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
@@ -139,7 +141,7 @@ export default function FilterMenu() {
 
       
       <ScrollView //TODO: Change this view to display type of sorting  e.g. most popular, most recent, rather than categories 
-          style={{ flexDirection: "row" }}
+          //style={{ flexDirection: "row" }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
@@ -162,7 +164,7 @@ export default function FilterMenu() {
           })}
         </ScrollView>
         <AppButtonWithShadow 
-          onPress={() => {}}>
+          onPress={onPress}>
           <View
             style={{
               flexDirection: "row",
@@ -174,6 +176,7 @@ export default function FilterMenu() {
             </AppText>
           </View>
         </AppButtonWithShadow>
+        <AppSpaceComponent height={50}/>
     </View>
   )
 }
@@ -189,6 +192,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignItems: 'stretch',
     justifyContent: 'center',
+   
   },
   titleContainer: {
     alignItems: 'center',
