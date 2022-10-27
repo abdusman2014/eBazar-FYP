@@ -1,4 +1,5 @@
-import React from "react";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { useCallback, useMemo, useRef } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   FlatList,
   ScrollView,
   Pressable,
+  Button,
 } from "react-native";
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
@@ -16,8 +18,12 @@ import AppSpaceComponent from "../Components/AppSpaceComponent";
 import AppSpecialOfferComponent from "../Components/AppSpecialOfferComponent";
 import AppText from "../Components/AppText";
 import AppTopBar from "../Components/AppTopBar";
+import FilterMenu from "../Components/FilterMenu";
 import defaultStyles from "../Config/styles";
 import HomeScreenMockData from "../MockData/HomeScreenMockData";
+import  { 
+  useBottomSheetDynamicSnapPoints,
+} from '@gorhom/bottom-sheet';
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
@@ -28,13 +34,33 @@ function HomeScreen(props) {
     mockCategoryitemWithOutImageData,
     setMockCategoryitemWithOutImageData,
   ] = React.useState(mockCategoryWithOutImageData);
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const handleClosePress = () => bottomSheetRef.current.close()
+
+  const initialSnapPoints = useMemo(() => ['75%', 'CONTENT_HEIGHT'], []);
+
+  const {
+  animatedHandleHeight,
+  animatedSnapPoints,
+  animatedContentHeight,
+  handleContentLayout,
+  } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
+  
+ const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   return (
     <SafeAreaView>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <AppTopBar />
         <AppSpaceComponent />
-        <AppSearch onValueChange={onChangeText} />
+        <AppSearch onValueChange={onChangeText}onFilterPress = {()=> {
+          bottomSheetRef.current?.expand()
+        }} />
+        
         <AppSpaceComponent />
         <SectionHeader title={"Special Offers"} optionText={"See All"} />
         <AppSpaceComponent />
@@ -97,6 +123,23 @@ function HomeScreen(props) {
         
         <AppSpaceComponent height={50} />
       </ScrollView>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={animatedSnapPoints}
+        onChange={handleSheetChanges}
+        handleHeight={animatedHandleHeight}
+        contentHeight={animatedContentHeight}
+        enablePanDownToClose={true}
+      >
+        <BottomSheetView
+          //style={styles.contentContainer}
+        onLayout={handleContentLayout}
+        >
+          <FilterMenu></FilterMenu>
+          <Button title="Close Sheet" onPress={handleClosePress} />
+        </BottomSheetView>
+      </BottomSheet>
     </SafeAreaView>
   );
 }
@@ -107,6 +150,10 @@ const styles = StyleSheet.create({
     top: 12,
     backgroundColor: defaultStyles.Colors.white,
   },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  }
 });
 
 function SectionHeader({ title, optionText }) {

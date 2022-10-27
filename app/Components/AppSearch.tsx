@@ -1,13 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Image, TextInput } from "react-native";
+import { StyleSheet, View, Image, TextInput, Pressable } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 
 
 import defaultStyles from "../Config/styles";
 
-function AppSearch({onValueChange}) {
+
+function AppSearch({onValueChange, onFilterPress}) {
   const [text, onChangeText] = React.useState("");
   return (
+
     <View style={styles.container}>
       <EvilIcons name="search" size={24} color={defaultStyles.Colors.grey700} />
       <TextInput
@@ -20,10 +22,14 @@ function AppSearch({onValueChange}) {
         placeholder="Search"
         value={text}
       />
+
+      <Pressable onPress={onFilterPress}>
       <Image
         source={require("../assets/images/filter.png")}
         style={styles.filter}
-      />
+      /> 
+      </Pressable>
+      
     </View>
   );
 }
