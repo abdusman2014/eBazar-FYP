@@ -5,7 +5,7 @@ import { Octicons } from "@expo/vector-icons";
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 
-export default function AppAddressComponent({ title, description }) {
+export default function AppAddressComponent({ title, description, icon }) {
   return (
     <View style={styles.container}>
       <View style={styles.addressIcon}>
@@ -29,7 +29,7 @@ export default function AppAddressComponent({ title, description }) {
         </AppText>
       </View>
       <View style={{ flex: 1 }} />
-      <Octicons name="pencil" size={24} color="black" />
+      {icon}
     </View>
   );
 }
