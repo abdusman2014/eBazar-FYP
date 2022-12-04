@@ -5,6 +5,7 @@ import { AppNavigator } from './app/Navigation/AppNavigator';
 import { NavigationContainer } from "@react-navigation/native";
 import { fontAssets } from './app/Config/styles';
 import { useEffect } from 'react';
+import AuthNavigator from './app/Navigation/AuthNavigator';
 
 
 export default function App() {
@@ -25,7 +26,7 @@ export default function App() {
   return (
     <NavigationContainer>
 
-      <AppNavigator/>
+      <AuthNavigator/>
     </NavigationContainer>
     // <View style={styles.container}>
     //   <Text>Open up App.tsx to start working on your app!!!</Text>

@@ -8,4 +8,6 @@ export default {
     ADDRESS_SCREEN: 'addressScreen',
     ITEM_DETAILS_SCREEN: 'itemDetailsScreen',
     PAYMENT_SCREEN: 'paymentScreen',
+    SIGN_SCREEN: 'signInScreen',
+    OTP_SCREEN: 'otpScreen'
 };
