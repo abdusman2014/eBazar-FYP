@@ -11,13 +11,16 @@ import Item from "../Model/Item";
 import { useEffect } from "react";
 import SignInScreen from "../Screens/Auth/SignInScreen";
 import OtpScreen from "../Screens/OtpScreen";
+import { AppNavigator } from "./AppNavigator";
 
 function AuthNavigator() {
   const [verificationId, setVerificationId] = useState(null);
   const AuthNavigator = createStackNavigator();
 
   return (
-    <AuthNavigator.Navigator>
+    <AuthNavigator.Navigator  screenOptions={{
+      headerShown: false
+    }}>
       <AuthNavigator.Screen
         name={routes.SIGN_SCREEN}
         options={{
@@ -36,7 +39,7 @@ function AuthNavigator() {
       <AuthNavigator.Screen
         name={routes.OTP_SCREEN}
         options={{
-          headerTitle: "OTP",//item !== null ? item.name : "",
+          headerTitle: "OTP", //item !== null ? item.name : "",
           headerBackImage(props) {
             return (
               <Ionicons
@@ -52,6 +55,26 @@ function AuthNavigator() {
         }}
       >
         {(props) => <OtpScreen {...props} verificationId={verificationId} />}
+      </AuthNavigator.Screen>
+      <AuthNavigator.Screen
+        name={routes.APP_NAVIGATION}
+        options={{
+          headerTitle: "", //item !== null ? item.name : "",
+          headerBackImage(props) {
+            return (
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={defaultStyles.Colors.black}
+                style={{ margin: 6 }}
+              />
+            );
+          },
+          
+          headerBackTitleVisible: false,
+        }}
+      >
+        {(props) => <AppNavigator />}
       </AuthNavigator.Screen>
     </AuthNavigator.Navigator>
   );

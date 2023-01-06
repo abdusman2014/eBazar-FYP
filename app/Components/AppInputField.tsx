@@ -10,11 +10,11 @@ function AppInputField({ onValueChange, label,...inputProps }) {
 
   return (
     <View style={styles.container}>
-      {label && (
+      {/* {label && (
         <AppText style={defaultStyles.typography.labels.large.bold}>
           {label}
         </AppText>
-      )}
+      )} */}
       <TextInput
         style={styles.input}
         onChangeText={(text) => {
@@ -22,7 +22,7 @@ function AppInputField({ onValueChange, label,...inputProps }) {
           onChangeText(text);
           onValueChange(val);
         }}
-        placeholder="Search"
+        placeholder={label}
         value={text}
         {...inputProps}
       />
@@ -33,6 +33,7 @@ function AppInputField({ onValueChange, label,...inputProps }) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
+    flex: 1,
   },
 
   input: {

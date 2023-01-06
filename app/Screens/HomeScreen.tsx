@@ -168,9 +168,11 @@ function HomeScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
+    flex: 1,
+    padding: 22,
     top: 32,
     backgroundColor: defaultStyles.Colors.white,
+    paddingHorizontal: 8,
   },
   contentContainer: {
     flex: 1,

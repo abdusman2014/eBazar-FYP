@@ -9,5 +9,6 @@ export default {
     ITEM_DETAILS_SCREEN: 'itemDetailsScreen',
     PAYMENT_SCREEN: 'paymentScreen',
     SIGN_SCREEN: 'signInScreen',
-    OTP_SCREEN: 'otpScreen'
+    OTP_SCREEN: 'otpScreen',
+    APP_NAVIGATION: 'appNavigation'
 };

@@ -9,11 +9,12 @@ import firebase from "../../firebase";
 
 import * as Progress from "react-native-progress";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
+import routes from "../Navigation/routes";
 
 export default function OtpScreen(props) {
   const [code, onChangeCode] = React.useState("");
   const [isLoading, onChangeIsLoading] = React.useState(false);
-  console.log("next code: ", props.verificationId);
+  //console.log("next code: ", props.verificationId);
   const confirmCode = () => {
     onChangeIsLoading(true);
     const credential = firebase.auth.PhoneAuthProvider.credential(
@@ -25,8 +26,18 @@ export default function OtpScreen(props) {
       .signInWithCredential(credential)
       .then((result) => {
         // Do something with the results here
-        console.log(result);
+        console.log(result.additionalUserInfo.isNewUser);
         onChangeIsLoading(false);
+        //user object must be created as state object
+        //TODO:: if new user create user object save uid, leave other fields as "" and then move to userProfileInput screen
+        //else if old user fetch data from firebase, save it to user object and move to home screen
+        if(result.additionalUserInfo.isNewUser){
+          //move to userProfileInput screen
+        }
+        else{
+          props.navigation.navigate(routes.APP_NAVIGATION);
+        }
+       
       })
       .catch((err) => {
         console.log(err);
@@ -39,7 +50,7 @@ export default function OtpScreen(props) {
       {/* <View style={{position:'absolute'}}>
       <Progress.Circle size={30} indeterminate={true} />
       </View> */}
-     
+
       <Image
         source={require("../assets/images/logo.png")}
         style={{
@@ -54,23 +65,12 @@ export default function OtpScreen(props) {
       <AppText style={defaultStyles.typography.h2}>Enter OTP</AppText>
       <AppSpaceComponent height={30} />
       <View style={styles.formContainer}>
-        {/* <AppInputField onValueChange={onChangeNameText} label="Name" /> */}
-        <OTPInputView
-          style={{ width: "100%", height: 100 }}
-          pinCount={6}
-          code={code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-          onCodeChanged={(code) => {
-            onChangeCode(code);
-          }}
-          //codeInputFieldStyle={styles.inputField}
-          autoFocusOnLoad
-          placeholderTextColor={"black"}
-          editable={true}
-          codeInputFieldStyle={styles.underlineStyleBase}
-          codeInputHighlightStyle={styles.underlineStyleHighLighted}
-          onCodeFilled={(code) => {
-            console.log(`Code is ${code}, you are good to go!`);
-          }}
+        <AppInputField
+          onValueChange={onChangeCode}
+          label="OTP"
+          keyboardType="number-pad"
+          maxLength={6}
+          returnKeyType="done"
         />
       </View>
       <View style={{ bottom: 20 }}>

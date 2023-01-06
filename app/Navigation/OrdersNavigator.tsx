@@ -13,13 +13,13 @@ import PaymentScreen from "../Screens/PaymentScreen";
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
   return (
-    <OrdersNavigator.Navigator>
+    <OrdersNavigator.Navigator >
       <OrdersNavigator.Screen
         name={routes.CART_SCREEN}
         options={{ headerStyle: {
           backgroundColor: defaultStyles.Colors.grey100,
         },
-        
+        headerShown: false,
         headerShadowVisible: false,
         //headerShown: true,
         headerTitle: 'My Cart', }}

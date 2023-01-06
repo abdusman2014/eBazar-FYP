@@ -32,26 +32,32 @@ type FormData = {
 export default function SignInScreen(props) {
   const recaptchaVerifier = useRef(null);
   //console.log('**',firebase);
+ 
   const sendVerification = () => {
+    
+    //onChangephoneNoText("+92" + phoneNoText);
+    const phoneNo = "+92" + phoneNoText;
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
     phoneProvider
-      .verifyPhoneNumber(phoneNoText, recaptchaVerifier.current!)
+      .verifyPhoneNumber(phoneNo, recaptchaVerifier.current!)
       .then((val) => {
         // setVerificationId(val);
         console.log("code: ", val);
         props.setVerificationId(val);
         props.navigation.navigate(routes.OTP_SCREEN);
-      });
+      }).catch(e=>{
+        console.log(phoneNo);
+      })
   };
 
-  const [nameText, onChangeNameText] = React.useState("");
-  const [phoneNoText, onChangephoneNoText] = React.useState("+12345678910");
+  
+  const [phoneNoText, onChangephoneNoText] = React.useState("1234567890");
   const [passwordText, onChangepasswordText] = React.useState("");
   const [otpCode, onChangeOtpCode] = React.useState("");
   const [verificationId, setVerificationId] = useState("");
   function clickEventListener() {
     //addCartItem(item);
-    Alert.alert("Success", nameText + ", " + phoneNoText + ", " + passwordText);
+    //Alert.alert("Success", nameText + ", " + phoneNoText + ", " + passwordText);
   }
 
   const onSubmit = (data: FormData) => {
@@ -77,16 +83,38 @@ export default function SignInScreen(props) {
           marginBottom: 20,
         }}
       />
-      <AppText style={defaultStyles.typography.h2}>Create Your Account</AppText>
+      <AppText style={defaultStyles.typography.h2}>Welcome to E-Bazar</AppText>
       <AppSpaceComponent height={30} />
       <View style={styles.formContainer}>
-        <AppInputField onValueChange={onChangeNameText} label="Name" />
-        <AppInputField onValueChange={onChangephoneNoText} label="Phone No" />
+        {/* <AppInputField onValueChange={onChangeNameText} label="Name" /> */}
+        <View
+          style={{
+            marginRight: 8,
+            borderWidth: 1,
+            height: 40,
+            borderColor: defaultStyles.Colors.black,
+            borderRadius: 5,
+            padding: 8,
+          }}
+        >
+          <AppText
+            style={{ color: defaultStyles.Colors.grey700, fontSize: 16 }}
+          >
+            +92
+          </AppText>
+        </View>
         <AppInputField
+          onValueChange={onChangephoneNoText}
+          label="Phone No"
+          keyboardType="number-pad"
+          maxLength={10}
+          returnKeyType="done"
+        />
+        {/* <AppInputField
           onValueChange={onChangepasswordText}
           label="password"
           secureTextEntry={true}
-        />
+        /> */}
       </View>
       <View style={{ bottom: 20 }}>
         <AppButtonWithShadow onPress={sendVerification}>
@@ -119,5 +147,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 350,
     backgroundColor: defaultStyles.Colors.primaeryGrey,
+    flexDirection: "row",
   },
 });
