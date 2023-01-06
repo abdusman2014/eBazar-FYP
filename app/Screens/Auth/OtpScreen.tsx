@@ -1,19 +1,23 @@
 import { SafeAreaView, StyleSheet, Image, View, Alert } from "react-native";
 import React from "react";
-import AppText from "../Components/AppText";
-import AppSpaceComponent from "../Components/AppSpaceComponent";
-import AppInputField from "../Components/AppInputField";
-import AppButtonWithShadow from "../Components/AppButtonWithShadow";
-import defaultStyles from "../Config/styles";
-import firebase from "../../firebase";
+import AppText from "../../Components/AppText";
+import AppSpaceComponent from "../../Components/AppSpaceComponent";
+import AppInputField from "../../Components/AppInputField";
+import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
+import defaultStyles from "../../Config/styles";
+import firebase from "../../../firebase";
 
-import * as Progress from "react-native-progress";
-import OTPInputView from "@twotalltotems/react-native-otp-input";
-import routes from "../Navigation/routes";
+
+import userStore from "../../state-management/AppUser";
+import User from "../../Model/User";
+import routes from "../../Navigation/routes";
+import Gender from "../../Model/Gender";
+
 
 export default function OtpScreen(props) {
   const [code, onChangeCode] = React.useState("");
   const [isLoading, onChangeIsLoading] = React.useState(false);
+  const {setUser} = userStore();
   //console.log("next code: ", props.verificationId);
   const confirmCode = () => {
     onChangeIsLoading(true);
@@ -26,18 +30,26 @@ export default function OtpScreen(props) {
       .signInWithCredential(credential)
       .then((result) => {
         // Do something with the results here
-        console.log(result.additionalUserInfo.isNewUser);
+        console.log(result.user.uid);
         onChangeIsLoading(false);
         //user object must be created as state object
         //TODO:: if new user create user object save uid, leave other fields as "" and then move to userProfileInput screen
         //else if old user fetch data from firebase, save it to user object and move to home screen
-        if(result.additionalUserInfo.isNewUser){
+        if (result.additionalUserInfo.isNewUser) {
+          const user:User = {
+            name: "",
+            uid: result.user!.uid,
+            image: null,
+            age: 0,
+            email: null,
+            gender: ""
+          }
+          setUser(user);
+          props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
           //move to userProfileInput screen
+        } else {
+         // props.navigation.navigate(routes.APP_NAVIGATION);
         }
-        else{
-          props.navigation.navigate(routes.APP_NAVIGATION);
-        }
-       
       })
       .catch((err) => {
         console.log(err);
@@ -52,14 +64,15 @@ export default function OtpScreen(props) {
       </View> */}
 
       <Image
-        source={require("../assets/images/logo.png")}
+        source={require("../../assets/images/logo.png")}
         style={{
           width: 130,
           height: 130,
-          borderRadius: 20,
-          resizeMode: "contain",
+          borderRadius: 60,
+          //resizeMode: "contain",
           marginTop: 50,
           marginBottom: 20,
+          overflow: "hidden",
         }}
       />
       <AppText style={defaultStyles.typography.h2}>Enter OTP</AppText>

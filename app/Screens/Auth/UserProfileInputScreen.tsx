@@ -6,12 +6,19 @@ import {
   Button,
   Image,
   Pressable,
+  Alert,
 } from "react-native";
+
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
-// import DatePicker from 'react-native-datepicker';
+import { Formik } from "formik";
+import * as yup from "yup";
+import firestore from "@react-native-firebase/firestore";
+import ImgToBase64 from 'react-native-image-base64';
 
+import firebase from "../../../firebase";
+// import DatePicker from 'react-native-datepicker';
 
 import defaultStyles from "../../Config/styles";
 import AppSpaceComponent from "../../Components/AppSpaceComponent";
@@ -19,13 +26,16 @@ import AppInputField from "../../Components/AppInputField";
 import AppGenderComponent from "../../Components/Auth/AppGenderComponent";
 import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
 import AppText from "../../Components/AppText";
+import userStore from "../../state-management/AppUser";
+import User from "../../Model/User";
+import Gender from "../../Model/Gender";
 
-export default function UserProfileInputScreen() {
+export default function UserProfileInputScreen(props) {
   const [image, setImage] = useState(null);
   const [nameText, onChangeNameText] = useState(null);
   const [emailText, onChangeEmailText] = useState(null);
-  const [gender,onChangeGender] = useState(null);
-
+  const [gender, onChangeGender] = useState(null);
+  const { setUser, user } = userStore();
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -35,14 +45,56 @@ export default function UserProfileInputScreen() {
       quality: 1,
     });
 
-   // console.log(result);
+     console.log(result);
 
     if (!result.canceled) {
       setImage(result.uri);
     }
   };
 
-  const handlePressOnContinue = ()=>{};
+  const handlePressOnContinue =async (values) => {
+    console.log(values, gender);
+    if (gender === null) {
+      Alert.alert("Required", "Please select Gender.");
+      return;
+    }
+    const myUser: User = {
+      name: values.name,
+      email: values.email,
+      gender: gender === Gender.male ? "male" : "female",
+      age: values.age,
+      uid: user?.uid!,
+      image: "url",
+    };
+    console.log(image);
+    ImgToBase64.getBase64String(image) // path to your image from local storage
+    .then((base64String) => {
+         // baseStringSample = base64String,
+       //  console.log('img: ',base64String)
+    //      var byteCharacters = atob(base64String);
+    //      var byteNumbers = new Array(byteCharacters.length);
+    //      let byteArray;
+    //  for (var i = 0; i < byteCharacters.length; i++) {
+    //      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    //      byteArray = new Uint8Array(byteNumbers);
+    //      console.log("BYTEARRAY: " + byteArray);
+    //  }
+          })
+    .catch(err => Alert.alert('Error' + err));
+    const reference = firebase.storage().ref('black-t-shirt-sm.png');
+    console.log(reference)
+    await reference.put(image);
+    // firebase.firestore()
+    //   .collection("Users")
+    //   .doc(user?.uid!)
+    //   .set(myUser)
+    //   .then(() => {
+    //     console.log("User added!");
+    //   })
+    //   .catch((e) => {
+    //     console.log("error: ", e);
+    //   });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,35 +121,97 @@ export default function UserProfileInputScreen() {
         </Pressable>
       </View>
       <AppSpaceComponent height={40} />
-      <View style={{  width: "100%", padding: 16 }}>
-        <AppInputField onValueChange={onChangeNameText} label="Name" />
-        <AppSpaceComponent height={60} />
-        <AppInputField onValueChange={onChangeEmailText} label="Email" />
-        <AppSpaceComponent height={60} />
-       <AppGenderComponent gender={gender} onChangeGender={onChangeGender}/>
-        
-      </View>
-      <View style={{ bottom: 50, padding: 8,position: 'absolute' }}>
-        <AppButtonWithShadow onPress={handlePressOnContinue}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-            }}
-          >
-            <AppText
-              style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
-            >
-              Continue
-            </AppText>
+
+      <Formik
+        validationSchema={formValidationSchema}
+        initialValues={{
+          name: "",
+          age: "",
+          email: null,
+        }}
+        onSubmit={handlePressOnContinue}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+          <View style={{ flex: 1, width: "100%", padding: 16 }}>
+            <View>
+              <AppInputField
+                onValueChange={handleChange("name")}
+                onBlur={handleBlur("name")}
+                value={values.name}
+                label="Name"
+              />
+              <AppSpaceComponent height={errors.name ? 35 : 50} />
+              {errors.name && (
+                <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
+                  {errors.name}
+                </AppText>
+              )}
+              <AppInputField
+                onValueChange={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                label="Email"
+              />
+              <AppSpaceComponent height={errors.email ? 35 : 50} />
+              {errors.email && (
+                <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
+                  {errors.email}
+                </AppText>
+              )}
+              <AppInputField
+                onValueChange={handleChange("age")}
+                onBlur={handleBlur("age")}
+                value={values.age}
+                keyboardType="numeric"
+                label="Age"
+              />
+              <AppSpaceComponent height={errors.age ? 35 : 50} />
+              {errors.age && (
+                <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
+                  {errors.age}
+                </AppText>
+              )}
+              <AppSpaceComponent height={30} />
+              <AppGenderComponent
+                gender={gender}
+                onChangeGender={onChangeGender}
+              />
+            </View>
+
+            <View style={{ bottom: 50, padding: 8, position: "absolute" }}>
+              <AppButtonWithShadow onPress={handleSubmit}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AppText
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      marginRight: 8,
+                    }}
+                  >
+                    Continue
+                  </AppText>
+                </View>
+              </AppButtonWithShadow>
+            </View>
           </View>
-        </AppButtonWithShadow>
-      </View>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 }
+
+const formValidationSchema = yup.object().shape({
+  name: yup.string().required("Name is Required"),
+  email: yup.string().email("Not a proper Email").nullable(),
+  age: yup.string().required("Age is Required"),
+});
 
 const styles = StyleSheet.create({
   container: {

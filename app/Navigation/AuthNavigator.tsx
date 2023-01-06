@@ -10,8 +10,9 @@ import ItemDetailsScreen from "../Screens/ItemDetailsScreen";
 import Item from "../Model/Item";
 import { useEffect } from "react";
 import SignInScreen from "../Screens/Auth/SignInScreen";
-import OtpScreen from "../Screens/OtpScreen";
+import OtpScreen from "../Screens/Auth/OtpScreen";
 import { AppNavigator } from "./AppNavigator";
+import UserProfileInputScreen from "../Screens/Auth/UserProfileInputScreen";
 
 function AuthNavigator() {
   const [verificationId, setVerificationId] = useState(null);
@@ -55,6 +56,26 @@ function AuthNavigator() {
         }}
       >
         {(props) => <OtpScreen {...props} verificationId={verificationId} />}
+      </AuthNavigator.Screen>
+      <AuthNavigator.Screen
+        name={routes.USER_PROFILE_INPUT_SCREEN}
+        options={{
+          headerTitle: "Fill Your Profile", //item !== null ? item.name : "",
+          headerBackImage(props) {
+            return (
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={defaultStyles.Colors.black}
+                style={{ margin: 6 }}
+              />
+            );
+          },
+
+          headerBackTitleVisible: false,
+        }}
+      >
+        {(props) => <UserProfileInputScreen {...props}  />}
       </AuthNavigator.Screen>
       <AuthNavigator.Screen
         name={routes.APP_NAVIGATION}

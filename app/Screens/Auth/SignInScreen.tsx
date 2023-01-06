@@ -77,10 +77,11 @@ export default function SignInScreen(props) {
         style={{
           width: 130,
           height: 130,
-          borderRadius: 20,
-          resizeMode: "contain",
+          borderRadius: 60,
+          //resizeMode: "contain",
           marginTop: 50,
           marginBottom: 20,
+          overflow:'hidden'
         }}
       />
       <AppText style={defaultStyles.typography.h2}>Welcome to E-Bazar</AppText>

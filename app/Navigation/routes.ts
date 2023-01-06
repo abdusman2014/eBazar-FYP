@@ -10,5 +10,6 @@ export default {
     PAYMENT_SCREEN: 'paymentScreen',
     SIGN_SCREEN: 'signInScreen',
     OTP_SCREEN: 'otpScreen',
-    APP_NAVIGATION: 'appNavigation'
+    APP_NAVIGATION: 'appNavigation',
+    USER_PROFILE_INPUT_SCREEN: 'userProfileInputScreen',
 };
