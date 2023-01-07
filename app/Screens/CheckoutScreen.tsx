@@ -18,22 +18,23 @@ import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import mockAddresseData from "../MockData/AddressMockData";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import routes from "../Navigation/routes";
+import { add } from "react-native-reanimated";
 
 export default function CheckoutScreen(props) {
-  const { address, addAddress } = usePlaceOrderStore();
-  useEffect(() => {
+  const { address, addAddress,cart,userDetails } = usePlaceOrderStore();
+  // useEffect(() => {
     
-     console.log('eneter: ',props.route.params);
-    if (props.route.params?.screen === routes.ADDRESS_SCREEN) {
-      //gets data returned from vehicle list screen
-      const returnAddress = mockAddresseData.filter(
-        (item) => (item.addressId === props.route.params?.addressId)
-      );
-      //console.log(returnAddress,',, ',props.route.params?.addressId)
-      addAddress(returnAddress[0]);
-     // console.log('add',address);
-    }
-  }, [props.route.params]);
+  //    console.log('eneter: ',props.route.params);
+  //   if (props.route.params?.screen === routes.ADDRESS_SCREEN) {
+  //     //gets data returned from vehicle list screen
+  //     const returnAddress = mockAddresseData.filter(
+  //       (item) => (item.addressId === props.route.params?.addressId)
+  //     );
+  //     //console.log(returnAddress,',, ',props.route.params?.addressId)
+  //     addAddress(returnAddress[0]);
+  //    // console.log('add',address);
+  //   }
+  // }, [props.route.params]);
   useEffect(() => {
     if (address === null) {
       addAddress(mockAddresseData[0]);
@@ -103,7 +104,10 @@ export default function CheckoutScreen(props) {
       </ScrollView>
       <View style={styles.bottomPaymentComponent}>
         <AppButtonWithShadow onPress={() => {
-           props.navigation.navigate(routes.PAYMENT_SCREEN);
+          // console.log('address: ',address);
+          // console.log('cart: ',cart);
+          // console.log('user: ',userDetails);
+          props.navigation.navigate(routes.PAYMENT_SCREEN);
         }}>
           <View
             style={{

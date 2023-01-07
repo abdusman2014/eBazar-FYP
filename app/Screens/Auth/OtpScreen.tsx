@@ -1,5 +1,7 @@
 import { SafeAreaView, StyleSheet, Image, View, Alert } from "react-native";
 import React from "react";
+import Lottie from "lottie-react-native";
+
 import AppText from "../../Components/AppText";
 import AppSpaceComponent from "../../Components/AppSpaceComponent";
 import AppInputField from "../../Components/AppInputField";
@@ -28,10 +30,10 @@ export default function OtpScreen(props) {
     firebase
       .auth()
       .signInWithCredential(credential)
-      .then((result) => {
+      .then(async (result) => {
         // Do something with the results here
         console.log(result.user.uid);
-        onChangeIsLoading(false);
+       
         //user object must be created as state object
         //TODO:: if new user create user object save uid, leave other fields as "" and then move to userProfileInput screen
         //else if old user fetch data from firebase, save it to user object and move to home screen
@@ -42,13 +44,24 @@ export default function OtpScreen(props) {
             image: null,
             age: 0,
             email: null,
-            gender: ""
+            gender: "",
+            phoneNo: result.user?.phoneNumber!
+
           }
           setUser(user);
           props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
           //move to userProfileInput screen
         } else {
+          const doc = await firebase.firestore().collection('Users').doc(result.user!.uid).get();
+          const user: User | undefined = doc.data();
+          if(user!== undefined){
+
+            setUser(user);
+            onChangeIsLoading(false);
+            props.navigation.navigate(routes.APP_NAVIGATION);
+          }
          // props.navigation.navigate(routes.APP_NAVIGATION);
+        // props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
         }
       })
       .catch((err) => {
@@ -57,6 +70,20 @@ export default function OtpScreen(props) {
         Alert.alert("Authentication Failed", "Code Invalid or Expired.");
       });
   };
+  if(isLoading){
+
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: 100 }} />
+        <Lottie
+          source={require("../../assets/progress.json")}
+          autoPlay
+          loop
+          style={{ height: 600, width: 600 }}
+        />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       {/* <View style={{position:'absolute'}}>

@@ -11,11 +11,13 @@ import {
 
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import * as yup from "yup";
-import firestore from "@react-native-firebase/firestore";
-import ImgToBase64 from 'react-native-image-base64';
+// import ImgToBase64 from 'react-native-image-base64';
+import * as FileSystem from "expo-file-system";
+import Lottie from "lottie-react-native";
 
 import firebase from "../../../firebase";
 // import DatePicker from 'react-native-datepicker';
@@ -29,34 +31,60 @@ import AppText from "../../Components/AppText";
 import userStore from "../../state-management/AppUser";
 import User from "../../Model/User";
 import Gender from "../../Model/Gender";
+import routes from "../../Navigation/routes";
 
 export default function UserProfileInputScreen(props) {
   const [image, setImage] = useState(null);
-  const [nameText, onChangeNameText] = useState(null);
-  const [emailText, onChangeEmailText] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [gender, onChangeGender] = useState(null);
   const { setUser, user } = userStore();
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-     console.log(result);
+    console.log(result);
 
     if (!result.canceled) {
-      setImage(result.uri);
+      const manipResult = await manipulateAsync(
+        result.uri,
+        [{ resize: { height: 500, width: 500 } }],
+        { compress: 1, format: SaveFormat.JPEG }
+      );
+      console.log(manipResult);
+      setImage(manipResult.uri);
+      //setImage(result.uri);
     }
   };
 
-  const handlePressOnContinue =async (values) => {
+  const handlePressOnContinue = async (values) => {
     console.log(values, gender);
     if (gender === null) {
       Alert.alert("Required", "Please select Gender.");
       return;
+    }
+    setIsLoading(true);
+    let link = null;
+    if (image !== null) {
+      const base64 = await FileSystem.readAsStringAsync(image!, {
+        encoding: "base64",
+      });
+      // .then(async (base64) => {
+      var toUint8Array = require("base64-to-uint8array");
+      var unit8Array = toUint8Array(base64);
+
+      const reference = firebase.storage().ref("Users/" + user?.uid! + ".jpg");
+
+      const task = await reference.put(unit8Array);
+
+      link = await firebase
+        .storage()
+        .ref("Users/" + user?.uid! + ".jpg")
+        .getDownloadURL();
     }
     const myUser: User = {
       name: values.name,
@@ -64,38 +92,38 @@ export default function UserProfileInputScreen(props) {
       gender: gender === Gender.male ? "male" : "female",
       age: values.age,
       uid: user?.uid!,
-      image: "url",
+      image: link,
+      phoneNo: user?.phoneNo!,
+      orders: [],
     };
-    console.log(image);
-    ImgToBase64.getBase64String(image) // path to your image from local storage
-    .then((base64String) => {
-         // baseStringSample = base64String,
-       //  console.log('img: ',base64String)
-    //      var byteCharacters = atob(base64String);
-    //      var byteNumbers = new Array(byteCharacters.length);
-    //      let byteArray;
-    //  for (var i = 0; i < byteCharacters.length; i++) {
-    //      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    //      byteArray = new Uint8Array(byteNumbers);
-    //      console.log("BYTEARRAY: " + byteArray);
-    //  }
-          })
-    .catch(err => Alert.alert('Error' + err));
-    const reference = firebase.storage().ref('black-t-shirt-sm.png');
-    console.log(reference)
-    await reference.put(image);
-    // firebase.firestore()
-    //   .collection("Users")
-    //   .doc(user?.uid!)
-    //   .set(myUser)
-    //   .then(() => {
-    //     console.log("User added!");
-    //   })
-    //   .catch((e) => {
-    //     console.log("error: ", e);
-    //   });
+    firebase
+      .firestore()
+      .collection("Users")
+      .doc(user?.uid!)
+      .set(myUser)
+      .then(() => {
+        console.log("User added!");
+      })
+      .catch((e) => {
+        console.log("error: ", e);
+      });
+    setUser(myUser);
+    setIsLoading(false);
+    props.navigation.navigate(routes.APP_NAVIGATION);
   };
-
+  if (isLoading) {
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: 100 }} />
+        <Lottie
+          source={require("../../assets/progress.json")}
+          autoPlay
+          loop
+          style={{ height: 600, width: 600 }}
+        />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <AppSpaceComponent height={100} />
@@ -177,28 +205,38 @@ export default function UserProfileInputScreen(props) {
                 onChangeGender={onChangeGender}
               />
             </View>
-
-            <View style={{ bottom: 50, padding: 8, position: "absolute" }}>
-              <AppButtonWithShadow onPress={handleSubmit}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <AppText
+            <View
+              style={{
+                bottom: 50,
+                padding: 8,
+                position: "absolute",
+                flexDirection: "row",
+              }}
+            >
+              <View style={{ flex: 1 }} />
+              <View>
+                <AppButtonWithShadow onPress={handleSubmit}>
+                  <View
                     style={{
-                      color: "white",
-                      fontWeight: "bold",
-                      marginRight: 8,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      width: "100%",
+                      justifyContent: "center",
                     }}
                   >
-                    Continue
-                  </AppText>
-                </View>
-              </AppButtonWithShadow>
+                    <AppText
+                      style={{
+                        color: "white",
+                        fontWeight: "bold",
+                        marginRight: 8,
+                      }}
+                    >
+                      Continue
+                    </AppText>
+                  </View>
+                </AppButtonWithShadow>
+              </View>
+              <View style={{ flex: 1 }} />
             </View>
           </View>
         )}

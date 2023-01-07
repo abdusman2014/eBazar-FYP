@@ -1,5 +1,7 @@
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import Lottie from "lottie-react-native";
+
 import Order from "../Model/Order";
 
 import AppText from "../Components/AppText";
@@ -10,13 +12,43 @@ import AppSpaceComponent from "../Components/AppSpaceComponent";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import routes from "../Navigation/routes";
+import firebase from "../../firebase";
 
 import useCartStore from "../state-management/UserCart";
+import usePlaceOrderStore from "../state-management/placeOrder";
+import userStore from "../state-management/AppUser";
+import PaymentStatus from "../Model/PaymentStatus";
+import PaymentType from "../Model/PaymentType";
 
 export default function PaymentScreen(props) {
-  const {setCartItems} = useCartStore();
+  const { setCartItems } = useCartStore();
+  const { addOrder,user } = userStore();
+  const {
+    updatePaymentStatus,
+    updatePaymentType,
+    address,
+    userDetails,
+    cart,
+    paymentStatus,
+    paymentType,
+    totalPrice,
+  } = usePlaceOrderStore();
   const [COD, setCOD] = useState(false);
   const [card, setCard] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  if (isLoading) {
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: 100 }} />
+        <Lottie
+          source={require("../assets/progress.json")}
+          autoPlay
+          loop
+          style={{ height: 600, width: 600 }}
+        />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <AppText style={defaultStyles.typography.body.md.semiBold}>
@@ -79,17 +111,58 @@ export default function PaymentScreen(props) {
       <AppButtonWithShadow
         onPress={() => {
           showAlert(
-            "Order Successfull",
-            "You have successfully made order",
+            "PLace Order",
+            "Are you sure you want to place Order",
             () => {
-              const cart: Order[] = [];
-              setCartItems(cart);
-              //removeItemFromCart(order.orderId);
-              props.navigation.navigate({
-                name: routes.CART_SCREEN,
+              setIsLoading(true);
+              console.log("cod: ", COD, " ,card: ", card);
+              updatePaymentStatus(PaymentStatus.PENDING);
+              if (COD) {
+                updatePaymentType(PaymentType.COD);
+              } else {
+                updatePaymentType(PaymentType.CARD);
+              }
+              console.log("ref: ", firebase.firestore());
+              const docRef = firebase.firestore().collection("Orders").doc();
+              const id = docRef.id;
+              docRef
+                .set({
+                  address: address,
+                  userDetails: userDetails,
+                  cart: cart,
+                  paymentStatus: paymentStatus,
+                  paymentType: paymentType,
+                  totalPrice: totalPrice,
+                  orderId: id,
+                })
+                .then((res) => {
+                  console.log("Order Placed! ", res);
+                  addOrder(id);
+                  firebase
+                    .firestore()
+                    .collection("Users")
+                    .doc(user?.uid)
+                    .update({
+                      orders: user?.orders,
+                    })
+                    .then(() => {
+                      console.log("User updated!");
+                      setIsLoading(false);
+                    });
+                 
+                  const cart: Order[] = [];
+                  setCartItems(cart);
+                  //removeItemFromCart(order.orderId);
+                  props.navigation.navigate({
+                    name: routes.CART_SCREEN,
 
-                merge: true,
-              });
+                    merge: true,
+                  });
+                })
+                .catch((e) => {
+                  console.log("error: ", e);
+                });
+              // updatePaymentType(PaymentType.COD);
             }
           );
         }}

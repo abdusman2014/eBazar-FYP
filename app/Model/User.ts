@@ -7,6 +7,8 @@ interface User{
     email: string | null,
     age: number,
     gender: string,
+    phoneNo: string,
+    orders: string[],
 }
 
 export default User;

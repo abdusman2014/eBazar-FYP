@@ -8,7 +8,7 @@ function UserProfileComponent({ imageUrl, greetingmsg, name }) {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/profile.jpg")}
+       source={{ uri: imageUrl }}
         style={styles.image}
       />
       <View style={{ marginLeft: 8 }}>

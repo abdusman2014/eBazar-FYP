@@ -8,9 +8,11 @@ import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import AppText from "../Components/AppText";
 import routes from "../Navigation/routes";
 import Address from "../Model/Address";
+import usePlaceOrderStore from "../state-management/placeOrder";
 
 export default function AddressScreen(props) {
   const [addresses, setAddresses] = useState(mockAddresseData);
+  const { addAddress } = usePlaceOrderStore();
   useEffect(() => {
     //add isSelected to each address item
     const tempAddresses = addresses.map((element) => ({
@@ -37,14 +39,10 @@ export default function AddressScreen(props) {
   };
   const handlePressOnApply = () => {
     const address = addresses.filter((item) => item.isSelected);
-//console.log(address);
+    //console.log(address);
+    addAddress(address[0]);
     props.navigation.navigate({
       name: routes.CHECKOUT_SCREEN,
-      params: {
-        addressId: address[0].addressId,
-
-        screen: routes.ADDRESS_SCREEN,
-      },
       merge: true,
     });
   };
