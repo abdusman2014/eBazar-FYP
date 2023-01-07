@@ -17,11 +17,12 @@ import useCartStore from "../state-management/UserCart";
 import routes from "../Navigation/routes";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
+import DeliveryStatus from "../Model/DeliveryStatus";
 
 function CartsScreen(props) {
   const { cartItems } = useCartStore();
   const { user } = userStore();
-  const { addCart, addUserDetails, addTotalPrice, totalPrice } =
+  const { addCart, addUserDetails, addTotalPrice, totalPrice,updateDeliveryStatus } =
     usePlaceOrderStore();
   console.log(Dimensions.get("window").height);
 
@@ -39,6 +40,7 @@ function CartsScreen(props) {
   const handleCheckoutButtonPress = () => {
     addCart(cartItems);
     addUserDetails({ name: user?.name!, phoneNo: user?.phoneNo! });
+    updateDeliveryStatus(DeliveryStatus.pending);
     props.navigation.navigate(routes.CHECKOUT_SCREEN);
   };
 

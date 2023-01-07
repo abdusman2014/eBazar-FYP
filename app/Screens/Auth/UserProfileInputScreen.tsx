@@ -95,6 +95,7 @@ export default function UserProfileInputScreen(props) {
       image: link,
       phoneNo: user?.phoneNo!,
       orders: [],
+      addresses: [],
     };
     firebase
       .firestore()
@@ -109,7 +110,7 @@ export default function UserProfileInputScreen(props) {
       });
     setUser(myUser);
     setIsLoading(false);
-    props.navigation.navigate(routes.APP_NAVIGATION);
+    props.navigation.replace(routes.APP_NAVIGATION);
   };
   if (isLoading) {
     return (

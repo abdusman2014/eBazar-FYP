@@ -18,10 +18,11 @@ import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import mockAddresseData from "../MockData/AddressMockData";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import routes from "../Navigation/routes";
-import { add } from "react-native-reanimated";
+import userStore from "../state-management/AppUser";
 
 export default function CheckoutScreen(props) {
   const { address, addAddress,cart,userDetails } = usePlaceOrderStore();
+  const {user} = userStore();
   // useEffect(() => {
     
   //    console.log('eneter: ',props.route.params);
@@ -36,8 +37,8 @@ export default function CheckoutScreen(props) {
   //   }
   // }, [props.route.params]);
   useEffect(() => {
-    if (address === null) {
-      addAddress(mockAddresseData[0]);
+    if (address === null && user?.addresses.length>0) {
+      addAddress(user?.addresses[0]!);
     }
   }, []);
   const { cartItems } = useCartStore();
@@ -51,9 +52,9 @@ export default function CheckoutScreen(props) {
   const handleOnPressAddressComponent = () => {
     props.navigation.navigate(routes.ADDRESS_SCREEN);
   };
-  if (address === null) {
-    return <AppText>loading</AppText>;
-  }
+  // if (address === null) {
+  //   return <AppText>loading</AppText>;
+  // }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -62,11 +63,11 @@ export default function CheckoutScreen(props) {
         >
           Shipping Address
         </AppText>
-        {address && <View style={{ paddingHorizontal: 12 }}>
+        { <View style={{ paddingHorizontal: 12 }}>
           <Pressable onPress={handleOnPressAddressComponent}>
             <AppAddressComponent
-              title={address.title}
-              description={address.description}
+              title={(address) ? address.title : ""}
+              description={(address) ?address.description: ""}
               icon={<Octicons name="pencil" size={24} color="black" />}
             />
           </Pressable>

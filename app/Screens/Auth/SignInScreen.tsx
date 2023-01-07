@@ -44,7 +44,7 @@ export default function SignInScreen(props) {
         // setVerificationId(val);
         console.log("code: ", val);
         props.setVerificationId(val);
-        props.navigation.navigate(routes.OTP_SCREEN);
+        props.navigation.replace(routes.OTP_SCREEN);
       }).catch(e=>{
         console.log(phoneNo);
       })

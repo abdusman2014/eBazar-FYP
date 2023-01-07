@@ -1,5 +1,11 @@
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,6 +16,8 @@ import {
   Pressable,
   Button,
 } from "react-native";
+import Lottie from "lottie-react-native";
+
 
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
@@ -22,28 +30,66 @@ import AppTopBar from "../Components/AppTopBar";
 import FilterMenu from "../Components/FilterMenu";
 import defaultStyles from "../Config/styles";
 import HomeScreenMockData from "../MockData/HomeScreenMockData";
-import  { 
-  useBottomSheetDynamicSnapPoints,
-} from '@gorhom/bottom-sheet';
+import { useBottomSheetDynamicSnapPoints } from "@gorhom/bottom-sheet";
 import List from "../Components/List";
 import routes from "../Navigation/routes";
 import Item from "../Model/Item";
+import firebase from "../../firebase";
+import Category from "../Model/Category";
 
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
+  const [isLoadingItems, setIsLoadingItems] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [items, setItems] = useState(null);
+  const [categories, setCategories] = useState(null);
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
-  const mockCategoryWithOutImageData = HomeScreenMockData.mockCategoryWithOutImageData;
+  const mockCategoryWithOutImageData =
+    HomeScreenMockData.mockCategoryWithOutImageData;
   const mockItemsData = HomeScreenMockData.mockItemsData;
   const [
     mockCategoryitemWithOutImageData,
     setMockCategoryitemWithOutImageData,
-  ] = React.useState(mockCategoryWithOutImageData);
+  ] = useState(mockCategoryWithOutImageData);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("Items")
+      .get()
+      .then((querySnapshot) => {
+        console.log("Total users: ", querySnapshot.size);
+          const data:Item[] = [];
+        querySnapshot.forEach((documentSnapshot) => {
+          const item:Item = documentSnapshot.data()
+          data.push( item);
+        });
+        console.log('data no: ',data.length);
+        setItems(data);
+        setIsLoadingItems(false);
+      });
+      firebase
+      .firestore()
+      .collection("Category")
+      .get()
+      .then((querySnapshot) => {
+        console.log("Total users: ", querySnapshot.size);
+          const data:Item[] = [];
+        querySnapshot.forEach((documentSnapshot) => {
+          const category:Category = documentSnapshot.data()
+          data.push( category);
+        });
+        console.log('data no: ',data.length);
+        setCategories(data);
+        setIsLoadingCategories(false);
+      });
+  }, []);
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const initialSnapPoints = useMemo(() => ['-1', 'CONTENT_HEIGHT'], []);
+  const initialSnapPoints = useMemo(() => ["-1", "CONTENT_HEIGHT"], []);
 
   const {
     animatedHandleHeight,
@@ -51,27 +97,39 @@ function HomeScreen(props) {
     animatedContentHeight,
     handleContentLayout,
   } = useBottomSheetDynamicSnapPoints(initialSnapPoints);
-  
- const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
   }, []);
-
-
+  if (isLoadingItems || isLoadingCategories) {
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: 100 }} />
+        <Lottie
+          source={require("../assets/progress.json")}
+          autoPlay
+          loop
+          style={{ height: 600, width: 600 }}
+        />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView  showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <AppTopBar />
         <AppSpaceComponent height={undefined} />
-        <AppSearch 
+        <AppSearch
           searchPhrase={searchPhrase}
           setSearchPhrase={setSearchPhrase}
           clicked={clicked}
           setClicked={setClicked}
           onValueChange={onChangeText}
-          onFilterPress = {()=> {
-            bottomSheetRef.current?.expand()
-        }} />
-        
+          onFilterPress={() => {
+            bottomSheetRef.current?.expand();
+          }}
+        />
+
         <AppSpaceComponent height={undefined} />
         <SectionHeader title={"Special Offers"} optionText={"See All"} />
         <AppSpaceComponent height={undefined} />
@@ -84,7 +142,7 @@ function HomeScreen(props) {
         <AppSpaceComponent height={undefined} />
 
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {mockCategoryData.map((val, key) => {
+          {categories?.map((val, key) => {
             return (
               <View style={{ padding: 12 }}>
                 <AppCategoryWithIcon name={val.name} image={val.image} />
@@ -121,26 +179,26 @@ function HomeScreen(props) {
         <AppSpaceComponent height={undefined} />
 
         <FlatList
-          data={mockItemsData}
+          data={items}
           style={{ padding: 16 }}
-          keyExtractor={(item, index) => item.itemId.toString()}
+          keyExtractor={(item, index) => item.item_id}
           numColumns={2}
           renderItem={(item) => (
             <View style={{ marginBottom: 24 }}>
-  
-              <AppItemComponent item={item.item} 
+              <AppItemComponent
+                item={item.item}
                 onPress={() => {
-                  const product: Item = item.item
+                  const product: Item = item.item;
                   console.log(item.item);
                   props.setItem(product);
                   console.log(props.item);
-                  props.navigation.navigate(routes.ITEM_DETAILS_SCREEN)
+                  props.navigation.navigate(routes.ITEM_DETAILS_SCREEN);
                 }}
               />
             </View>
           )}
         />
-        
+
         <AppSpaceComponent height={50} />
       </ScrollView>
       <BottomSheet
@@ -154,12 +212,13 @@ function HomeScreen(props) {
       >
         <BottomSheetView
           //style={styles.contentContainer}
-        onLayout={handleContentLayout}
+          onLayout={handleContentLayout}
         >
-          <FilterMenu onPress={()=>{
-            bottomSheetRef.current?.close();
-          }}/>
-          
+          <FilterMenu
+            onPress={() => {
+              bottomSheetRef.current?.close();
+            }}
+          />
         </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>
@@ -176,8 +235,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
 });
 
 function SectionHeader({ title, optionText }) {

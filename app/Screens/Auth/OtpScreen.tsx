@@ -9,17 +9,15 @@ import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
 import defaultStyles from "../../Config/styles";
 import firebase from "../../../firebase";
 
-
 import userStore from "../../state-management/AppUser";
 import User from "../../Model/User";
 import routes from "../../Navigation/routes";
 import Gender from "../../Model/Gender";
 
-
 export default function OtpScreen(props) {
   const [code, onChangeCode] = React.useState("");
   const [isLoading, onChangeIsLoading] = React.useState(false);
-  const {setUser} = userStore();
+  const { setUser } = userStore();
   //console.log("next code: ", props.verificationId);
   const confirmCode = () => {
     onChangeIsLoading(true);
@@ -33,35 +31,37 @@ export default function OtpScreen(props) {
       .then(async (result) => {
         // Do something with the results here
         console.log(result.user.uid);
-       
+
         //user object must be created as state object
         //TODO:: if new user create user object save uid, leave other fields as "" and then move to userProfileInput screen
         //else if old user fetch data from firebase, save it to user object and move to home screen
         if (result.additionalUserInfo.isNewUser) {
-          const user:User = {
+          const user: User = {
             name: "",
             uid: result.user!.uid,
             image: null,
             age: 0,
             email: null,
             gender: "",
-            phoneNo: result.user?.phoneNumber!
-
-          }
+            phoneNo: result.user?.phoneNumber!,
+          };
           setUser(user);
-          props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
+          props.navigation.replace(routes.USER_PROFILE_INPUT_SCREEN);
           //move to userProfileInput screen
         } else {
-          const doc = await firebase.firestore().collection('Users').doc(result.user!.uid).get();
+          const doc = await firebase
+            .firestore()
+            .collection("Users")
+            .doc(result.user!.uid)
+            .get();
           const user: User | undefined = doc.data();
-          if(user!== undefined){
-
+          if (user !== undefined) {
             setUser(user);
             onChangeIsLoading(false);
-            props.navigation.navigate(routes.APP_NAVIGATION);
+            props.navigation.replace(routes.APP_NAVIGATION);
           }
-         // props.navigation.navigate(routes.APP_NAVIGATION);
-        // props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
+          // props.navigation.navigate(routes.APP_NAVIGATION);
+          // props.navigation.navigate(routes.USER_PROFILE_INPUT_SCREEN);
         }
       })
       .catch((err) => {
@@ -70,8 +70,7 @@ export default function OtpScreen(props) {
         Alert.alert("Authentication Failed", "Code Invalid or Expired.");
       });
   };
-  if(isLoading){
-
+  if (isLoading) {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <View style={{ height: 100 }} />

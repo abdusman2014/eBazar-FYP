@@ -25,7 +25,7 @@ function AppItemComponent({ item, onPress}) {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/images/sofa.jpg")}
+          source={{uri: image}}
           style={{
             width: 100,
             height: 150,

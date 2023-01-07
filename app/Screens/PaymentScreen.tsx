@@ -22,7 +22,7 @@ import PaymentType from "../Model/PaymentType";
 
 export default function PaymentScreen(props) {
   const { setCartItems } = useCartStore();
-  const { addOrder,user } = userStore();
+  const { addOrder, user } = userStore();
   const {
     updatePaymentStatus,
     updatePaymentType,
@@ -32,10 +32,77 @@ export default function PaymentScreen(props) {
     paymentStatus,
     paymentType,
     totalPrice,
+    deliveryStatus
   } = usePlaceOrderStore();
   const [COD, setCOD] = useState(false);
   const [card, setCard] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  const onPressPlaceOrder = () => {
+    showAlert(
+      "PLace Order",
+      "Are you sure you want to place Order",
+      () => {
+        setIsLoading(true);
+        console.log("cod: ", COD, " ,card: ", card);
+        updatePaymentStatus(PaymentStatus.PENDING);
+        if (COD) {
+          updatePaymentType(PaymentType.COD);
+        } else {
+          updatePaymentType(PaymentType.CARD);
+        }
+        console.log("ref: ", firebase.firestore());
+        const docRef = firebase.firestore().collection("Orders").doc();
+        const id = docRef.id;
+        docRef
+          .set({
+            address: address,
+            userDetails: userDetails,
+            cart: cart,
+            paymentStatus: paymentStatus,
+            paymentType: paymentType,
+            totalPrice: totalPrice,
+            orderId: id,
+            deliveryStatus: deliveryStatus,
+          })
+          .then((res) => {
+            console.log("Order Placed! ", res);
+            addOrder(id);
+            firebase
+              .firestore()
+              .collection("Users")
+              .doc(user?.uid)
+              .update({
+                orders: user?.orders,
+              })
+              .then(() => {
+                console.log("User updated!");
+                setIsLoading(false);
+              });
+            Alert.alert("Success", "Order placed successfully", [
+              {
+                text: "OK",
+                onPress: () => {
+                  const cart: Order[] = [];
+                  setCartItems(cart);
+                  //removeItemFromCart(order.orderId);
+                  props.navigation.navigate({
+                    name: routes.CART_SCREEN,
+
+                    merge: true,
+                  });
+                  console.log("OK Pressed");
+                },
+              },
+            ]);
+          })
+          .catch((e) => {
+            console.log("error: ", e);
+          });
+        // updatePaymentType(PaymentType.COD);
+      }
+    );
+  }
   if (isLoading) {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -109,63 +176,7 @@ export default function PaymentScreen(props) {
       </Pressable>
       <View style={{ flex: 1 }} />
       <AppButtonWithShadow
-        onPress={() => {
-          showAlert(
-            "PLace Order",
-            "Are you sure you want to place Order",
-            () => {
-              setIsLoading(true);
-              console.log("cod: ", COD, " ,card: ", card);
-              updatePaymentStatus(PaymentStatus.PENDING);
-              if (COD) {
-                updatePaymentType(PaymentType.COD);
-              } else {
-                updatePaymentType(PaymentType.CARD);
-              }
-              console.log("ref: ", firebase.firestore());
-              const docRef = firebase.firestore().collection("Orders").doc();
-              const id = docRef.id;
-              docRef
-                .set({
-                  address: address,
-                  userDetails: userDetails,
-                  cart: cart,
-                  paymentStatus: paymentStatus,
-                  paymentType: paymentType,
-                  totalPrice: totalPrice,
-                  orderId: id,
-                })
-                .then((res) => {
-                  console.log("Order Placed! ", res);
-                  addOrder(id);
-                  firebase
-                    .firestore()
-                    .collection("Users")
-                    .doc(user?.uid)
-                    .update({
-                      orders: user?.orders,
-                    })
-                    .then(() => {
-                      console.log("User updated!");
-                      setIsLoading(false);
-                    });
-                 
-                  const cart: Order[] = [];
-                  setCartItems(cart);
-                  //removeItemFromCart(order.orderId);
-                  props.navigation.navigate({
-                    name: routes.CART_SCREEN,
-
-                    merge: true,
-                  });
-                })
-                .catch((e) => {
-                  console.log("error: ", e);
-                });
-              // updatePaymentType(PaymentType.COD);
-            }
-          );
-        }}
+        onPress={onPressPlaceOrder}
       >
         <AppText
           style={{

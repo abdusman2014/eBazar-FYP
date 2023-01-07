@@ -6,6 +6,7 @@ export default {
     ORDER_SCREEN: 'ordersScreen',
     CHECKOUT_SCREEN: 'checkoutScreen',
     ADDRESS_SCREEN: 'addressScreen',
+    ADD_ADDRESS_SCREEN: 'addAddressScreen',
     ITEM_DETAILS_SCREEN: 'itemDetailsScreen',
     PAYMENT_SCREEN: 'paymentScreen',
     SIGN_SCREEN: 'signInScreen',

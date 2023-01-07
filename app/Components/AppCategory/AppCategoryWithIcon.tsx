@@ -10,7 +10,7 @@ function AppCategoryWithIcon({ name, image }) {
     <View style={styles.container}>
       <View style={styles.iconContainer}>
         <Image
-          source={require("../../assets/images/sofa-icon.png")}
+          source={{uri: image}}
           style={styles.icon}
         />
       </View>

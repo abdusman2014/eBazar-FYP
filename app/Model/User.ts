@@ -1,3 +1,4 @@
+import Address from "./Address";
 import Gender from "./Gender";
 
 interface User{
@@ -9,6 +10,7 @@ interface User{
     gender: string,
     phoneNo: string,
     orders: string[],
+    addresses: Address[],
 }
 
 export default User;

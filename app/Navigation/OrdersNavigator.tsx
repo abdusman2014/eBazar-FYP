@@ -9,6 +9,7 @@ import CheckoutScreen from "../Screens/CheckoutScreen";
 import CartsScreen from "../Screens/CartsScreen";
 import AddressScreen from "../Screens/AddressScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
+import AddAddressScreen from "../Screens/AddAddressScreen";
 
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
@@ -19,7 +20,7 @@ function OrdersNavigator() {
         options={{ headerStyle: {
           backgroundColor: defaultStyles.Colors.grey100,
         },
-        headerShown: false,
+        headerShown: true,
         headerShadowVisible: false,
         //headerShown: true,
         headerTitle: 'My Cart', }}
@@ -59,6 +60,23 @@ function OrdersNavigator() {
         headerBackTitleVisible: false }}
       >
         {(props) => <AddressScreen {...props} />}
+      </OrdersNavigator.Screen>
+      <OrdersNavigator.Screen
+        name={routes.ADD_ADDRESS_SCREEN}
+        options={{ headerTitle: 'Add New Address',headerBackImage(props) {
+          return (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={defaultStyles.Colors.black}
+              style={{ margin: 12 }}
+            />
+          );
+        },
+        
+        headerBackTitleVisible: false }}
+      >
+        {(props) => <AddAddressScreen {...props} />}
       </OrdersNavigator.Screen>
       <OrdersNavigator.Screen
         name={routes.PAYMENT_SCREEN}
