@@ -1,7 +1,7 @@
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Order from "../Model/Order";
-
+import fs from 'react-native-fs';
 import AppText from "../Components/AppText";
 import defaultStyles from "../Config/styles";
 import AppAddressComponent from "../Components/AppAddressComponent";
@@ -12,6 +12,15 @@ import AppButtonWithShadow from "../Components/AppButtonWithShadow";
 import routes from "../Navigation/routes";
 
 import useCartStore from "../state-management/UserCart";
+import Address from "../Model/Address";
+
+
+const order = {
+  address:{ addressId: 1, title: "home69" , description:"hpouse69" } as Address,
+  
+
+  
+}
 
 export default function PaymentScreen(props) {
   const {setCartItems} = useCartStore();
@@ -78,11 +87,12 @@ export default function PaymentScreen(props) {
       <View style={{ flex: 1 }} />
       <AppButtonWithShadow
         onPress={() => {
+          const cart: Order[] = [];
           showAlert(
             "Order Successfull",
             "You have successfully made order",
             () => {
-              const cart: Order[] = [];
+              
               setCartItems(cart);
               //removeItemFromCart(order.orderId);
               props.navigation.navigate({
@@ -91,8 +101,10 @@ export default function PaymentScreen(props) {
                 merge: true,
               });
             }
-          );
-        }}
+          ); 
+          newOrder(cart);
+        } 
+      }
       >
         <AppText
           style={{
@@ -101,7 +113,8 @@ export default function PaymentScreen(props) {
             marginRight: 8,
           }}
         >
-          PLace Order
+          Place Order
+        
         </AppText>
       </AppButtonWithShadow>
     </View>
@@ -130,6 +143,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
+function newOrder (orderedItems: Order[]) {
+
+  
+  console.log('orders received successfully'); 
+}
 
 function showAlert(title: string, message: string, onPressOkBtn) {
   Alert.alert(title, message, [
