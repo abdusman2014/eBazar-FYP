@@ -24,6 +24,7 @@ interface PaymentState {
   updatePaymentType: (paymentType: PaymentType) => void;
   updatePaymentStatus: (paymentStatus: PaymentStatus) => void;
   updateDeliveryStatus: (deliveryStatus: DeliveryStatus) => void;
+  resetpaymentState: () => void;
 }
 
 const usePlaceOrderStore = create<PaymentState>()((set) => ({
@@ -80,6 +81,19 @@ const usePlaceOrderStore = create<PaymentState>()((set) => ({
     set((state) => {
       return {
         deliveryStatus: deliveryStatus,
+      };
+    });
+  },
+  resetpaymentState: () => {
+    set((state) => {
+      return {
+        totalPrice: null,
+        cart: null,
+        userDetails: null,
+        address: null,
+        paymentType: PaymentType.NOT_SET,
+        deliveryStatus: DeliveryStatus.NOT_SET,
+        paymentStatus: PaymentStatus.NOT_SET,
       };
     });
   },

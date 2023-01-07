@@ -19,9 +19,11 @@ import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
 import PaymentStatus from "../Model/PaymentStatus";
 import PaymentType from "../Model/PaymentType";
+import usePlaceOrderStore from "../state-management/placeOrder";
 
 export default function PaymentScreen(props) {
-  const { setCartItems } = useCartStore();
+  const { resetCart } = useCartStore();
+  const {resetpaymentState} = usePlaceOrderStore();
   const { addOrder, user } = userStore();
   const {
     updatePaymentStatus,
@@ -83,8 +85,9 @@ export default function PaymentScreen(props) {
               {
                 text: "OK",
                 onPress: () => {
-                  const cart: Order[] = [];
-                  setCartItems(cart);
+                 
+                  resetCart();
+                  resetpaymentState();
                   //removeItemFromCart(order.orderId);
                   props.navigation.navigate({
                     name: routes.CART_SCREEN,

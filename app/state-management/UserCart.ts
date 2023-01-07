@@ -11,6 +11,7 @@ interface CartState {
   removeItemFromCart: (orderId: number) => void;
   incrementItemCount: (orderId: number) => void;
   decrementItemCount: (orderId: number) => void;
+  resetCart: () => void;
 }
 
 const getNoOfItemsOfAnOrder = (orders: Order[], item: Item) => {
@@ -104,6 +105,10 @@ const useCartStore = create<CartState>()((set) => ({
       };
     });
   },
+  resetCart: () =>
+  set((state) => ({
+    cartItems: [],
+  })),
  
 }));
 
