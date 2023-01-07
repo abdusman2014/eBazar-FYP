@@ -9,9 +9,30 @@ import CheckoutScreen from "../Screens/CheckoutScreen";
 import CartsScreen from "../Screens/CartsScreen";
 import AddressScreen from "../Screens/AddressScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
+import {
+  createMaterialTopTabNavigator,
+  createAppContainer
+} from "react-navigation";
+
 
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
+/*   const SwipeTabs = createMaterialTopTabNavigator(
+    {
+      screen1: { screen: ActiveOrders},
+      screen2: { screen: CompletedOrders},
+    },
+    {
+      initialRouteName: "screen1",
+      animationEnabled: true,
+      tabBarOptions: {
+        showLabel: false,
+        showIcon: false,
+        style: { height: 0 }
+      }
+    }
+  );
+   */
   return (
     <OrdersNavigator.Navigator>
       <OrdersNavigator.Screen
