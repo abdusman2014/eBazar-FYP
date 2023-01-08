@@ -3,16 +3,19 @@ import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import defaultStyles from "../Config/styles";
 
+import userStore from "../state-management/AppUser";
+
 
 import UserProfileComponent from "./UserProfileComponent";
 
 function AppTopBar(props) {
+  const {user} = userStore();
   return (
     <View  style={styles.container}>
       <UserProfileComponent
-        imageUrl={"../assets/images/profile.jpg"}
+        imageUrl={user?.image}
         greetingmsg={"Good Morning"}
-        name={"Abdullah Usman"}
+        name={user?.name.toUpperCase()}
       />
       <View style={{ flex: 1 }} />
       <Ionicons name="notifications-outline" size={30} color={defaultStyles.Colors.black}/>

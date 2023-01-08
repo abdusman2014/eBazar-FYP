@@ -1,6 +1,7 @@
 interface Item {
 
-  itemId: number;
+  item_id: string;
+  category_id: string;
   name: string;
   rating: number;
   price: number;

@@ -45,7 +45,7 @@ export default function CartItemComponent({ order, isFromCartScreen }) {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/images/sofa.jpg")}
+          source={{uri: item.image}}
           style={{
             width: 70,
             height: 100,

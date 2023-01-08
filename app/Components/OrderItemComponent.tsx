@@ -9,43 +9,24 @@ import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
 import useCartStore from "../state-management/UserCart";
+import DeliveryStatus from "../Model/DeliveryStatus";
 
-export default function OrderItemComponent({ order, isFromCartScreen }) {
-  const { incrementItemCount, decrementItemCount, removeItemFromCart } =
-    useCartStore();
-  const item: Item = order.item;
+export default function OrderItemComponent({ item , status}) {
+  console.log(item)
+  function printStatus(status){
+    if (status===DeliveryStatus.confirmed)
+      return "Confirmed";
+    else if (status===DeliveryStatus.inTransit)
+      return "In Transit";
+    else if (status===DeliveryStatus.pending)
+      return "Pending";
+  }
 
-
-  const handleOnPressIncrementItemButton = () => {
-    incrementItemCount(order.orderId);
-  };
-  const handleOnPressDeleteButton = () => {
-    showAlert(
-      "Remove Item",
-      "Are you sure you want to remove item from cart?",
-      () => {
-        removeItemFromCart(order.orderId);
-      }
-    );
-  };
-  const handleOnPressDecrementItemButton = () => {
-    if (order.noOfItems === 1) {
-      showAlert(
-        "Remove Item",
-        "Are you sure you want to remove item from cart?",
-        () => {
-          removeItemFromCart(order.orderId);
-        }
-      );
-    } else {
-      decrementItemCount(order.orderId);
-    }
-  };
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/images/orders-active-empty.png")}
+          source={{uri: item.image}}
           style={{
             width: 70,
             height: 100,
@@ -53,6 +34,7 @@ export default function OrderItemComponent({ order, isFromCartScreen }) {
           }}
         />
       </View>
+
       <View style={{ flex: 1 }}>
         <AppSpaceComponent height={10} />
         <View style={{ flexDirection: "row" }}>
@@ -62,49 +44,41 @@ export default function OrderItemComponent({ order, isFromCartScreen }) {
           >
             {item.name}
           </AppText>
-          <View style={{ flex: 1 }} />
+          
+        </View>
+        <View style={{flex: 1}} />
+        <View style={{flexDirection:'row', margin: 5}} >
+          <View style={{ height:20, width: 20, borderRadius:15, backgroundColor:item.color}}/>
+          <AppText style={defaultStyles.typography.body.md.regular}>  {item.color} | Qty = {item.noOfItems}</AppText>
+        </View>
 
-          {isFromCartScreen && (
-            <Pressable onPress={handleOnPressDeleteButton}>
-              <MaterialIcons
-                name="delete-outline"
-                size={24}
-                color="black"
-                //style={{ marginLeft: 8 }}
-              />
-            </Pressable>
-          )}
-        </View>
-        <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <AppText style={defaultStyles.typography.body.large.bold}>
-            {"Rs."} {item.price}
+        <View style={{flex: 1}} />
+        <View
+          style={{
+            backgroundColor: defaultStyles.Colors.grey400,
+            borderRadius: 8,
+            width: 100,
+            alignItems: "center",
+          }}
+        >
+          <AppText style={[defaultStyles.typography.labels.xs, {margin: 2}]}>
+            {printStatus(status)}
           </AppText>
-          <View style={{ flex: 1 }} />
-          {isFromCartScreen ? (
-            <NoOfItemsConponent
-              noOfItems={order.noOfItems}
-              onPressPlusBtn={handleOnPressIncrementItemButton}
-              onPressMinusBtn={handleOnPressDecrementItemButton}
-            />
-          ) : (
-            <View
-              style={{
-                backgroundColor: defaultStyles.Colors.grey400,
-                height: 30,
-                width: 30,
-                borderRadius: 30,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <AppText style={defaultStyles.typography.labels.large.regular}>
-                {order.noOfItems}
-              </AppText>
-            </View>
-          )}
         </View>
-        <AppSpaceComponent height={15} />
+        
+        <View style={{flex: 1}} />
+        
+        <View style={{ flexDirection: "row-reverse" }}>
+          <AppText style={defaultStyles.typography.body.large.bold}>
+            {"Rs."} {item.price*item.noOfItems}
+          </AppText>
+          
+
+          
+            
+          
+        </View>
+        <AppSpaceComponent height={5} />
       </View>
     </View>
   );
@@ -112,75 +86,26 @@ export default function OrderItemComponent({ order, isFromCartScreen }) {
 
 const styles = StyleSheet.create({
   container: {
-    // width: "100%",
-
-    backgroundColor: defaultStyles.Colors.white,
+   // width: "100%",
+    backgroundColor: defaultStyles.Colors.grey300,
     flexDirection: "row",
-    borderRadius: 30,
-    padding: 16,
+    borderRadius: 20,
+    padding: 8,
     margin: 8,
 
     //width: Dimensions.get("window").width - 20,
   },
   imageContainer: {
     backgroundColor: defaultStyles.Colors.primaeryGrey,
-    padding: 16,
+    padding: 8,
     borderRadius: 10,
     marginRight: 12,
     // alignSelf: "center",
     // width: "50%",
   },
   text: {
-    width: 100,
+    width: 40,
     flexGrow: 1,
     flex: 1,
   },
 });
-
-function NoOfItemsConponent({ noOfItems, onPressPlusBtn, onPressMinusBtn }) {
-  return (
-    <View style={NoOfItemsConponentStyle.container}>
-      <Pressable onPress={onPressMinusBtn}>
-        <AntDesign name="minus" size={16} color="black" />
-      </Pressable>
-      <AppText
-        style={[
-          defaultStyles.typography.body.large.bold,
-          { marginHorizontal: 14 },
-        ]}
-      >
-        {noOfItems}
-      </AppText>
-      <Pressable onPress={onPressPlusBtn}>
-        <AntDesign name="plus" size={16} color="black" />
-      </Pressable>
-    </View>
-  );
-}
-
-const NoOfItemsConponentStyle = StyleSheet.create({
-  container: {
-    backgroundColor: defaultStyles.Colors.primaeryGrey,
-    padding: 8,
-    borderRadius: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-});
-
-function showAlert(title: string, message: string, onPressOkBtn) {
-  Alert.alert(title, message, [
-    {
-      text: "Cancel",
-      onPress: () => console.log("Cancel Pressed"),
-      style: "cancel",
-    },
-    {
-      text: "OK",
-      onPress: () => {
-        onPressOkBtn();
-        console.log("OK Pressed");
-      },
-    },
-  ]);
-}

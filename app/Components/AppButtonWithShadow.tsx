@@ -5,7 +5,7 @@ import AppText from "./AppText";
 
 export default function AppButtonWithShadow({ children, onPress }) {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable style={[styles.container]} onPress={onPress}>
       {children}
     </Pressable>
   );

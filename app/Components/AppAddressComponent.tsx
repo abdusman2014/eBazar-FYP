@@ -19,7 +19,7 @@ export default function AppAddressComponent({ title, description, icon }) {
       </View>
       <View>
         <AppText style={defaultStyles.typography.labels.large.bold}>
-          {title}
+          {title === "" ? "No Address" : title}
         </AppText>
         <AppText
           numberOfLines={2}

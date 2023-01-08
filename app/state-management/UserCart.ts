@@ -17,7 +17,7 @@ const getNoOfItemsOfAnOrder = (orders: Order[], item: Item) => {
   //returns index of order having same itemId
   //else return -1
   const itemIndex = orders.findIndex(
-    (elemet: Order) => elemet.item.itemId === item.itemId
+    (elemet: Order) => elemet.item.item_id === item.item_id
   );
   if (itemIndex === -1) {
     return {

@@ -15,9 +15,15 @@ import CartItemComponent from "../Components/CartItemComponent";
 import defaultStyles from "../Config/styles";
 import useCartStore from "../state-management/UserCart";
 import routes from "../Navigation/routes";
+import usePlaceOrderStore from "../state-management/placeOrder";
+import userStore from "../state-management/AppUser";
+import DeliveryStatus from "../Model/DeliveryStatus";
 
 function CartsScreen(props) {
   const { cartItems } = useCartStore();
+  const { user } = userStore();
+  const { addCart, addUserDetails, addTotalPrice, totalPrice,updateDeliveryStatus } =
+    usePlaceOrderStore();
   console.log(Dimensions.get("window").height);
 
   const getTotalPriceOFCart = () => {
@@ -25,9 +31,16 @@ function CartsScreen(props) {
     cartItems.forEach((order) => {
       sum += order.noOfItems * order.item.price;
     });
+    //only update total price when it is not set before
+    if (totalPrice === null) {
+      addTotalPrice(sum);
+    }
     return sum;
   };
   const handleCheckoutButtonPress = () => {
+    addCart(cartItems);
+    addUserDetails({ name: user?.name!, phoneNo: user?.phoneNo! });
+    updateDeliveryStatus(DeliveryStatus.pending);
     props.navigation.navigate(routes.CHECKOUT_SCREEN);
   };
 
@@ -72,18 +85,15 @@ function CartsScreen(props) {
           </AppText>
         </View>
         <View style={{ flex: 1 }} />
-        <AppButtonWithShadow
-          
-          onPress={handleCheckoutButtonPress}
-        >
-           <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <AppText
-                style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
-              >
-                Checkout
-              </AppText>
-              <Ionicons name="arrow-redo-circle" size={24} color="white" />
-            </View>
+        <AppButtonWithShadow onPress={handleCheckoutButtonPress}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <AppText
+              style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
+            >
+              Checkout
+            </AppText>
+            <Ionicons name="arrow-redo-circle" size={24} color="white" />
+          </View>
         </AppButtonWithShadow>
       </View>
     </SafeAreaView>
@@ -92,7 +102,6 @@ function CartsScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-   
     //top: 12,
 
     flex: 1,

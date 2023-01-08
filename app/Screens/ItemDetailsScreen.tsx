@@ -41,7 +41,7 @@ const ItemDetailsScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <View>
         <Image
-          source={require("../assets/images/sofa.jpg")}
+          source={{uri: item.image}}
           style={styles.productImg}
           resizeMode="contain"
         />
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   productImg: {
     width: "100%",
     height: 200,
-    marginTop: -40,
+   // marginTop: -40,
   },
   name: {
     fontSize: 30,
