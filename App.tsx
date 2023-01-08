@@ -12,6 +12,7 @@ import UserProfileComponent from "./app/Components/UserProfileComponent";
 import UserProfileInputScreen from "./app/Screens/Auth/UserProfileInputScreen";
 import firebase from "./firebase";
 import OrdersScreen from "./app/Screens/OrdersScreen";
+import TrackOrderScreen from "./app/Screens/TrackOrderScreen";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +49,8 @@ export default function App() {
    /*  <NavigationContainer>
       <AuthNavigator />
     </NavigationContainer> */
-    <OrdersScreen></OrdersScreen>
+    //<OrdersScreen></OrdersScreen>
+    <TrackOrderScreen></TrackOrderScreen>
     //  <UserProfileInputScreen/>
     // <View style={styles.container}>
     //   <Text>Open up App.tsx to start working on your app!!!</Text>

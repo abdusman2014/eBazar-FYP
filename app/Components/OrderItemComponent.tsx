@@ -10,9 +10,12 @@ import AppText from "./AppText";
 import AppSpaceComponent from "./AppSpaceComponent";
 import useCartStore from "../state-management/UserCart";
 import DeliveryStatus from "../Model/DeliveryStatus";
+import AppButtonWithShadow from "./AppButtonWithShadow";
+import { Ionicons, Octicons } from "@expo/vector-icons";
 
 export default function OrderItemComponent({ item , status}) {
-  console.log(item)
+  
+
   function printStatus(status){
     if (status===DeliveryStatus.confirmed)
       return "Confirmed";
@@ -20,6 +23,8 @@ export default function OrderItemComponent({ item , status}) {
       return "In Transit";
     else if (status===DeliveryStatus.pending)
       return "Pending";
+    else if (status===DeliveryStatus.delivered)
+      return "Delivered";
   }
 
   return (
@@ -68,13 +73,29 @@ export default function OrderItemComponent({ item , status}) {
         
         <View style={{flex: 1}} />
         
-        <View style={{ flexDirection: "row-reverse" }}>
+        <View style={{ marginVertical: 5, padding: 5 }}>
           <AppText style={defaultStyles.typography.body.large.bold}>
             {"Rs."} {item.price*item.noOfItems}
           </AppText>
           
 
-          
+      <View style={{flex: 1}} />
+      <View style={styles.buttonContainer}>
+      <AppButtonWithShadow onPress={() => {
+           console.log("Track Order");
+          // console.log('cart: ',cart);
+          // console.log('user: ',userDetails);
+          props.navigation.navigate(routes.PAYMENT_SCREEN);
+        }}>
+  
+          <View style={{flexDirection: "row", width: "100%"}}>
+            <AppText
+              style={{ color: defaultStyles.Colors.white, fontWeight: "bold"}}
+            > Track Order  </AppText>
+            <Ionicons name="arrow-redo-circle" size={20} color="white" />
+            </View>
+        </AppButtonWithShadow>
+        </View>
             
           
         </View>
@@ -107,5 +128,12 @@ const styles = StyleSheet.create({
     width: 40,
     flexGrow: 1,
     flex: 1,
+  },
+  
+  buttonContainer: {
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
+    height: 50,
+    width: "75%",
+    padding: 3,
   },
 });

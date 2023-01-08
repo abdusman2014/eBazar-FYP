@@ -114,7 +114,7 @@ const order1 = [{
         orderId: 1,
       },
     ],
-  deliveryStatus: DeliveryStatus.confirmed,
+  deliveryStatus: DeliveryStatus.inTransit,
   orderId: "jITo3lf0NTiEQsol0jJi",
   paymentStatus: PaymentStatus.PAID,
   paymentType: PaymentType.CARD,
@@ -139,11 +139,12 @@ function OrdersScreen(props) {
   
   //
   React.useEffect(() => {
+    const b = order1.filter(item=> item.deliveryStatus===DeliveryStatus.delivered)
+    setCompleted(b);
     const a = order1.filter(item=> item.deliveryStatus!==DeliveryStatus.delivered)
-    //console.log(a)
     setActive(a);
     
-    //setCompleted(order1.filter(item=> item.deliveryStatus===DeliveryStatus.delivered))
+  
   }, []);
 
 /*   if (cartItems.length === 0) {
@@ -171,7 +172,7 @@ function OrdersScreen(props) {
           renderScene={renderScene}
           onIndexChange={setIndex}'
           initialLayout={{ width: layout.width }}
-          navigationeae
+          navigation
           style={styles.TabBar}
     >
     
@@ -184,13 +185,14 @@ function OrdersScreen(props) {
       <View style={{ flexDirection:'row' }}>
         <Pressable style={{width:"50%"}} onPress={()=>(
           setIsActive(!isActive)
-        )}><AppText style={[defaultStyles.typography.body.md, {textAlign:'center', color:(isActive?'black':'gray')}, ]}>Active </AppText><View style={{width:"100%", height:3, backgroundColor:(isActive?'black':'gray')}}></View></Pressable>
+        )}><AppText style={[defaultStyles.typography.body.md, {textAlign:'center', color:(isActive?'black':'gray')}, ]}>Active </AppText><View style={{width:"100%", height:4, backgroundColor:(isActive?'black':'gray')}}></View></Pressable>
         <Pressable style={{width:"50%"}} onPress={()=>(
           setIsActive(!isActive)
-        )}><AppText style={[defaultStyles.typography.body.md, {textAlign:'center',  color:(!isActive?'black':'gray')}]}>Completed </AppText><View style={{width:"100%", height:3, backgroundColor:(!isActive?'black':'gray')}}></View></Pressable>
+        )}><AppText style={[defaultStyles.typography.body.md, {textAlign:'center',  color:(!isActive?'black':'gray')}]}>Completed </AppText><View style={{width:"100%", height:4, backgroundColor:(!isActive?'black':'gray')}}></View></Pressable>
       </View>
 
-      {active&&(isActive)?(<ActiveOrders Order = {active} ></ActiveOrders>):(<CompletedOrders></CompletedOrders>)}
+      {(active&&completed)&&(isActive)?(<ActiveOrders Order = {active} ></ActiveOrders>):(<CompletedOrders Order = {completed}></CompletedOrders>)}
+      
       {/* <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -222,5 +224,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
+  
 });
 export default OrdersScreen;

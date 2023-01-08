@@ -13,4 +13,5 @@ export default {
     OTP_SCREEN: 'otpScreen',
     APP_NAVIGATION: 'appNavigation',
     USER_PROFILE_INPUT_SCREEN: 'userProfileInputScreen',
+    TRACK_ORDER_SCREEN: 'trackOrderNavigator',
 };

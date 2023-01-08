@@ -7,10 +7,11 @@ import defaultStyles from "../Config/styles";
 import CartItemComponent from './CartItemComponent';
 import OrderItemComponent from './OrderItemComponent';
 import DeliveryStatus from '../Model/DeliveryStatus';
+import AppButtonWithShadow from './AppButtonWithShadow';
 
 const ActiveOrders = ({Order}) => {
 
-  //console.log(Order)
+  
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -19,11 +20,9 @@ const ActiveOrders = ({Order}) => {
         data={Order}
         keyExtractor={(cart, index) => cart.orderId.toString()}
         renderItem={(cart) => {
-          console.log(cart.item.cart)
           return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} />
         }}
       />
-      
       
     </SafeAreaView>
   );
@@ -31,32 +30,22 @@ const ActiveOrders = ({Order}) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "95%",
+    width: "100%",
     backgroundColor: defaultStyles.Colors.white,
     
-    borderRadius: 20,
-    padding: 8,
-    margin: 8,
+    borderRadius: 15,
+    padding: 4,
+    margin: 4,
 
     //width: Dimensions.get("window").width - 20,
-  },
-  imageContainer: {
-    backgroundColor: defaultStyles.Colors.primaeryGrey,
-    padding: 16,
-    borderRadius: 10,
-    marginRight: 12,
-    // alignSelf: "center",
-    // width: "50%",
   },
   text: {
     width: 100,
     flexGrow: 1,
     flex: 1,
   },
+  
 });
-
-
-
 
 export default ActiveOrders
 
