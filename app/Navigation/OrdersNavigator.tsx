@@ -11,8 +11,26 @@ import AddressScreen from "../Screens/AddressScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
 import AddAddressScreen from "../Screens/AddAddressScreen";
 
+
+
 function OrdersNavigator() {
   const OrdersNavigator = createStackNavigator();
+/*   const SwipeTabs = createMaterialTopTabNavigator(
+    {
+      screen1: { screen: ActiveOrders},
+      screen2: { screen: CompletedOrders},
+    },
+    {
+      initialRouteName: "screen1",
+      animationEnabled: true,
+      tabBarOptions: {
+        showLabel: false,
+        showIcon: false,
+        style: { height: 0 }
+      }
+    }
+  );
+   */
   return (
     <OrdersNavigator.Navigator >
       <OrdersNavigator.Screen

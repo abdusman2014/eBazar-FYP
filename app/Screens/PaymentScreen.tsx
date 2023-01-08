@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Lottie from "lottie-react-native";
 
 import Order from "../Model/Order";
-
+import fs from 'react-native-fs';
 import AppText from "../Components/AppText";
 import defaultStyles from "../Config/styles";
 import AppAddressComponent from "../Components/AppAddressComponent";
@@ -245,7 +245,8 @@ export default function PaymentScreen(props) {
             marginRight: 8,
           }}
         >
-          PLace Order
+          Place Order
+        
         </AppText>
       </AppButtonWithShadow>
     </View>
@@ -274,6 +275,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
+function newOrder (orderedItems: Order[]) {
+
+  
+  console.log('orders received successfully'); 
+}
 
 function showAlert(title: string, message: string, onPressOkBtn) {
   Alert.alert(title, message, [
