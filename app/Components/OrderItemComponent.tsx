@@ -13,7 +13,7 @@ import DeliveryStatus from "../Model/DeliveryStatus";
 import AppButtonWithShadow from "./AppButtonWithShadow";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 
-export default function OrderItemComponent({ item , status}) {
+export default function OrderItemComponent({ item , status, onPress}) {
   
 
   function printStatus(status){
@@ -81,12 +81,7 @@ export default function OrderItemComponent({ item , status}) {
 
       <View style={{flex: 1}} />
       <View style={styles.buttonContainer}>
-      <AppButtonWithShadow onPress={() => {
-           console.log("Track Order");
-          // console.log('cart: ',cart);
-          // console.log('user: ',userDetails);
-          props.navigation.navigate(routes.PAYMENT_SCREEN);
-        }}>
+      <AppButtonWithShadow onPress={onPress}>
   
           <View style={{flexDirection: "row", width: "100%"}}>
             <AppText

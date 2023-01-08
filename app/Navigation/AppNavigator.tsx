@@ -16,6 +16,7 @@ import OrdersNavigator from "./OrdersNavigator";
 
 // import GeofencesNavigator from "./GeofencesNavigator";
 import HomeNavigator from './HomeNavigator';
+import TrackOrderNavigator from "./TrackOrdernavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -72,8 +73,8 @@ export const AppNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={routes.ORDER_SCREEN}
-        component={OrdersScreen}
+        name={routes.ORDER_NAVIGATION}
+        component={TrackOrderNavigator}
         options={{
           // tabBarLabelStyle: {color: 'red'},
           //tabBarIconStyle: {color: 'red'},
@@ -82,7 +83,7 @@ export const AppNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <SimpleLineIcons name="handbag" size={size} color={color} />
           ),
-          // headerShown: true,
+           headerShown: false,
           headerTitle: "Your Orders",
         }}
       />

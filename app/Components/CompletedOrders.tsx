@@ -8,7 +8,7 @@ import CartItemComponent from './CartItemComponent';
 import OrderItemComponent from './OrderItemComponent';
 import DeliveryStatus from '../Model/DeliveryStatus';
 
-const CompletedOrders = ({Order}) => {
+const CompletedOrders = ({Order, onPressTrackOrder}) => {
   console.log("Hello",Order)
   return (
     <SafeAreaView style={styles.container}>
@@ -18,7 +18,7 @@ const CompletedOrders = ({Order}) => {
         data={Order}
         keyExtractor={(cart, index) => cart.orderId.toString()}
         renderItem={(cart) => {
-          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} />
+          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} onPress={onPressTrackOrder}/>
         }}
       />
       

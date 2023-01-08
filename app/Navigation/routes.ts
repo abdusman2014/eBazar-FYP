@@ -14,4 +14,5 @@ export default {
     APP_NAVIGATION: 'appNavigation',
     USER_PROFILE_INPUT_SCREEN: 'userProfileInputScreen',
     TRACK_ORDER_SCREEN: 'trackOrderNavigator',
+    ORDER_NAVIGATION:'orderNavigation',
 };

@@ -11,10 +11,6 @@ import AddressScreen from "../Screens/AddressScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
 import AddAddressScreen from "../Screens/AddAddressScreen";
 
-import {
-  createMaterialTopTabNavigator,
-  createAppContainer
-} from "react-navigation";
 
 
 function OrdersNavigator() {

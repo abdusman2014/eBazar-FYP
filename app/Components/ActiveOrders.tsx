@@ -9,7 +9,7 @@ import OrderItemComponent from './OrderItemComponent';
 import DeliveryStatus from '../Model/DeliveryStatus';
 import AppButtonWithShadow from './AppButtonWithShadow';
 
-const ActiveOrders = ({Order}) => {
+const ActiveOrders = ({Order, onPressTrackOrder}) => {
 
   
   return (
@@ -20,7 +20,7 @@ const ActiveOrders = ({Order}) => {
         data={Order}
         keyExtractor={(cart, index) => cart.orderId.toString()}
         renderItem={(cart) => {
-          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} />
+          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} onPress={onPressTrackOrder}/>
         }}
       />
       
