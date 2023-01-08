@@ -47,13 +47,13 @@ export default function OrderItemComponent({ item , status, onPress, isFromOrder
             numberOfLines={1}
             style={[defaultStyles.typography.body.large.bold, { width: 150 }]}
           >
-            {item.name}
+            {item.item.name}
           </AppText>
           
         </View>
         <View style={{flex: 1}} />
         <View style={{flexDirection:'row', margin: 5}} >
-          <View style={{ height:20, width: 20, borderRadius:15, backgroundColor:item.color}}/>
+          <View style={{ height:20, width: 20, borderRadius:10,overflow:'hidden', backgroundColor:item.item.color}}/>
           <AppText style={defaultStyles.typography.body.md.regular}>  {item.color} | Qty = {item.noOfItems}</AppText>
         </View>
 
@@ -75,7 +75,7 @@ export default function OrderItemComponent({ item , status, onPress, isFromOrder
         
         <View style={{ marginVertical: 5, padding: 5 }}>
           <AppText style={defaultStyles.typography.body.large.bold}>
-            {"Rs."} {item.price*item.noOfItems}
+            {"Rs."} {item.item.price*item.noOfItems}
           </AppText>
           
 
