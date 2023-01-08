@@ -8,7 +8,7 @@ function UserProfileComponent({ imageUrl, greetingmsg, name }) {
   return (
     <View style={styles.container}>
       <Image
-       source={{ uri: imageUrl }}
+      source={require("../assets/images/user-profile.png")}
         style={styles.image}
       />
       <View style={{ marginLeft: 8 }}>
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     resizeMode: "contain",
   },

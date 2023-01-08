@@ -15,7 +15,7 @@ const TrackOrderScreen = (props) => {
   //const [status, setStatus] = useState(props.status);
   const done = "black";
   const notDone = "grey";
-  console.log("item::::", props.status);
+  console.log("item::::", item.item.image);
   const [myStatus, setMyStatus] = React.useState([
     notDone,
     notDone,

@@ -31,7 +31,7 @@ export default function OrderItemComponent({ item , status, onPress, isFromOrder
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={{uri: item.image}}
+          source={{uri: item.item.image}}
           style={{
             width: 70,
             height: 100,
