@@ -13,7 +13,7 @@ import DeliveryStatus from "../Model/DeliveryStatus";
 import AppButtonWithShadow from "./AppButtonWithShadow";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 
-export default function OrderItemComponent({ item , status, onPress}) {
+export default function OrderItemComponent({ item , status, onPress, isFromOrderScreen}) {
   
 
   function printStatus(status){
@@ -80,7 +80,7 @@ export default function OrderItemComponent({ item , status, onPress}) {
           
 
       <View style={{flex: 1}} />
-      <View style={styles.buttonContainer}>
+      {isFromOrderScreen && <View style={styles.buttonContainer}>
       <AppButtonWithShadow onPress={onPress}>
   
           <View style={{flexDirection: "row", width: "100%"}}>
@@ -90,7 +90,7 @@ export default function OrderItemComponent({ item , status, onPress}) {
             <Ionicons name="arrow-redo-circle" size={20} color="white" />
             </View>
         </AppButtonWithShadow>
-        </View>
+        </View>}
             
           
         </View>

@@ -14,6 +14,7 @@ import AddAddressScreen from "../Screens/AddAddressScreen";
 
 
 function OrdersNavigator() {
+  
   const OrdersNavigator = createStackNavigator();
 /*   const SwipeTabs = createMaterialTopTabNavigator(
     {

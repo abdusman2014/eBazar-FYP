@@ -8,8 +8,9 @@ import CartItemComponent from './CartItemComponent';
 import OrderItemComponent from './OrderItemComponent';
 import DeliveryStatus from '../Model/DeliveryStatus';
 import AppButtonWithShadow from './AppButtonWithShadow';
+import routes from '../Navigation/routes';
 
-const ActiveOrders = ({Order, onPressTrackOrder}) => {
+const ActiveOrders = ({Order, props}) => {
 
   
   return (
@@ -20,7 +21,14 @@ const ActiveOrders = ({Order, onPressTrackOrder}) => {
         data={Order}
         keyExtractor={(cart, index) => cart.orderId.toString()}
         renderItem={(cart) => {
-          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} onPress={onPressTrackOrder}/>
+          return <OrderItemComponent item={cart.item.cart[0]} status={cart.item.deliveryStatus} onPress={() => {
+            console.log("Track Order");
+            // console.log('cart: ',cart);
+            // console.log('user: ',userDetails);
+            props.setItem(cart.item.cart[0]);
+            props.setStatus(cart.item.deliveryStatus)
+            props.navigation.navigate(routes.TRACK_ORDER_SCREEN);
+          }} isFromOrderScreen={true}/>
         }}
       />
       

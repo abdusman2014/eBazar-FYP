@@ -129,7 +129,6 @@ function OrdersScreen(props) {
   const [active, setActive] = React.useState();
   const [completed, setCompleted] = React.useState(null);
 
-
   //
   React.useEffect(() => {
     const b = order1.filter(
@@ -172,11 +171,8 @@ function OrdersScreen(props) {
     
     </TabView> */
 
-    <View
-      style={{ alignItems: "center", justifyContent: "center" }}
-    >
-     
-      <View style={{ flexDirection: "row",paddingVertical:8 }}>
+    <View style={{ backgroundColor:'white',flex: 1 }}>
+      <View style={{ flexDirection: "row", paddingVertical: 8 }}>
         <Pressable
           style={{ width: "50%" }}
           onPress={() => setIsActive(!isActive)}
@@ -222,35 +218,11 @@ function OrdersScreen(props) {
       {active && completed && isActive ? (
         <ActiveOrders
           Order={active}
-          onPressTrackOrder={() => {
-            console.log("Track Order");
-            props.navigation.navigate(routes.TRACK_ORDER_SCREEN);
-          }}
+          props={props}
         ></ActiveOrders>
       ) : (
-        <CompletedOrders
-          Order={completed}
-          onPressTrackOrder={() => {
-            console.log("Track Order");
-            // console.log('cart: ',cart);
-            // console.log('user: ',userDetails);
-            props.navigation.navigate(routes.TRACK_ORDER_SCREEN);
-          }}
-        ></CompletedOrders>
+        <CompletedOrders Order={completed} props={props}></CompletedOrders>
       )}
-
-      {/* <FlatList
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 20,
-        }}
-        data={cartItems}
-        style={{ padding: 16 }}
-        keyExtractor={(item, index) => item.orderId.toString()}
-        renderItem={(item) => (
-          <OrderItemComponent order={order1} isFromCartScreen={true} />
-        )}
-      /> */}
     </View>
   );
 }

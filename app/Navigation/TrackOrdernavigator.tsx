@@ -18,7 +18,8 @@ import TrackOrderScreen from "../Screens/TrackOrderScreen";
 
 function TrackOrderNavigator() {
   const TrackOrderNavigator = createStackNavigator();
-
+  const [item, setItem] = useState(null);
+  const [status, setStatus] = useState(null);
   return (
     <TrackOrderNavigator.Navigator >
       <TrackOrderNavigator.Screen
@@ -31,7 +32,7 @@ function TrackOrderNavigator() {
         //headerShown: true,
         headerTitle: 'Orders', }}
       >
-        {(props) => <OrdersScreen {...props} />}
+        {(props) => <OrdersScreen {...props} setItem={setItem} setStatus={setStatus}/>}
       </TrackOrderNavigator.Screen>
       <TrackOrderNavigator.Screen
         name={routes.TRACK_ORDER_SCREEN}
@@ -48,7 +49,7 @@ function TrackOrderNavigator() {
         
         headerBackTitleVisible: false }}
       >
-        {(props) => <TrackOrderScreen {...props} />}
+        {(props) => <TrackOrderScreen {...props} item={item} status={status}/>}
       </TrackOrderNavigator.Screen>
       
     </TrackOrderNavigator.Navigator>
