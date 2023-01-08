@@ -15,6 +15,7 @@ import routes from "../Navigation/routes";
 import firebase from "../../firebase";
 
 import useCartStore from "../state-management/UserCart";
+import userCardStore from "../state-management/userCard";
 import userStore from "../state-management/AppUser";
 import PaymentStatus from "../Model/PaymentStatus";
 import PaymentType from "../Model/PaymentType";
@@ -22,8 +23,9 @@ import usePlaceOrderStore from "../state-management/placeOrder";
 
 export default function PaymentScreen(props) {
   const { resetCart } = useCartStore();
-  const {resetpaymentState} = usePlaceOrderStore();
+  const { resetpaymentState } = usePlaceOrderStore();
   const { addOrder, user } = userStore();
+  const { card, addTransaction, transaction } = userCardStore();
   const {
     updatePaymentStatus,
     updatePaymentType,
@@ -33,78 +35,134 @@ export default function PaymentScreen(props) {
     paymentStatus,
     paymentType,
     totalPrice,
-    deliveryStatus
+    deliveryStatus,
   } = usePlaceOrderStore();
-  const [COD, setCOD] = useState(false);
-  const [card, setCard] = useState(true);
+  const [isCODSelected, setIsCODSelected] = useState(false);
+  const [isCardSelected, setIsCardSelected] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const onPressPlaceOrder = () => {
-    showAlert(
-      "PLace Order",
-      "Are you sure you want to place Order",
-      () => {
-        setIsLoading(true);
-        console.log("cod: ", COD, " ,card: ", card);
-        updatePaymentStatus(PaymentStatus.PENDING);
-        if (COD) {
-          updatePaymentType(PaymentType.COD);
-        } else {
-          updatePaymentType(PaymentType.CARD);
-        }
-        console.log("ref: ", firebase.firestore());
-        const docRef = firebase.firestore().collection("Orders").doc();
-        const id = docRef.id;
-        docRef
-          .set({
-            address: address,
-            userDetails: userDetails,
-            cart: cart,
-            paymentStatus: paymentStatus,
-            paymentType: paymentType,
-            totalPrice: totalPrice,
-            orderId: id,
-            deliveryStatus: deliveryStatus,
-          })
-          .then((res) => {
-            console.log("Order Placed! ", res);
-            addOrder(id);
-            firebase
-              .firestore()
-              .collection("Users")
-              .doc(user?.uid)
-              .update({
-                orders: user?.orders,
-              })
-              .then(() => {
-                console.log("User updated!");
-                setIsLoading(false);
-              });
-            Alert.alert("Success", "Order placed successfully", [
-              {
-                text: "OK",
-                onPress: () => {
-                 
-                  resetCart();
-                  resetpaymentState();
-                  //removeItemFromCart(order.orderId);
-                  props.navigation.navigate({
-                    name: routes.CART_SCREEN,
+    if (
+      isCardSelected &&
+      paymentType === PaymentType.CARD &&
+      card?.balance! < totalPrice!
+    ) {
+      Alert.alert("Failed", "You don't have enough balance in your e-wallet");
+      return;
+    }
 
-                    merge: true,
-                  });
-                  console.log("OK Pressed");
-                },
-              },
-            ]);
-          })
-          .catch((e) => {
-            console.log("error: ", e);
-          });
-        // updatePaymentType(PaymentType.COD);
+    showAlert("PLace Order", "Are you sure you want to place Order", () => {
+      setIsLoading(true);
+      console.log("cod: ", isCODSelected, " ,card: ", isCardSelected);
+      updatePaymentStatus(PaymentStatus.PENDING);
+      if (isCODSelected) {
+        updatePaymentType(PaymentType.COD);
+      } else {
+        updatePaymentType(PaymentType.CARD);
       }
-    );
-  }
+      console.log("ref: ", firebase.firestore());
+      const docRef = firebase.firestore().collection("Orders").doc();
+      const id = docRef.id;
+      docRef
+        .set({
+          address: address,
+          userDetails: userDetails,
+          cart: cart,
+          paymentStatus: paymentStatus,
+          paymentType: paymentType,
+          totalPrice: totalPrice,
+          orderId: id,
+          deliveryStatus: deliveryStatus,
+        })
+        .then((res) => {
+          console.log("Order Placed! ", res);
+          addOrder(id);
+          firebase
+            .firestore()
+            .collection("Users")
+            .doc(user?.uid)
+            .update({
+              orders: user?.orders,
+            })
+            .then(() => {
+              if (paymentType === PaymentType.CARD) {
+                const balance = card?.balance;
+                const transactionObj: {
+                  title: string;
+                  image: string | null;
+                  amount: number;
+                  isTopUp: boolean;
+                  date: Date;
+                } = {
+                  title: cart![0].item.name,
+                  image: cart![0].item.image,
+                  amount: totalPrice!,
+                  isTopUp: false,
+                  date: new Date(),
+                };
+                const tranHis = card?.transactionHistory;
+                tranHis?.push(transactionObj);
+                firebase
+                  .firestore()
+                  .collection("Users/" + user?.uid! + "/cards")
+                  .doc("e-wallet")
+                  .update({
+                    transactionHistory: tranHis,
+                    balance: balance! - totalPrice!,
+                  })
+                  .then(() => {
+                    console.log("User updated!");
+
+                    transaction(totalPrice!);
+                    addTransaction(tranHis!);
+                    setIsLoading(false);
+                    Alert.alert("Success", "Order placed successfully", [
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          resetCart();
+                          resetpaymentState();
+                          //removeItemFromCart(order.orderId);
+                          props.navigation.navigate({
+                            name: routes.CART_SCREEN,
+
+                            merge: true,
+                          });
+                          console.log("OK Pressed");
+                        },
+                      },
+                    ]);
+                  })
+                  .catch((e) => {
+                    Alert.alert("Failed", "Please Try Again Later.");
+                  });
+              } else {
+                setIsLoading(false);
+                Alert.alert("Success", "Order placed successfully", [
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      resetCart();
+                      resetpaymentState();
+                      //removeItemFromCart(order.orderId);
+                      props.navigation.navigate({
+                        name: routes.CART_SCREEN,
+
+                        merge: true,
+                      });
+                      console.log("OK Pressed");
+                    },
+                  },
+                ]);
+              }
+            });
+        })
+        .catch((e) => {
+          console.log("error: ", e);
+        });
+      // updatePaymentType(PaymentType.COD);
+    });
+  };
   if (isLoading) {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -127,12 +185,13 @@ export default function PaymentScreen(props) {
       <Pressable
         style={{ padding: 8 }}
         onPress={() => {
-          setCOD(!COD);
-          setCard(!card);
+          setIsCODSelected(!isCODSelected);
+          setIsCardSelected(!isCardSelected);
+          updatePaymentType(PaymentType.CARD);
         }}
       >
         <AppPaymentComponent
-          text={".... .... .... 4769"}
+          text={".... .... .... " + card?.cardNo.toString().substring(12, 16)}
           image={<Feather name="credit-card" size={24} color="black" />}
           icon={
             <View style={styles.selectionContainer}>
@@ -140,7 +199,7 @@ export default function PaymentScreen(props) {
                 style={[
                   styles.selectionInnerContainer,
                   {
-                    backgroundColor: card
+                    backgroundColor: isCardSelected
                       ? defaultStyles.Colors.black
                       : defaultStyles.Colors.white,
                   },
@@ -153,8 +212,9 @@ export default function PaymentScreen(props) {
       <Pressable
         style={{ padding: 8 }}
         onPress={() => {
-          setCOD(!COD);
-          setCard(!card);
+          setIsCODSelected(!isCODSelected);
+          setIsCardSelected(!isCardSelected);
+          updatePaymentType(PaymentType.COD);
         }}
       >
         <AppPaymentComponent
@@ -166,7 +226,7 @@ export default function PaymentScreen(props) {
                 style={[
                   styles.selectionInnerContainer,
                   {
-                    backgroundColor: COD
+                    backgroundColor: isCODSelected
                       ? defaultStyles.Colors.black
                       : defaultStyles.Colors.white,
                   },
@@ -177,9 +237,7 @@ export default function PaymentScreen(props) {
         />
       </Pressable>
       <View style={{ flex: 1 }} />
-      <AppButtonWithShadow
-        onPress={onPressPlaceOrder}
-      >
+      <AppButtonWithShadow onPress={onPressPlaceOrder}>
         <AppText
           style={{
             color: defaultStyles.Colors.white,

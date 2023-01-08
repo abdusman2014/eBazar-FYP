@@ -32,12 +32,14 @@ import userStore from "../../state-management/AppUser";
 import User from "../../Model/User";
 import Gender from "../../Model/Gender";
 import routes from "../../Navigation/routes";
+import Card from "../../Model/Card";
 
 export default function UserProfileInputScreen(props) {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [gender, onChangeGender] = useState(null);
   const { setUser, user } = userStore();
+  var name;
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -87,7 +89,7 @@ export default function UserProfileInputScreen(props) {
         .getDownloadURL();
     }
     const myUser: User = {
-      name: values.name,
+      name: values.firstName + " " + values.lastName,
       email: values.email,
       gender: gender === Gender.male ? "male" : "female",
       age: values.age,
@@ -103,14 +105,31 @@ export default function UserProfileInputScreen(props) {
       .doc(user?.uid!)
       .set(myUser)
       .then(() => {
+        const card: Card = {
+          cardNo: Math.floor(Math.random()*1E16),
+          ownername: values.firstName + " " + values.lastName,
+          balance: 0,
+          transactionHistory: [],
+        };
+        firebase
+          .firestore()
+          .collection("Users/" + user?.uid! + "/cards")
+          .doc("e-wallet")
+          .set(card)
+          .then(() => {
+            console.log("card added!");
+            setUser(myUser);
+            setIsLoading(false);
+            props.navigation.replace(routes.APP_NAVIGATION);
+          })
+          .catch((e) => {
+            console.log("error: ", e);
+          });
         console.log("User added!");
       })
       .catch((e) => {
         console.log("error: ", e);
       });
-    setUser(myUser);
-    setIsLoading(false);
-    props.navigation.replace(routes.APP_NAVIGATION);
   };
   if (isLoading) {
     return (
@@ -150,11 +169,11 @@ export default function UserProfileInputScreen(props) {
         </Pressable>
       </View>
       <AppSpaceComponent height={40} />
-
       <Formik
         validationSchema={formValidationSchema}
         initialValues={{
-          name: "",
+          firstName: "",
+          lastName: "",
           age: "",
           email: null,
         }}
@@ -164,17 +183,24 @@ export default function UserProfileInputScreen(props) {
           <View style={{ flex: 1, width: "100%", padding: 16 }}>
             <View>
               <AppInputField
-                onValueChange={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-                label="Name"
+                onValueChange={handleChange("firstName")}
+                onBlur={handleBlur("firstName")}
+                value={values.firstName}
+                label="First Name"
               />
-              <AppSpaceComponent height={errors.name ? 35 : 50} />
-              {errors.name && (
+              <AppSpaceComponent height={errors.firstName ? 35 : 50} />
+              {errors.firstName && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
-                  {errors.name}
+                  {errors.firstName}
                 </AppText>
               )}
+              <AppInputField
+                onValueChange={handleChange("lastName")}
+                onBlur={handleBlur("lastName")}
+                value={values.lastName}
+                label="Last Name"
+              />
+              <AppSpaceComponent height={50} />
               <AppInputField
                 onValueChange={handleChange("email")}
                 onBlur={handleBlur("email")}
@@ -247,7 +273,7 @@ export default function UserProfileInputScreen(props) {
 }
 
 const formValidationSchema = yup.object().shape({
-  name: yup.string().required("Name is Required"),
+  firstName: yup.string().required("Name is Required"),
   email: yup.string().email("Not a proper Email").nullable(),
   age: yup.string().required("Age is Required"),
 });

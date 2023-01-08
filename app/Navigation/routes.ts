@@ -14,5 +14,6 @@ export default {
     APP_NAVIGATION: 'appNavigation',
     USER_PROFILE_INPUT_SCREEN: 'userProfileInputScreen',
     WALLET_NAVIGATION: 'walletNavigation',
-    WALLET_SCREEN: 'walletScreen'
+    WALLET_SCREEN: 'walletScreen',
+    TOPUP_SCREEN:'topUpScreen',
 };

@@ -18,7 +18,7 @@ export default function AddressScreen(props) {
   useEffect(() => {
     //add isSelected to each address item
     console.log(user);
-    console.log(addresses)
+    console.log(addresses);
     if (addresses?.length === 0) {
       return;
     }
@@ -31,7 +31,7 @@ export default function AddressScreen(props) {
     setAddresses(tempAddresses);
   }, []);
   useEffect(() => {
-   setAddresses(user?.addresses);
+    setAddresses(user?.addresses);
   }, [user?.addresses]);
   const handleonPressAddress = (address) => {
     const tempAddress = addresses.map((element) =>
@@ -107,49 +107,49 @@ export default function AddressScreen(props) {
           </Pressable>
         )}
       />
-      <View style={{ flexDirection: "row" }}>
-        <View style={{ bottom: 10, padding: 8 }}>
-          <AppButtonWithShadow
-            onPress={() => {
-              props.navigation.navigate(routes.ADD_ADDRESS_SCREEN);
+
+      <View style={{ bottom: 10, padding: 8 }}>
+        <AppButtonWithShadow
+          onPress={() => {
+            props.navigation.navigate(routes.ADD_ADDRESS_SCREEN);
+          }}
+          color={defaultStyles.Colors.grey500}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: "50%",
+              height: 40,
+              justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                width: "50%",
-                height: 40,
-                justifyContent: "center",
-              }}
+            <AppText
+              style={{ color: "black", fontWeight: "bold", marginRight: 8 }}
             >
-              <AppText
-                style={{ color: "white", fontWeight: "bold", marginRight: 8 }}
-              >
-                Add New Address
-              </AppText>
-            </View>
-          </AppButtonWithShadow>
-        </View>
-        <View style={{ bottom: 10, padding: 8 }}>
-          <AppButtonWithShadow onPress={handlePressOnApply}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                width: "50%",
-                height: 40,
-                justifyContent: "center",
-              }}
+              Add New Address
+            </AppText>
+          </View>
+        </AppButtonWithShadow>
+      </View>
+      <View style={{ bottom: 10, padding: 8 }}>
+        <AppButtonWithShadow onPress={handlePressOnApply}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: "50%",
+              height: 40,
+              justifyContent: "center",
+            }}
+          >
+            <AppText
+              style={{ color: "white", fontWeight: "bold", marginRight: 1 }}
             >
-              <AppText
-                style={{ color: "white", fontWeight: "bold", marginRight: 1 }}
-              >
-                Apply
-              </AppText>
-            </View>
-          </AppButtonWithShadow>
-        </View>
+              Apply
+            </AppText>
+          </View>
+        </AppButtonWithShadow>
       </View>
     </View>
   );

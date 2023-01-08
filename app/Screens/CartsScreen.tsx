@@ -18,12 +18,19 @@ import routes from "../Navigation/routes";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
 import DeliveryStatus from "../Model/DeliveryStatus";
+import PaymentType from "../Model/PaymentType";
 
 function CartsScreen(props) {
   const { cartItems } = useCartStore();
   const { user } = userStore();
-  const { addCart, addUserDetails, addTotalPrice, totalPrice,updateDeliveryStatus } =
-    usePlaceOrderStore();
+  const {
+    addCart,
+    addUserDetails,
+    addTotalPrice,
+    totalPrice,
+    updateDeliveryStatus,
+    updatePaymentType,
+  } = usePlaceOrderStore();
   console.log(Dimensions.get("window").height);
 
   const getTotalPriceOFCart = () => {
@@ -32,15 +39,17 @@ function CartsScreen(props) {
       sum += order.noOfItems * order.item.price;
     });
     //only update total price when it is not set before
-    if (totalPrice === null) {
-      addTotalPrice(sum);
-    }
+    // if (totalPrice === null) {
+    //   addTotalPrice(sum);
+    // }
     return sum;
   };
   const handleCheckoutButtonPress = () => {
     addCart(cartItems);
+    addTotalPrice(getTotalPriceOFCart());
     addUserDetails({ name: user?.name!, phoneNo: user?.phoneNo! });
     updateDeliveryStatus(DeliveryStatus.pending);
+    updatePaymentType(PaymentType.CARD);
     props.navigation.navigate(routes.CHECKOUT_SCREEN);
   };
 

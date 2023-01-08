@@ -22,6 +22,7 @@ export default function OtpScreen(props) {
   const { setUser } = userStore();
   //console.log("next code: ", props.verificationId);
   const confirmCode = () => {
+    console.log('code: ',code);
     onChangeIsLoading(true);
     const credential = firebase.auth.PhoneAuthProvider.credential(
       props.verificationId,
@@ -110,8 +111,10 @@ export default function OtpScreen(props) {
           numeric={true}
           length={6}
           tintColor={defaultStyles.Colors.black}
-          onComplete={confirmCode}
+         // onComplete={confirmCode}
+          onChange={onChangeCode}
         />
+        
       </View>
       <View style={{ bottom: 20 }}>
         <AppButtonWithShadow onPress={confirmCode}>
@@ -122,7 +125,7 @@ export default function OtpScreen(props) {
               marginRight: 8,
             }}
           >
-            Sign Up
+            Verify
           </AppText>
         </AppButtonWithShadow>
       </View>

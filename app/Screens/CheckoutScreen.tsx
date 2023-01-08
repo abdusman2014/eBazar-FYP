@@ -1,4 +1,5 @@
 import {
+  Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -108,6 +109,10 @@ export default function CheckoutScreen(props) {
           // console.log('address: ',address);
           // console.log('cart: ',cart);
           // console.log('user: ',userDetails);
+          if(address===null){
+            Alert.alert("Address", "Please select shipping address");
+            return;
+          }
           props.navigation.navigate(routes.PAYMENT_SCREEN);
         }}>
           <View

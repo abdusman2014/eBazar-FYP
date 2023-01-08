@@ -68,7 +68,7 @@ function AppItemComponent({ item, onPress}) {
       </View>
       <AppSpaceComponent height={10} />
       <AppText style={defaultStyles.typography.body.large.bold}>
-        {"$" + price}
+        {"Rs " + price}
       </AppText>
     </View>
     </Pressable>

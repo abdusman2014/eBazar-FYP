@@ -11,6 +11,7 @@ import AddressScreen from "../Screens/AddressScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
 import AddAddressScreen from "../Screens/AddAddressScreen";
 import WalletScreen from "../Screens/Wallet/WalletScreen";
+import TopUPScreen from "../Screens/Wallet/TopUPScreen";
 
 function WalletNavigator() {
   const WalletNavigator = createStackNavigator();
@@ -27,6 +28,23 @@ function WalletNavigator() {
         headerTitle: 'My E-Wallet', }}
       >
         {(props) => <WalletScreen {...props} />}
+      </WalletNavigator.Screen>
+      <WalletNavigator.Screen
+        name={routes.TOPUP_SCREEN}
+        options={{ headerTitle: 'TopUp E-Wallet',headerBackImage(props) {
+          return (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color={defaultStyles.Colors.black}
+              style={{ margin: 12 }}
+            />
+          );
+        },
+        
+        headerBackTitleVisible: false }}
+      >
+        {(props) => <TopUPScreen {...props} />}
       </WalletNavigator.Screen>
       {/* <WalletNavigator.Screen
         name={routes.CHECKOUT_SCREEN}

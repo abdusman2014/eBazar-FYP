@@ -3,9 +3,9 @@ import React from "react";
 import defaultStyles from "../Config/styles";
 import AppText from "./AppText";
 
-export default function AppButtonWithShadow({ children, onPress }) {
+export default function AppButtonWithShadow({ children, onPress,color }) {
   return (
-    <Pressable style={[styles.container]} onPress={onPress}>
+    <Pressable style={[styles.container,{backgroundColor:(color)? color: defaultStyles.Colors.black}]} onPress={onPress}>
       {children}
     </Pressable>
   );

@@ -4,8 +4,21 @@ import React from "react";
 import AppText from "../AppText";
 import defaultStyles from "../../Config/styles";
 import TopUpButton from "./TopUpButton";
+import routes from "../../Navigation/routes";
 
-export default function WalletCard() {
+export default function WalletCard({ card, onPressTopUp }) {
+  const getCardNOInFormat = () => {
+    const cardNo: string = card.cardNo.toString();
+    return (
+      cardNo.substring(0, 4) +
+      " " +
+      cardNo.substring(4, 8) +
+      " " +
+      cardNo.substring(8, 12) +
+      " " +
+      cardNo.substring(12, 16)
+    );
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -32,7 +45,7 @@ export default function WalletCard() {
                   { color: "white" },
                 ]}
               >
-                Usama Ganndu
+                {card.ownername.toUpperCase()}
               </AppText>
               <AppText
                 style={[
@@ -40,7 +53,7 @@ export default function WalletCard() {
                   { color: "white" },
                 ]}
               >
-                **** **** **** 6969
+                {getCardNOInFormat()}
               </AppText>
             </View>
             <View style={{ flex: 1 }} />
@@ -84,29 +97,11 @@ export default function WalletCard() {
               <AppText
                 style={[defaultStyles.typography.h2, { color: "white" }]}
               >
-                $ 6,969
+                Rs {card.balance}
               </AppText>
             </View>
             <View style={{ flex: 1 }} />
-            <TopUpButton></TopUpButton>
-            {/* <AppText style={[defaultStyles.typography.h2, { color: "white" }]}>
-              VISA
-            </AppText>
-            <View>
-              <AppText
-                style={[
-                  {
-                    color: "white",
-                    backgroundColor: "red",
-                    paddingHorizontal: 3,
-                    borderRadius: 10,
-                    marginLeft: 8,
-                  },
-                ]}
-              >
-                Virtual
-              </AppText>
-            </View> */}
+            <TopUpButton onPress={onPressTopUp}></TopUpButton>
           </View>
         </View>
       </ImageBackground>
@@ -116,7 +111,7 @@ export default function WalletCard() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 8,
+    //flex: 1,
+    //padding: 8,
   },
 });
