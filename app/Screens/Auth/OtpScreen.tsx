@@ -1,6 +1,7 @@
 import { SafeAreaView, StyleSheet, Image, View, Alert } from "react-native";
 import React from "react";
 import Lottie from "lottie-react-native";
+import { KeycodeInput } from "react-native-keycode";
 
 import AppText from "../../Components/AppText";
 import AppSpaceComponent from "../../Components/AppSpaceComponent";
@@ -15,6 +16,7 @@ import routes from "../../Navigation/routes";
 import Gender from "../../Model/Gender";
 
 export default function OtpScreen(props) {
+  let pinInput = React.createRef();
   const [code, onChangeCode] = React.useState("");
   const [isLoading, onChangeIsLoading] = React.useState(false);
   const { setUser } = userStore();
@@ -104,12 +106,11 @@ export default function OtpScreen(props) {
       <AppText style={defaultStyles.typography.h2}>Enter OTP</AppText>
       <AppSpaceComponent height={30} />
       <View style={styles.formContainer}>
-        <AppInputField
-          onValueChange={onChangeCode}
-          label="OTP"
-          keyboardType="number-pad"
-          maxLength={6}
-          returnKeyType="done"
+        <KeycodeInput
+          numeric={true}
+          length={6}
+          tintColor={defaultStyles.Colors.black}
+          onComplete={confirmCode}
         />
       </View>
       <View style={{ bottom: 20 }}>
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   formContainer: {
+    alignItems: "center",
     padding: 8,
     flex: 1,
     width: 350,

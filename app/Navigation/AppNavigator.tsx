@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import routes from "./routes";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { Entypo } from '@expo/vector-icons';
 import HomeScreen from "../Screens/HomeScreen";
 import CartsScreen from "../Screens/CartsScreen";
 import OrdersScreen from "../Screens/OrdersScreen";
@@ -16,6 +17,7 @@ import OrdersNavigator from "./OrdersNavigator";
 
 // import GeofencesNavigator from "./GeofencesNavigator";
 import HomeNavigator from './HomeNavigator';
+import WalletNavigator from "./WalletNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -68,6 +70,17 @@ export const AppNavigator = () => {
           tabBarLabel: "Cart",
           tabBarIcon: ({ color, size }) => (
             <EvilIcons name="cart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.WALLET_NAVIGATION}
+        component={WalletNavigator}
+        options={{
+          headerShown:false,
+          tabBarLabel: "Wallet",
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="wallet" size={24} color={color} />
           ),
         }}
       />

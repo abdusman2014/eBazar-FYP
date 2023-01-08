@@ -15,7 +15,6 @@ import routes from "../Navigation/routes";
 import firebase from "../../firebase";
 
 import useCartStore from "../state-management/UserCart";
-import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
 import PaymentStatus from "../Model/PaymentStatus";
 import PaymentType from "../Model/PaymentType";

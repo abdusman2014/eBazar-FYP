@@ -13,4 +13,6 @@ export default {
     OTP_SCREEN: 'otpScreen',
     APP_NAVIGATION: 'appNavigation',
     USER_PROFILE_INPUT_SCREEN: 'userProfileInputScreen',
+    WALLET_NAVIGATION: 'walletNavigation',
+    WALLET_SCREEN: 'walletScreen'
 };
