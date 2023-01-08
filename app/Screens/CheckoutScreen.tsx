@@ -7,6 +7,8 @@ import {
   View,
 } from "react-native";
 import React, { useEffect } from "react";
+import { Octicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import AppText from "../Components/AppText";
 import defaultStyles from "../Config/styles";
 import AppAddressComponent from "../Components/AppAddressComponent";

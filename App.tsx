@@ -46,11 +46,11 @@ export default function App() {
     );
   }
   return (
-   /*  <NavigationContainer>
+     <NavigationContainer>
       <AuthNavigator />
-    </NavigationContainer> */
+    </NavigationContainer> 
     //<OrdersScreen></OrdersScreen>
-    <TrackOrderScreen></TrackOrderScreen>
+    // <TrackOrderScreen></TrackOrderScreen>
     //  <UserProfileInputScreen/>
     // <View style={styles.container}>
     //   <Text>Open up App.tsx to start working on your app!!!</Text>
