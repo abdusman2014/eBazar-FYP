@@ -3,18 +3,18 @@ import Address from "../Model/Address";
 import User from "../Model/User";
 
 interface UserState {
-  user: User | null;
-  setUser: (user: User) => void;
+  // user: User | null;
+  // setUser: (user: User) => void;
   addOrder: (order: string) => void;
   addAddressToUser: (address: Address) => void;
 }
 
 const userStore = create<UserState>()((set) => ({
-  user: null,
-  setUser: (user) =>
-    set((state) => ({
-      user: (state.user = user),
-    })),
+  // user: null,
+  // setUser: (user) =>
+  //   set((state) => ({
+  //     user: (state.user = user),
+  //   })),
   addOrder: (order) =>
     set((state) => {
       const orders = state.user?.orders;

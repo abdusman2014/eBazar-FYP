@@ -10,14 +10,16 @@ import routes from "../Navigation/routes";
 import Address from "../Model/Address";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
+import useAuth from "../auth/useAuth";
 
 export default function AddressScreen(props) {
-  const { user, addAddressToUser } = userStore();
-  const [addresses, setAddresses] = useState(user?.addresses);
+  const {  addAddressToUser } = userStore();
+  const auth = useAuth();
+  const [addresses, setAddresses] = useState(auth.user?.addresses);
   const { addAddress } = usePlaceOrderStore();
   useEffect(() => {
     //add isSelected to each address item
-    console.log(user);
+    console.log(auth.user);
     console.log(addresses);
     if (addresses?.length === 0) {
       return;
@@ -31,8 +33,8 @@ export default function AddressScreen(props) {
     setAddresses(tempAddresses);
   }, []);
   useEffect(() => {
-    setAddresses(user?.addresses);
-  }, [user?.addresses]);
+    setAddresses(auth.user?.addresses);
+  }, [auth.user?.addresses]);
   const handleonPressAddress = (address) => {
     const tempAddress = addresses.map((element) =>
       element.addressId === address.addressId

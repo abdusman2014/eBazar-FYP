@@ -13,13 +13,13 @@ import firebase from "../../../firebase";
 
 import userCardStore from "../../state-management/userCard";
 import userStore from "../../state-management/AppUser";
-
+import useAuth from "../../auth/useAuth";
 const amounts = [10, 20, 50, 100, 200, 250, 500, 750, 1000];
 
 export default function TopUPScreen(props) {
   const [isLoading, setIsLoading] = useState(false);
   const { card, topUp, addTransaction } = userCardStore();
-  const { user } = userStore();
+  const auth = useAuth();
   const [amount, setAmount] = useState("");
   const onPressTopUp = () => {
     console.log(card);
@@ -32,7 +32,7 @@ export default function TopUPScreen(props) {
 
     firebase
       .firestore()
-      .collection("Users/" + user?.uid! + "/cards")
+      .collection("Users/" + auth.user?.uid! + "/cards")
       .doc("e-wallet")
       .update({
         balance: card?.balance! + +amount,
@@ -57,7 +57,7 @@ export default function TopUPScreen(props) {
         tranHis?.push(transaction);
         firebase
           .firestore()
-          .collection("Users/" + user?.uid! + "/cards")
+          .collection("Users/" + auth.user?.uid! + "/cards")
           .doc("e-wallet")
           .update({
             transactionHistory: tranHis,

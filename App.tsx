@@ -13,9 +13,11 @@ import UserProfileInputScreen from "./app/Screens/Auth/UserProfileInputScreen";
 import firebase from "./firebase";
 import OrdersScreen from "./app/Screens/OrdersScreen";
 import TrackOrderScreen from "./app/Screens/TrackOrderScreen";
+import AuthContext from "./app/auth/context";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [user,setUser] = useState();
   useEffect(() => {
     async function prepare() {
       try {
@@ -46,9 +48,13 @@ export default function App() {
     );
   }
   return (
+    
+    <AuthContext.Provider value={{user,setUser}}>
+
      <NavigationContainer>
       <AuthNavigator />
     </NavigationContainer> 
+    </AuthContext.Provider>
     //<OrdersScreen></OrdersScreen>
     // <TrackOrderScreen></TrackOrderScreen>
     //  <UserProfileInputScreen/>

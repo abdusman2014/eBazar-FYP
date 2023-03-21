@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import AppText from "../../Components/AppText";
 import { useForm, FormProvider, SubmitErrorHandler } from "react-hook-form";
 
 import routes from "../../Navigation/routes";
+import useAuth from "../../auth/useAuth";
 
 import firebase from "../../../firebase";
 import defaultStyles from "../../Config/styles";
@@ -22,7 +23,7 @@ import AppInputField from "../../Components/AppInputField";
 import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
 import AppSpaceComponent from "../../Components/AppSpaceComponent";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-
+import Lottie from "lottie-react-native";
 type FormData = {
   name: string;
   email: string;
@@ -31,10 +32,11 @@ type FormData = {
 
 export default function SignInScreen(props) {
   const recaptchaVerifier = useRef(null);
-  //console.log('**',firebase);
- 
+  const [isLoading, setIsLoading] = useState(true);
+  const auth = useAuth();
+  console.log("**", auth.user);
+
   const sendVerification = () => {
-    
     //onChangephoneNoText("+92" + phoneNoText);
     const phoneNo = "+92" + phoneNoText;
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
@@ -45,12 +47,21 @@ export default function SignInScreen(props) {
         console.log("code: ", val);
         props.setVerificationId(val);
         props.navigation.replace(routes.OTP_SCREEN);
-      }).catch(e=>{
-        console.log(phoneNo);
       })
+      .catch((e) => {
+        console.log(phoneNo);
+      });
   };
+  useEffect(() => {
+    auth.getLogedInUsser().then((user) => {
+      setIsLoading(false);
+      console.log(user);
+      if (user !== null) {
+        props.navigation.replace(routes.APP_NAVIGATION);
+      }
+    });
+  }, []);
 
-  
   const [phoneNoText, onChangephoneNoText] = React.useState("1234567890");
   const [passwordText, onChangepasswordText] = React.useState("");
   const [otpCode, onChangeOtpCode] = React.useState("");
@@ -66,6 +77,19 @@ export default function SignInScreen(props) {
   const onError: SubmitErrorHandler<FormData> = (errors, e) => {
     return console.log({ errors });
   };
+  if (isLoading) {
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ height: 100 }} />
+        <Lottie
+          source={require("../../assets/progress.json")}
+          autoPlay
+          loop
+          style={{ height: 600, width: 600 }}
+        />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <FirebaseRecaptchaVerifierModal
@@ -81,7 +105,7 @@ export default function SignInScreen(props) {
           //resizeMode: "contain",
           marginTop: 50,
           marginBottom: 20,
-          overflow:'hidden'
+          overflow: "hidden",
         }}
       />
       <AppText style={defaultStyles.typography.h2}>Welcome to E-Bazar</AppText>

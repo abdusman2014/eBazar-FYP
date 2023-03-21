@@ -1,4 +1,5 @@
 export default {
+  AUTH_NAVIGATOR: "authNavigator",
   HOME_NAVIGATOR: "homeNavigator",
   HOME_SCREEN: "homeScreen",
   CART_NAVIGATOR: "cartsNavigator",

@@ -7,15 +7,15 @@ import userStore from "../state-management/AppUser";
 
 
 import UserProfileComponent from "./UserProfileComponent";
-
+import useAuth from "../auth/useAuth";
 function AppTopBar(props) {
-  const {user} = userStore();
+  const auth = useAuth();
   return (
     <View  style={styles.container}>
       <UserProfileComponent
-        imageUrl={user?.image}
+        imageUrl={auth.user?.image}
         greetingmsg={"Good Morning"}
-        name={user?.name.toUpperCase()}
+        name={auth.user?.name.toUpperCase()}
       />
       <View style={{ flex: 1 }} />
       <Ionicons name="notifications-outline" size={30} color={defaultStyles.Colors.black}/>

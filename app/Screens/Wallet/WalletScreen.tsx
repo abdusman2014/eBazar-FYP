@@ -7,7 +7,7 @@ import Card from "../../Model/Card";
 import Lottie from "lottie-react-native";
 import routes from "../../Navigation/routes";
 import defaultStyles from "../../Config/styles";
-
+import useAuth from "../../auth/useAuth";
 import userCardStore from "../../state-management/userCard";
 import AppSpaceComponent from "../../Components/AppSpaceComponent";
 import AppText from "../../Components/AppText";
@@ -17,11 +17,11 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function WalletScreen(props) {
   // const [card,setCard] = useState(null);
   const { card, setCard } = userCardStore();
-  const { user } = userStore();
+  const auth = useAuth();
   useEffect(() => {
     firebase
       .firestore()
-      .collection("Users/" + user?.uid! + "/cards")
+      .collection("Users/" + auth.user?.uid! + "/cards")
       .doc("e-wallet")
       .get()
       .then((doc) => {

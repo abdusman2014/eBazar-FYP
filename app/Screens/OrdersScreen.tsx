@@ -27,107 +27,11 @@ import Order from "../Model/Order";
 import routes from "../Navigation/routes";
 import firebase from '../../firebase';
 import userStore from "../state-management/AppUser";
-
-const order1 = [
-  {
-    address: {
-      addressId: 0,
-      description: "house no. 2003, street22",
-      isSelected: true,
-      title: "home",
-    },
-    cart: [
-      {
-        category_id: "UxjQzr0g8Fa2p3ZkVzSr",
-        color: "brown",
-        description: "Can store up to 25 items",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/e-bazar-1c970.appspot.com/o/Items%2FBrown%20Cupboard.png?alt=media&token=f8349bbe-967d-4780-8596-89c7c8291670",
-        item_id: "7QnDO0DqaGzPwZPGWZCQ",
-        name: "Cupboard",
-        price: 8000,
-        rating: 4.4,
-        soldCount: 100,
-        noOfItems: 2,
-        orderId: 0,
-      },
-      {
-        category_id: "KMaXSFuZteI2G6WRDy8P",
-        color: "Black",
-        description: "Imported Black Boots for all fashions",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/e-bazar-1c970.appspot.com/o/Items%2FBlack%20Boots.png?alt=media&token=9fc7a397-0515-4f7a-b732-34baacb006c7",
-        item_id: "7yciEIV56pRTotWAUIwn",
-        name: "Boots",
-        price: 4500,
-        rating: 4.9,
-        soldCount: 134,
-        noOfItems: 1,
-        orderId: 1,
-      },
-    ],
-    deliveryStatus: DeliveryStatus.delivered,
-    orderId: "jITo3lf0NTiEQsol0jJi",
-    paymentStatus: PaymentStatus.PAID,
-    paymentType: PaymentType.CARD,
-    totalPrice: 3200,
-    userDetails: {
-      name: "Usama Khatab",
-      phoneNo: "+923458522383",
-    },
-  },
-  {
-    address: {
-      addressId: 0,
-      description: "house no. 2003, street22",
-      isSelected: true,
-      title: "home",
-    },
-    cart: [
-      {
-        category_id: "UxjQzr0g8Fa2p3ZkVzSr",
-        color: "brown",
-        description: "Can store up to 25 items",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/e-bazar-1c970.appspot.com/o/Items%2FBrown%20Cupboard.png?alt=media&token=f8349bbe-967d-4780-8596-89c7c8291670",
-        item_id: "7QnDO0DqaGzPwZPGWZCQ",
-        name: "Cupboard",
-        price: 8000,
-        rating: 4.4,
-        soldCount: 100,
-        noOfItems: 2,
-        orderId: 0,
-      },
-      {
-        category_id: "KMaXSFuZteI2G6WRDy8P",
-        color: "Black",
-        description: "Imported Black Boots for all fashions",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/e-bazar-1c970.appspot.com/o/Items%2FBlack%20Boots.png?alt=media&token=9fc7a397-0515-4f7a-b732-34baacb006c7",
-        item_id: "7yciEIV56pRTotWAUIwn",
-        name: "Boots",
-        price: 4500,
-        rating: 4.9,
-        soldCount: 134,
-        noOfItems: 1,
-        orderId: 1,
-      },
-    ],
-    deliveryStatus: DeliveryStatus.inTransit,
-    orderId: "jITo3lf0NTiEQsol0jJi",
-    paymentStatus: PaymentStatus.PAID,
-    paymentType: PaymentType.CARD,
-    totalPrice: 3200,
-    userDetails: {
-      name: "Usama Khatab",
-      phoneNo: "+923458522383",
-    },
-  },
-];
+import useAuth from "../auth/useAuth";
 
 function OrdersScreen(props) {
   const { cartItems } = useCartStore();
-  const {user} = userStore();
+  const auth = useAuth();
   const layout = useWindowDimensions();
   const [isActive, setIsActive] = React.useState(true);
   const [index, setIndex] = React.useState(0);
@@ -138,13 +42,13 @@ function OrdersScreen(props) {
   //
   React.useEffect(() => {
     const orders = [];
-    user?.orders.forEach(orderId=>{
+    auth.user?.orders.forEach(orderId=>{
 
     })
      firebase
     .firestore()
     .collection("Orders")
-    .where('orderId', 'in', user?.orders)
+    .where('orderId', 'in', auth.user?.orders)
     .get().then(snapshot=>{
       const doc:[] = [];
       snapshot.forEach(document => {

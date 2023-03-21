@@ -33,12 +33,13 @@ import User from "../../Model/User";
 import Gender from "../../Model/Gender";
 import routes from "../../Navigation/routes";
 import Card from "../../Model/Card";
-
+import useAuth from "../../auth/useAuth";
 export default function UserProfileInputScreen(props) {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [gender, onChangeGender] = useState(null);
-  const { setUser, user } = userStore();
+ // const { setUser, user } = userStore();
+ const auth = useAuth();
   var name;
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -79,13 +80,13 @@ export default function UserProfileInputScreen(props) {
       var toUint8Array = require("base64-to-uint8array");
       var unit8Array = toUint8Array(base64);
 
-      const reference = firebase.storage().ref("Users/" + user?.uid! + ".jpg");
+      const reference = firebase.storage().ref("Users/" + auth.user?.uid! + ".jpg");
 
       const task = await reference.put(unit8Array);
 
       link = await firebase
         .storage()
-        .ref("Users/" + user?.uid! + ".jpg")
+        .ref("Users/" + auth.user?.uid! + ".jpg")
         .getDownloadURL();
     }
     const myUser: User = {
@@ -93,18 +94,19 @@ export default function UserProfileInputScreen(props) {
       email: values.email,
       gender: gender === Gender.male ? "male" : "female",
       age: values.age,
-      uid: user?.uid!,
+      uid: auth.user?.uid!,
       image: link,
-      phoneNo: user?.phoneNo!,
+      phoneNo: auth.user?.phoneNo!,
       orders: [],
       addresses: [],
     };
     firebase
       .firestore()
       .collection("Users")
-      .doc(user?.uid!)
+      .doc(auth.user?.uid!)
       .set(myUser)
       .then(() => {
+        console.log('user details added')
         const card: Card = {
           cardNo: Math.floor(Math.random()*1E16),
           ownername: values.firstName + " " + values.lastName,
@@ -113,12 +115,12 @@ export default function UserProfileInputScreen(props) {
         };
         firebase
           .firestore()
-          .collection("Users/" + user?.uid! + "/cards")
+          .collection("Users/" + auth.user?.uid! + "/cards")
           .doc("e-wallet")
           .set(card)
           .then(() => {
             console.log("card added!");
-            setUser(myUser);
+            auth.logIn(myUser);
             setIsLoading(false);
             props.navigation.replace(routes.APP_NAVIGATION);
           })

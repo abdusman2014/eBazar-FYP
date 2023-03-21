@@ -20,10 +20,10 @@ import mockAddresseData from "../MockData/AddressMockData";
 import usePlaceOrderStore from "../state-management/placeOrder";
 import routes from "../Navigation/routes";
 import userStore from "../state-management/AppUser";
-
+import useAuth from "../auth/useAuth";
 export default function CheckoutScreen(props) {
   const { address, addAddress,cart,userDetails } = usePlaceOrderStore();
-  const {user} = userStore();
+  const auth = useAuth();
   // useEffect(() => {
     
   //    console.log('eneter: ',props.route.params);
@@ -38,8 +38,8 @@ export default function CheckoutScreen(props) {
   //   }
   // }, [props.route.params]);
   useEffect(() => {
-    if (address === null && user?.addresses.length>0) {
-      addAddress(user?.addresses[0]!);
+    if (address === null && auth.user?.addresses.length>0) {
+      addAddress(auth.user?.addresses[0]!);
     }
   }, []);
   const { cartItems } = useCartStore();

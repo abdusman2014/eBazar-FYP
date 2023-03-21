@@ -19,10 +19,12 @@ import usePlaceOrderStore from "../state-management/placeOrder";
 import userStore from "../state-management/AppUser";
 import DeliveryStatus from "../Model/DeliveryStatus";
 import PaymentType from "../Model/PaymentType";
+import useAuth from "../auth/useAuth";
 
 function CartsScreen(props) {
   const { cartItems } = useCartStore();
-  const { user } = userStore();
+  const auth = useAuth();
+
   const {
     addCart,
     addUserDetails,
@@ -47,7 +49,7 @@ function CartsScreen(props) {
   const handleCheckoutButtonPress = () => {
     addCart(cartItems);
     addTotalPrice(getTotalPriceOFCart());
-    addUserDetails({ name: user?.name!, phoneNo: user?.phoneNo! });
+    addUserDetails({ name: auth.user?.name!, phoneNo: auth.user?.phoneNo! });
     updateDeliveryStatus(DeliveryStatus.pending);
     updatePaymentType(PaymentType.CARD);
     props.navigation.navigate(routes.CHECKOUT_SCREEN);

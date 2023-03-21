@@ -20,11 +20,12 @@ import userStore from "../state-management/AppUser";
 import PaymentStatus from "../Model/PaymentStatus";
 import PaymentType from "../Model/PaymentType";
 import usePlaceOrderStore from "../state-management/placeOrder";
-
+import useAuth from "../auth/useAuth";
 export default function PaymentScreen(props) {
   const { resetCart } = useCartStore();
   const { resetpaymentState } = usePlaceOrderStore();
-  const { addOrder, user } = userStore();
+  const { addOrder } = userStore();
+  const auth = useAuth();
   const { card, addTransaction, transaction } = userCardStore();
   const {
     updatePaymentStatus,
@@ -80,9 +81,9 @@ export default function PaymentScreen(props) {
           firebase
             .firestore()
             .collection("Users")
-            .doc(user?.uid)
+            .doc(auth.user?.uid)
             .update({
-              orders: user?.orders,
+              orders: auth.user?.orders,
             })
             .then(() => {
               if (paymentType === PaymentType.CARD) {
@@ -104,7 +105,7 @@ export default function PaymentScreen(props) {
                 tranHis?.push(transactionObj);
                 firebase
                   .firestore()
-                  .collection("Users/" + user?.uid! + "/cards")
+                  .collection("Users/" + auth.user?.uid! + "/cards")
                   .doc("e-wallet")
                   .update({
                     transactionHistory: tranHis,

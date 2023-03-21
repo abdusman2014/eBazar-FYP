@@ -13,25 +13,27 @@ import userStore from "../state-management/AppUser";
 import Address from "../Model/Address";
 import firebase from "../../firebase";
 import routes from "../Navigation/routes";
+import useAuth from "../auth/useAuth";
 
 export default function AddAddressScreen(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const { addAddressToUser, user } = userStore();
+  const { addAddressToUser } = userStore();
+  const auth = useAuth();
   const onPressAddAddress = (values) => {
     setIsLoading(true);
     console.log(values);
     const address: Address = {
       title: values.title,
       description: values.description,
-      addressId: user?.addresses.length!,
+      addressId: auth.user?.addresses.length!,
     };
     addAddressToUser(address);
     firebase
       .firestore()
       .collection("Users")
-      .doc(user?.uid)
+      .doc(auth.user?.uid)
       .update({
-        addresses: user?.addresses,
+        addresses: auth.user?.addresses,
       })
       .then(() => {
         console.log("User updated!");

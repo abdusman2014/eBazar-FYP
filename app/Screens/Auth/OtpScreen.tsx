@@ -10,19 +10,20 @@ import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
 import defaultStyles from "../../Config/styles";
 import firebase from "../../../firebase";
 
-import userStore from "../../state-management/AppUser";
+
 import User from "../../Model/User";
 import routes from "../../Navigation/routes";
 import Gender from "../../Model/Gender";
-
+import useAuth from "../../auth/useAuth";
 export default function OtpScreen(props) {
   let pinInput = React.createRef();
   const [code, onChangeCode] = React.useState("");
   const [isLoading, onChangeIsLoading] = React.useState(false);
-  const { setUser } = userStore();
+ 
+  const auth = useAuth();
   //console.log("next code: ", props.verificationId);
   const confirmCode = () => {
-    console.log('code: ',code);
+    console.log("code: ", code);
     onChangeIsLoading(true);
     const credential = firebase.auth.PhoneAuthProvider.credential(
       props.verificationId,
@@ -33,7 +34,7 @@ export default function OtpScreen(props) {
       .signInWithCredential(credential)
       .then(async (result) => {
         // Do something with the results here
-        console.log(result.user.uid);
+        console.log(result.user.uid,result.additionalUserInfo.isNewUser);
 
         //user object must be created as state object
         //TODO:: if new user create user object save uid, leave other fields as "" and then move to userProfileInput screen
@@ -47,8 +48,13 @@ export default function OtpScreen(props) {
             email: null,
             gender: "",
             phoneNo: result.user?.phoneNumber!,
+            orders: [],
+            addresses: []
           };
-          setUser(user);
+          //setUser(user);
+          console.log("login");
+          auth.logIn(user);
+          console.log("user saved");
           props.navigation.replace(routes.USER_PROFILE_INPUT_SCREEN);
           //move to userProfileInput screen
         } else {
@@ -58,8 +64,12 @@ export default function OtpScreen(props) {
             .doc(result.user!.uid)
             .get();
           const user: User | undefined = doc.data();
+          console.log('user: ',user);
           if (user !== undefined) {
-            setUser(user);
+            //setUser(user);
+            console.log("login");
+            auth.logIn(user);
+            console.log("user saved");
             onChangeIsLoading(false);
             props.navigation.replace(routes.APP_NAVIGATION);
           }
@@ -111,10 +121,9 @@ export default function OtpScreen(props) {
           numeric={true}
           length={6}
           tintColor={defaultStyles.Colors.black}
-         // onComplete={confirmCode}
+          // onComplete={confirmCode}
           onChange={onChangeCode}
         />
-        
       </View>
       <View style={{ bottom: 20 }}>
         <AppButtonWithShadow onPress={confirmCode}>

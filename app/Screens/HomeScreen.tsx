@@ -36,7 +36,7 @@ import routes from "../Navigation/routes";
 import Item from "../Model/Item";
 import firebase from "../../firebase";
 import Category from "../Model/Category";
-
+import useAuth from "../auth/useAuth";
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
   const [isLoadingItems, setIsLoadingItems] = useState(true);
@@ -45,6 +45,7 @@ function HomeScreen(props) {
   const [clicked, setClicked] = useState(false);
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
+  const auth = useAuth();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData =
     HomeScreenMockData.mockCategoryWithOutImageData;
@@ -162,10 +163,12 @@ function HomeScreen(props) {
             return (
               <Pressable
                 style={{ padding: 8 }}
-                onPress={() => {
-                  const category = [...mockCategoryitemWithOutImageData];
-                  category[key].isSelected = !category[key].isSelected;
-                  setMockCategoryitemWithOutImageData([...category]);
+                onPress={async() => {
+                 await auth.logOut();
+                 props.navigation.replace(routes.SIGN_SCREEN);
+                  // const category = [...mockCategoryitemWithOutImageData];
+                  // category[key].isSelected = !category[key].isSelected;
+                  // setMockCategoryitemWithOutImageData([...category]);
                 }}
               >
                 <AppCategoryWithoutIcon
