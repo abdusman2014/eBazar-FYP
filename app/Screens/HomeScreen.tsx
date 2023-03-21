@@ -36,7 +36,7 @@ import routes from "../Navigation/routes";
 import Item from "../Model/Item";
 import firebase from "../../firebase";
 import Category from "../Model/Category";
-
+import userStore from "../state-management/AppUser";
 function HomeScreen(props) {
   const [text, onChangeText] = React.useState("Useless Text");
   const [isLoadingItems, setIsLoadingItems] = useState(true);
@@ -45,6 +45,7 @@ function HomeScreen(props) {
   const [clicked, setClicked] = useState(false);
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
+  const {setUser} = userStore();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData =
     HomeScreenMockData.mockCategoryWithOutImageData;
@@ -163,6 +164,7 @@ function HomeScreen(props) {
               <Pressable
                 style={{ padding: 8 }}
                 onPress={() => {
+                 // setUser(null);
                   const category = [...mockCategoryitemWithOutImageData];
                   category[key].isSelected = !category[key].isSelected;
                   setMockCategoryitemWithOutImageData([...category]);

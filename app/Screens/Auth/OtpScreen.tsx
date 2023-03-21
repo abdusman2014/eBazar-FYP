@@ -47,6 +47,8 @@ export default function OtpScreen(props) {
             email: null,
             gender: "",
             phoneNo: result.user?.phoneNumber!,
+            orders: [],
+            addresses: []
           };
           setUser(user);
           props.navigation.replace(routes.USER_PROFILE_INPUT_SCREEN);
