@@ -18,4 +18,5 @@ export default {
   WALLET_NAVIGATION: "walletNavigation",
   WALLET_SCREEN: "walletScreen",
   TOPUP_SCREEN: "topUpScreen",
+  AUCTION_SCREEN: "auctionScreen",
 };

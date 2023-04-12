@@ -38,7 +38,7 @@ export default function UserProfileInputScreen(props) {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [gender, onChangeGender] = useState(null);
-  const { setUser, user } = userStore();
+  const { setUser } = userStore();
   var name;
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -93,16 +93,16 @@ export default function UserProfileInputScreen(props) {
       email: values.email,
       gender: gender === Gender.male ? "male" : "female",
       age: values.age,
-      uid: user?.uid!,
+      uid: props.user?.uid!,
       image: link,
-      phoneNo: user?.phoneNo!,
+      phoneNo: props.user?.phoneNo!,
       orders: [],
       addresses: [],
     };
     firebase
       .firestore()
       .collection("Users")
-      .doc(user?.uid!)
+      .doc(props.user?.uid!)
       .set(myUser)
       .then(() => {
         const card: Card = {
@@ -113,7 +113,7 @@ export default function UserProfileInputScreen(props) {
         };
         firebase
           .firestore()
-          .collection("Users/" + user?.uid! + "/cards")
+          .collection("Users/" + props.user?.uid! + "/cards")
           .doc("e-wallet")
           .set(card)
           .then(() => {
@@ -126,6 +126,7 @@ export default function UserProfileInputScreen(props) {
             console.log("error: ", e);
           });
         console.log("User added!");
+        
       })
       .catch((e) => {
         console.log("error: ", e);

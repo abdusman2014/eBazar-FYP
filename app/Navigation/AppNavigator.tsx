@@ -19,6 +19,7 @@ import OrdersNavigator from "./OrdersNavigator";
 import HomeNavigator from './HomeNavigator';
 import WalletNavigator from "./WalletNavigator";
 import TrackOrderNavigator from "./TrackOrdernavigator";
+import AuctionScreen from "../Screens/Auction/AuctionScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -99,6 +100,19 @@ export const AppNavigator = () => {
            headerShown: false,
           headerTitle: "Your Orders",
         }}
+      />
+      <Tab.Screen
+        name={routes.AUCTION_SCREEN}
+        component={AuctionScreen}
+        options={({ route }) => ({
+          tabBarLabel: "Home",
+          headerShown: false,
+          // dynamic display of tab navigator
+          tabBarVisible: getTabBarVisibility(route),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        })}
       />
      
     </Tab.Navigator>

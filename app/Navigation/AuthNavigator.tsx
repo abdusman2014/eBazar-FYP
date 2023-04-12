@@ -16,6 +16,7 @@ import UserProfileInputScreen from "../Screens/Auth/UserProfileInputScreen";
 
 function AuthNavigator() {
   const [verificationId, setVerificationId] = useState(null);
+  const [user,setUser] = useState(null);
   const AuthNavigator = createStackNavigator();
 
   return (
@@ -55,7 +56,7 @@ function AuthNavigator() {
           headerBackTitleVisible: false,
         }}
       >
-        {(props) => <OtpScreen {...props} verificationId={verificationId} />}
+        {(props) => <OtpScreen {...props} verificationId={verificationId} setUser={setUser}/>}
       </AuthNavigator.Screen>
       <AuthNavigator.Screen
         name={routes.USER_PROFILE_INPUT_SCREEN}
@@ -75,7 +76,7 @@ function AuthNavigator() {
           headerBackTitleVisible: false,
         }}
       >
-        {(props) => <UserProfileInputScreen {...props}  />}
+        {(props) => <UserProfileInputScreen {...props}  user={user}/>}
       </AuthNavigator.Screen>
       <AuthNavigator.Screen
         name={routes.APP_NAVIGATION}

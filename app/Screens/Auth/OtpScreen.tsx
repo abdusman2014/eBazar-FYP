@@ -50,7 +50,7 @@ export default function OtpScreen(props) {
             orders: [],
             addresses: []
           };
-          setUser(user);
+          props.setUser(user);
           props.navigation.replace(routes.USER_PROFILE_INPUT_SCREEN);
           //move to userProfileInput screen
         } else {

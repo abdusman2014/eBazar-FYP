@@ -17,7 +17,7 @@ import userStore from "./app/state-management/AppUser";
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const {user} = userStore();
-  console.log('::',user);
+  //console.log('::',isLoggedIn);
   useEffect(() => {
     async function prepare() {
       try {
