@@ -21,12 +21,13 @@ socketIO.on("connection", (socket) => {
       id: generateID(),
       name: product.name,
       price: product.price,
-      image_url:
-        "https://www.shutterstock.com/image-photo/white-baseball-cap-isolated-on-260nw-1472749184.jpg",
+      image_url: product.url,
       description: product.description,
-        owner: product.userId,
+      owner: product.userId,
+      isReverseAuction: product.isReverseAuction,
+      userName: product.userName,
     });
-	socketIO.emit("getProducts", productList);
+    socketIO.emit("getProducts", productList);
   });
   socket.on("updatePrice", (data) => {
     let result = productList.filter(
