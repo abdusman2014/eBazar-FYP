@@ -10,14 +10,14 @@ import React, { useState, useLayoutEffect } from "react";
 import socket from "../../Config/AuctionSocket";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import userStore from "../../state-management/AppUser";
-import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
-import AppText from "../../Components/AppText";
+import AppButtonWithShadow from "../AppButtonWithShadow";
+import AppText from "../AppText";
 import defaultStyles from "../../Config/styles";
-const Modal = ({ setVisible, selectedProduct }) => {
+const AuctionUpdateModal = ({ setVisible, selectedProduct }) => {
   const [newPrice, setNewPrice] = useState(selectedProduct.price);
   const { user } = userStore();
   const [userId, setUserId] = useState(user?.uid);
-
+console.log(selectedProduct)
   const updateBidFunction = () => {
     if (Number(newPrice) > Number(selectedProduct.price)) {
       socket.emit("updatePrice", { newPrice, selectedProduct });
@@ -30,6 +30,7 @@ const Modal = ({ setVisible, selectedProduct }) => {
     <View style={styles.modalContainer}>
       <Text style={styles.modalHeader}>Update Bid</Text>
       <Text style={{ marginBottom: 10 }}>Name: {selectedProduct.name}</Text>
+      <Text style={{ marginBottom: 10 }}>Description: {selectedProduct.description}</Text>
       <Text style={{ marginBottom: 10 }}>Price</Text>
       <TextInput
         keyboardType="number-pad"
@@ -37,7 +38,9 @@ const Modal = ({ setVisible, selectedProduct }) => {
         defaultValue={selectedProduct.price}
         onChangeText={(value) => setNewPrice(value)}
       />
-      <View style={[styles.updateBidBtn,{ width: "100%", alignItems: "center" }]}>
+      <View
+        style={[styles.updateBidBtn, { width: "100%", alignItems: "center" }]}
+      >
         <AppButtonWithShadow onPress={updateBidFunction}>
           <AppText
             style={{
@@ -46,7 +49,7 @@ const Modal = ({ setVisible, selectedProduct }) => {
               marginRight: 8,
             }}
           >
-            Accept Bid
+            Bid
           </AppText>
         </AppButtonWithShadow>
         {/* <Pressable style={styles.updateBidBtn} onPress={updateBidFunction}>
@@ -61,14 +64,14 @@ const Modal = ({ setVisible, selectedProduct }) => {
   );
 };
 
-export default Modal;
+export default AuctionUpdateModal;
 
 const styles = StyleSheet.create({
   modalContainer: {
     width: "100%",
     backgroundColor: "#FAF7F0",
     position: "fixed",
-    bottom: 0,
+    bottom: 10,
     height: 400,
     padding: 20,
     flex: 1,
@@ -85,9 +88,9 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   updateBidBtn: {
-   // width: 200,
-    padding: 15,
-  
+    // width: 200,
+    paddingHorizontal: 15,
+
     marginTop: 15,
     borderRadius: 3,
   },

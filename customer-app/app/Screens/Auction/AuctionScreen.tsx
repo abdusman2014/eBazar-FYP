@@ -13,8 +13,8 @@ import { Entypo } from "@expo/vector-icons";
 import defaultStyles from "../../Config/styles";
 import socket from "../../Config/AuctionSocket";
 import AppText from "../../Components/AppText";
-import Modal from "./Modal";
-import ProductUI from "./ProductUI";
+import AuctionUpdateModal from "../../Components/Auction/AuctionUPdateModal";
+import AuctionComponent from "../../Components/Auction/AuctionComponent";
 import routes from "../../Navigation/routes";
 import userStore from "../../state-management/AppUser";
 
@@ -36,9 +36,10 @@ export default function AuctionScreen(props) {
       { text: "OK", onPress: () => console.log("OK Pressed") },
     ]);
 
-  const toggleModal = (name, price, id) => {
+  const toggleModal = (name, price, id,description) => {
     setVisible(true);
-    setSelectedProduct({ name, price, id });
+    console.log(":: ",description)
+    setSelectedProduct({ name, price, id,description });
   };
   useLayoutEffect(() => {
     function fetchProducts() {
@@ -56,12 +57,12 @@ export default function AuctionScreen(props) {
         return element;
       }
     });
-    const otherAuctions  = data.filter((element) => {
-      if (element.owner !== user?.uid) {
+    const otherAuctions = data.filter((element) => {
+      if (element.owner !== user?.uid && !element.isReverseAuction) {
         return element;
       }
     });
-   // console.log(myOwnAuctions);
+    // console.log(myOwnAuctions);
     setMyProducts(myOwnAuctions);
     setProducts(otherAuctions);
   };
@@ -148,37 +149,43 @@ export default function AuctionScreen(props) {
         {isMyAuction ? (
           <FlatList
             data={myProducts}
+          
             key={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <ProductUI
-                  name={item.name}
-                  image_url={item.image_url}
-                  price={item.price}
-                  toggleModal={toggleModal}
-                  id={item.id}
-                  isMe={item.owner === user.uid}
-                />
+              <AuctionComponent
+                name={item.name}
+                image_url={item.image_url}
+                price={item.price}
+                description={item.description}
+                toggleModal={toggleModal}
+                id={item.id}
+                isMe={item.owner === user.uid}
+                isReverseAuction={item.isReverseAuction}
+              />
             )}
           />
         ) : (
           <FlatList
             data={products}
+            
             key={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <ProductUI
+              <AuctionComponent
                 name={item.name}
                 image_url={item.image_url}
                 price={item.price}
+                description={item.description}
                 toggleModal={toggleModal}
                 id={item.id}
                 isMe={item.owner === user.uid}
+                isReverseAuction={item.isReverseAuction}
               />
             )}
           />
         )}
       </View>
       {visible ? (
-        <Modal
+        <AuctionUpdateModal
           visible={visible}
           setVisible={setVisible}
           selectedProduct={selectedProduct}
@@ -210,6 +217,6 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    padding: 20,
+    padding: 16,
   },
 });

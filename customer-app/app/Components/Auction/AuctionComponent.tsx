@@ -7,13 +7,30 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useState } from "react";
-import AppButtonWithShadow from "../../Components/AppButtonWithShadow";
-import AppText from "../../Components/AppText";
+import AppButtonWithShadow from "../AppButtonWithShadow";
+import AppText from "../AppText";
 import defaultStyles from "../../Config/styles";
-import AppSpaceComponent from "../../Components/AppSpaceComponent";
-const ProductUI = ({ toggleModal, name, image_url, price, id, isMe }) => {
+import AppSpaceComponent from "../AppSpaceComponent";
+const AuctionComponent = ({
+  toggleModal,
+  name,
+  image_url,
+  price,
+  description,
+  id,
+  isMe,
+  isReverseAuction
+}) => {
+  console.log("*** ",description)
   return (
     <View style={styles.productContainer}>
+    {isReverseAuction&&  <View style={{flexDirection: 'row'}}>
+      <View style={{flex:1}}/>
+      <Image
+        source={require("../../assets/images/reverse-auction.png")}
+        style={{ height: 30, width: 30, right:5, }}
+      />
+      </View>}
       <Image
         style={styles.image}
         resizeMode="contain"
@@ -23,6 +40,7 @@ const ProductUI = ({ toggleModal, name, image_url, price, id, isMe }) => {
       />
       <View style={styles.productDetails}>
         <AppText style={defaultStyles.typography.h2}>{name}</AppText>
+        <AppText style={defaultStyles.typography.h4}>{description}</AppText>
         <View>
           <AppText style={defaultStyles.typography.h4}>
             Current Price: Rs {price}
@@ -44,7 +62,9 @@ const ProductUI = ({ toggleModal, name, image_url, price, id, isMe }) => {
         ) : (
           <Button
             title="Place Bid"
-            onPress={() => toggleModal(name, price, id)}
+            onPress={() => {
+              console.log('des: ',description)
+              toggleModal(name, price, id,description)}}
           />
         )}
         <AppSpaceComponent height={5} />
@@ -53,7 +73,7 @@ const ProductUI = ({ toggleModal, name, image_url, price, id, isMe }) => {
   );
 };
 
-export default ProductUI;
+export default AuctionComponent;
 
 const styles = StyleSheet.create({
   bidContainer: {
@@ -80,7 +100,7 @@ const styles = StyleSheet.create({
     // height: 280,
     backgroundColor: "#fff",
     marginBottom: 10,
-    width: Dimensions.get("screen").width,
+    width: Dimensions.get("screen").width-30,
     alignItems: "center",
     justifyContent: "center",
   },

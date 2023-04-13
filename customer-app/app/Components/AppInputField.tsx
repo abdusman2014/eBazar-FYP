@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 40,
     color: defaultStyles.Colors.grey700,
+   
   },
   label: {
     paddingVertical: 5,

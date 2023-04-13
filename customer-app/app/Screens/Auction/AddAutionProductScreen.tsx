@@ -5,7 +5,9 @@ import {
   Text,
   TextInput,
   View,
+  Image
 } from "react-native";
+import Checkbox from 'expo-checkbox';
 import React, { useState } from "react";
 import defaultStyles from "../../Config/styles";
 import socket from "../../Config/AuctionSocket";
@@ -20,15 +22,16 @@ export default function AddAutionProductScreen(props) {
 
   const { user } = userStore();
   const [userId, setUserId] = useState(user?.uid);
-
+  const [userName, setUserName] = useState(user?.name);
+const [isReverseAuction, setIsReverAuction] = useState(false);
   const addProduct = (values) => {
-  //  console.log(values);
-   
+    console.log(values,isReverseAuction);
+
       const url = values.imgUrl;
       const price = values.price;
       const name = values.name;
       const description = values.description;
-      socket.emit("addProduct", { name, price, url,description, userId });
+      socket.emit("addProduct", { name, price, url,description, userId,userName,isReverseAuction });
       props.navigation.goBack();
     
   };
@@ -98,6 +101,10 @@ export default function AddAutionProductScreen(props) {
                 </AppText>
               )}
             </View>
+            <AppSpaceComponent height={ 30} />
+            <FiltersComponent name={"Reverse Auction"} filterValue={isReverseAuction} onPress={(val)=>{
+                setIsReverAuction(val);
+            }}/>
             <View
               style={{
                 bottom: 10,
@@ -106,6 +113,7 @@ export default function AddAutionProductScreen(props) {
                 flexDirection: "row",
               }}
             >
+             
               <View style={{ flex: 1 }} />
               <View>
                 <AppButtonWithShadow onPress={handleSubmit}>
@@ -145,6 +153,29 @@ const formValidationSchema = yup.object().shape({
   imgUrl: yup.string().required("Image URL is Required"),
   price: yup.string().required("Price is Required"),
 });
+
+
+const FiltersComponent= ({ name, filterValue, onPress }) => {
+  const [value, setValue] = useState(filterValue);
+  //  console.log(name, ', ', filterValue);
+ 
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+   <Image source={require("../../assets/images/reverse-auction.png")} style={{height: 30,width: 30,marginRight:8}}/>
+      <AppText style={defaultStyles.typography.h3}>{name}</AppText>
+      <View style={{flex:1}} />
+      <Checkbox
+       style={{borderRadius:4}}
+      //  size={24}
+        value={value}
+        onValueChange={(val) => {
+          setValue(val);
+          onPress(val);
+        }}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   Container: {
