@@ -18,7 +18,6 @@ import {
 } from "react-native";
 import Lottie from "lottie-react-native";
 
-
 import AppCategoryWithIcon from "../Components/AppCategory/AppCategoryWithIcon";
 import AppCategoryWithoutIcon from "../Components/AppCategory/AppCategoryWithoutIcon";
 import AppItemComponent from "../Components/AppItemComponent";
@@ -45,7 +44,7 @@ function HomeScreen(props) {
   const [clicked, setClicked] = useState(false);
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
-  const {setUser} = userStore();
+  const { setUser } = userStore();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData =
     HomeScreenMockData.mockCategoryWithOutImageData;
@@ -62,27 +61,27 @@ function HomeScreen(props) {
       .get()
       .then((querySnapshot) => {
         console.log("Total users: ", querySnapshot.size);
-          const data:Item[] = [];
+        const data: Item[] = [];
         querySnapshot.forEach((documentSnapshot) => {
-          const item:Item = documentSnapshot.data()
-          data.push( item);
+          const item: Item = documentSnapshot.data();
+          data.push(item);
         });
-        console.log('data no: ',data.length);
+        console.log("data no: ", data.length);
         setItems(data);
         setIsLoadingItems(false);
       });
-      firebase
+    firebase
       .firestore()
       .collection("Category")
       .get()
       .then((querySnapshot) => {
         console.log("Total users: ", querySnapshot.size);
-          const data:Item[] = [];
+        const data: Item[] = [];
         querySnapshot.forEach((documentSnapshot) => {
-          const category:Category = documentSnapshot.data()
-          data.push( category);
+          const category: Category = documentSnapshot.data();
+          data.push(category);
         });
-        console.log('data no: ',data.length);
+        console.log("data no: ", data.length);
         setCategories(data);
         setIsLoadingCategories(false);
       });
@@ -90,8 +89,10 @@ function HomeScreen(props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const initialSnapPoints = useMemo(() => ["-1", "CONTENT_HEIGHT"], []);
-
+  const initialSnapPoints = useMemo(() => ["CONTENT_HEIGHT"], []);
+  useEffect(() => {
+    bottomSheetRef.current?.close();
+  }, []);
   const {
     animatedHandleHeight,
     animatedSnapPoints,
@@ -104,20 +105,24 @@ function HomeScreen(props) {
   }, []);
   if (isLoadingItems || isLoadingCategories) {
     return (
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <View style={{ height: 100 }} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <View
+          style={{
+            height: 100,
+          }}
+        />
         <Lottie
           source={require("../assets/progress.json")}
           autoPlay
           loop
-          style={{ height: 600, width: 600 }}
+          //style={{ height: 100, width: 100 }}
         />
       </View>
     );
   }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{padding: 8}}>
         <AppTopBar />
         <AppSpaceComponent height={undefined} />
         <AppSearch
@@ -162,9 +167,10 @@ function HomeScreen(props) {
           {mockCategoryitemWithOutImageData.map((val, key) => {
             return (
               <Pressable
+                key={key}
                 style={{ padding: 8 }}
                 onPress={() => {
-                 // setUser(null);
+                  // setUser(null);
                   const category = [...mockCategoryitemWithOutImageData];
                   category[key].isSelected = !category[key].isSelected;
                   setMockCategoryitemWithOutImageData([...category]);
@@ -181,6 +187,7 @@ function HomeScreen(props) {
         <AppSpaceComponent height={undefined} />
 
         <FlatList
+        nestedScrollEnabled={true}
           data={items}
           style={{ padding: 16 }}
           keyExtractor={(item, index) => item.item_id}
@@ -230,10 +237,10 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 22,
-    top: 32,
+   
+    top: 42,
     backgroundColor: defaultStyles.Colors.white,
-    paddingHorizontal: 8,
+    
   },
   contentContainer: {
     flex: 1,

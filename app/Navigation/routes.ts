@@ -19,4 +19,6 @@ export default {
   WALLET_SCREEN: "walletScreen",
   TOPUP_SCREEN: "topUpScreen",
   AUCTION_SCREEN: "auctionScreen",
+  AUCTION_NAVIGATOR: "auctionNavigator",
+  AUCTION_ADD_PRODUCT_SCREEN: "auctionAddProductScreen"
 };

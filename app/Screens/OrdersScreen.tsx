@@ -6,13 +6,14 @@ import {
   Alert,
   StyleSheet,
   useWindowDimensions,
+  Text,
+  Dimensions,
 } from "react-native";
 import AppText from "../Components/AppText";
 import OrderItemComponent from "../Components/OrderItemComponent";
 import useCartStore from "../state-management/UserCart";
 import { FlatList } from "react-native-gesture-handler";
 import Lottie from "lottie-react-native";
-
 
 import defaultStyles from "../Config/styles";
 import Item from "../Model/Item";
@@ -25,7 +26,7 @@ import ActiveOrders from "../Components/ActiveOrders";
 import CompletedOrders from "../Components/CompletedOrders";
 import Order from "../Model/Order";
 import routes from "../Navigation/routes";
-import firebase from '../../firebase';
+import firebase from "../../firebase";
 import userStore from "../state-management/AppUser";
 
 const order1 = [
@@ -127,47 +128,54 @@ const order1 = [
 
 function OrdersScreen(props) {
   const { cartItems } = useCartStore();
-  const {user} = userStore();
+  const { user } = userStore();
   const layout = useWindowDimensions();
   const [isActive, setIsActive] = React.useState(true);
   const [index, setIndex] = React.useState(0);
   const [active, setActive] = React.useState();
   const [completed, setCompleted] = React.useState(null);
-  const [isLoading,setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   //
   React.useEffect(() => {
     const orders = [];
-    user?.orders.forEach(orderId=>{
+    // user?.orders.forEach(orderId=>{
 
-    })
-     firebase
-    .firestore()
-    .collection("Orders")
-    .where('orderId', 'in', user?.orders)
-    .get().then(snapshot=>{
-      const doc:[] = [];
-      snapshot.forEach(document => {
-        doc.push(document.data());
+    // })
+    if (user?.orders.length === 0) {
+      setCompleted([]);
+      setActive([]);
+      setIsLoading(false);
+      return;
+    }
+    firebase
+      .firestore()
+      .collection("Orders")
+      .where("orderId", "in", user?.orders)
+      .get()
+      .then((snapshot) => {
+        const doc: [] = [];
+        snapshot.forEach((document) => {
+          doc.push(document.data());
+        });
+
+        const orders = doc;
+        console.log(orders);
+        const b = orders.filter(
+          (item) => item.deliveryStatus === DeliveryStatus.delivered
+        );
+        setCompleted(b);
+        const a = orders.filter(
+          (item) => item.deliveryStatus !== DeliveryStatus.delivered
+        );
+        setActive(a);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        console.log(e);
+        Alert.alert("Failed", "Try Again Later");
       });
-      
-      const orders = doc;
-      console.log(orders);
-      const b = orders.filter(
-        (item) => item.deliveryStatus === DeliveryStatus.delivered
-      );
-      setCompleted(b);
-      const a = orders.filter(
-        (item) => item.deliveryStatus !== DeliveryStatus.delivered
-      );
-      setActive(a);
-      setIsLoading(false);
-    }).catch(e=>{
-      setIsLoading(false);
-      console.log(e)
-      Alert.alert("Failed", "Try Again Later");
-    })
-  
   }, []);
 
   /*   if (cartItems.length === 0) {
@@ -190,13 +198,13 @@ function OrdersScreen(props) {
   } else */
   if (isLoading) {
     return (
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <View style={{flex:1, alignItems: "center", justifyContent: "center" }}>
         <View style={{ height: 100 }} />
         <Lottie
           source={require("../assets/progress.json")}
           autoPlay
           loop
-          style={{ height: 600, width: 600 }}
+         // style={{ height: 600, width: 600 }}
         />
       </View>
     );
@@ -213,7 +221,7 @@ function OrdersScreen(props) {
     
     </TabView> */
 
-    <View style={{ backgroundColor:'white',flex: 1 }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={{ flexDirection: "row", paddingVertical: 8 }}>
         <Pressable
           style={{ width: "50%" }}
@@ -256,12 +264,17 @@ function OrdersScreen(props) {
           ></View>
         </Pressable>
       </View>
-
+      <View
+        style={{
+          position: "absolute",
+          left: Dimensions.get("window").width / 4,
+          bottom: Dimensions.get("window").height / 2,
+        }}
+      >
+        <AppText style={defaultStyles.typography.h1}>No Orders</AppText>
+      </View>
       {active && completed && isActive ? (
-        <ActiveOrders
-          Order={active}
-          props={props}
-        ></ActiveOrders>
+        <ActiveOrders Order={active} props={props}></ActiveOrders>
       ) : (
         <CompletedOrders Order={completed} props={props}></CompletedOrders>
       )}

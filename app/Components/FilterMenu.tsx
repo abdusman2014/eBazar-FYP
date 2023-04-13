@@ -100,6 +100,7 @@ export default function FilterMenu({onPress}) {
           {mockCategoryitemWithOutImageData.map((val, key) => {
             return (
               <Pressable
+              key={key}
                 style={{ padding: 4 }}
                 onPress={() => {
                   const category = [...mockCategoryitemWithOutImageData];
@@ -108,6 +109,7 @@ export default function FilterMenu({onPress}) {
                 }}
               >
                 <AppCategoryWithoutIcon
+                key={key}
                   name={val.name}
                   isSelected={val.isSelected}
                 />
@@ -148,6 +150,7 @@ export default function FilterMenu({onPress}) {
           {mockSorting.map((val, key) => {
             return (
               <Pressable
+              key={key}
                 style={{ padding: 4 }}
                 onPress={() => {
                   const AppSortingData = [...mockSortingData];

@@ -53,13 +53,13 @@ export default function AddAddressScreen(props) {
   };
   if (isLoading) {
     return (
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <View style={{flex:1, alignItems: "center", justifyContent: "center" }}>
         <View style={{ height: 100 }} />
         <Lottie
           source={require("../assets/progress.json")}
           autoPlay
           loop
-          style={{ height: 600, width: 600 }}
+         // style={{ height: 600, width: 600 }}
         />
       </View>
     );

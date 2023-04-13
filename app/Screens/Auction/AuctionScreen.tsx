@@ -1,12 +1,215 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { Entypo } from "@expo/vector-icons";
+import defaultStyles from "../../Config/styles";
+import socket from "../../Config/AuctionSocket";
+import AppText from "../../Components/AppText";
+import Modal from "./Modal";
+import ProductUI from "./ProductUI";
+import routes from "../../Navigation/routes";
+import userStore from "../../state-management/AppUser";
 
-export default function AuctionScreen() {
+export default function AuctionScreen(props) {
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState({});
+  const [products, setProducts] = useState([]);
+  const [myProducts, setMyProducts] = useState([]);
+  const [isMyAuction, setIsMyAuction] = React.useState(true);
+  const { user } = userStore();
+  const createTwoButtonAlert = (data) =>
+    Alert.alert("Alert Title", data[0].price, [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
+
+  const toggleModal = (name, price, id) => {
+    setVisible(true);
+    setSelectedProduct({ name, price, id });
+  };
+  useLayoutEffect(() => {
+    function fetchProducts() {
+      fetch("http://localhost:4000/products")
+        .then((res) => res.json())
+        .then(setAuctions)
+        .catch((err) => setError(err));
+    }
+    fetchProducts();
+  }, []);
+
+  const setAuctions = (data: []) => {
+    const myOwnAuctions = data.filter((element) => {
+      if (element.owner === user?.uid) {
+        return element;
+      }
+    });
+    const otherAuctions  = data.filter((element) => {
+      if (element.owner !== user?.uid) {
+        return element;
+      }
+    });
+   // console.log(myOwnAuctions);
+    setMyProducts(myOwnAuctions);
+    setProducts(otherAuctions);
+  };
+
+  useEffect(() => {
+    socket.on("getProducts", setAuctions);
+  }, []);
+  if (error !== null) {
+    console.log(error);
+    return (
+      <View
+        style={{
+          position: "absolute",
+          left: Dimensions.get("window").width / 4,
+          bottom: Dimensions.get("window").height / 2,
+        }}
+      >
+        <AppText style={[defaultStyles.typography.h1, { textAlign: "center" }]}>
+          Error
+        </AppText>
+        <AppText style={[defaultStyles.typography.h1, { textAlign: "center" }]}>
+          Occured
+        </AppText>
+      </View>
+    );
+  }
   return (
-    <View>
-      <Text>AuctionScreen</Text>
-    </View>
-  )
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Auction</Text>
+        <View style={{ flex: 1 }} />
+        <Entypo
+          name="circle-with-plus"
+          size={30}
+          color="black"
+          onPress={() =>
+            props.navigation.navigate(routes.AUCTION_ADD_PRODUCT_SCREEN)
+          }
+        />
+      </View>
+      <View style={{ flexDirection: "row", paddingVertical: 8 }}>
+        <Pressable
+          style={{ width: "50%" }}
+          onPress={() => setIsMyAuction(!isMyAuction)}
+        >
+          <AppText
+            style={[
+              defaultStyles.typography.h3,
+              { textAlign: "center", color: isMyAuction ? "black" : "gray" },
+            ]}
+          >
+            My Auctions
+          </AppText>
+          <View
+            style={{
+              width: "100%",
+              height: 4,
+              backgroundColor: isMyAuction ? "black" : "gray",
+            }}
+          ></View>
+        </Pressable>
+        <Pressable
+          style={{ width: "50%" }}
+          onPress={() => setIsMyAuction(!isMyAuction)}
+        >
+          <AppText
+            style={[
+              defaultStyles.typography.h3,
+              { textAlign: "center", color: !isMyAuction ? "black" : "gray" },
+            ]}
+          >
+            Other Auctions
+          </AppText>
+          <View
+            style={{
+              width: "100%",
+              height: 4,
+              backgroundColor: !isMyAuction ? "black" : "gray",
+            }}
+          ></View>
+        </Pressable>
+      </View>
+      <View style={styles.mainContainer}>
+        {isMyAuction ? (
+          <FlatList
+            data={myProducts}
+            key={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <ProductUI
+                  name={item.name}
+                  image_url={item.image_url}
+                  price={item.price}
+                  toggleModal={toggleModal}
+                  id={item.id}
+                  isMe={item.owner === user.uid}
+                />
+            )}
+          />
+        ) : (
+          <FlatList
+            data={products}
+            key={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <ProductUI
+                name={item.name}
+                image_url={item.image_url}
+                price={item.price}
+                toggleModal={toggleModal}
+                id={item.id}
+                isMe={item.owner === user.uid}
+              />
+            )}
+          />
+        )}
+      </View>
+      {visible ? (
+        <Modal
+          visible={visible}
+          setVisible={setVisible}
+          selectedProduct={selectedProduct}
+        />
+      ) : (
+        ""
+      )}
+    </SafeAreaView>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    //top: 12,
+
+    flex: 1,
+    backgroundColor: defaultStyles.Colors.primaeryGrey,
+    //justifyContent: "center",
+    alignItems: "center",
+  },
+  headerContainer: {
+    padding: 15,
+    flexDirection: "row",
+    // justifyContent: "space-between",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  mainContainer: {
+    flex: 1,
+    padding: 20,
+  },
+});
