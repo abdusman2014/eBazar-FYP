@@ -12,7 +12,7 @@ import ChatScreen from "../Screens/ChatScreen";
 
 function ChatsNavigator() {
 
-  const { user } = userStore();
+  const [chatHeader, setChatHeader] = useState("");
   const ChatsNavigator = createStackNavigator();
 
   return (
@@ -27,7 +27,19 @@ function ChatsNavigator() {
         //headerShown: true,
         headerTitle: 'Your Chats', }}
       >
-        {(props) => <MessagesScreen user={user} navigation={ChatScreen} />}
+        {(props) => <MessagesScreen {...props} setChatHeader={setChatHeader} />}
+      </ChatsNavigator.Screen>
+      <ChatsNavigator.Screen
+        name={routes.CHAT_SCREEN}
+        options={{ headerStyle: {
+          backgroundColor: defaultStyles.Colors.grey100,
+        },
+        headerShown: true,
+        headerShadowVisible: false,
+        //headerShown: true,
+        headerTitle: chatHeader, }}
+      >
+        {(props) => <ChatScreen {...props} />}
       </ChatsNavigator.Screen>
     </ChatsNavigator.Navigator>
   );

@@ -2,13 +2,16 @@ import firebase from 'firebase/compat/app';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import { FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
+import userStore from '../state-management/AppUser';
 
-const MessagesScreen = ({user, navigation}) => {
+const MessagesScreen = (props) => {
   const [users, setUsers] = useState(null)
-  
+  const { user } = userStore();
+
   const getUsers = async ()=> {
-    const querySanp = await firebase.firestore().collection('user').where('uid','!=',user.uid).get()
+    const querySanp = await firebase.firestore().collection('Users').where('uid','!=',user.uid).get()
     const allUsers = querySanp.docs.map(docSnap=>docSnap.data())
+    console.log(allUsers)
     setUsers(allUsers)
   }
 
@@ -25,7 +28,9 @@ const MessagesScreen = ({user, navigation}) => {
                   data={users}
                   keyExtractor={(item)=>item.uid}
                   renderItem={({item}) => (
-                  <TouchableOpacity onPress={() => navigation.navigate('chatScreen', {name: item.name, uid: item.uid})} >
+                  <TouchableOpacity onPress={() => {
+                    props.setChatHeader(item.name)
+                    props.navigation.navigate('chatScreen', {name: item.name, uid: item.uid})}} >
                       <View style={styles.card} >
                           <Image style={styles.userImageST} source={{uri: 'https://placeimg.com/140/140/any'}} />
                         <View style={styles.textArea}>

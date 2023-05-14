@@ -23,4 +23,5 @@ export default {
   AUCTION_ADD_PRODUCT_SCREEN: "auctionAddProductScreen",
   CHAT_NAVIGATOR: "chatsNavigator",
   MESSAGES_SCREEN: "messageScreen",
+  CHAT_SCREEN: "chatScreen",
 };
