@@ -20,5 +20,7 @@ export default {
   TOPUP_SCREEN: "topUpScreen",
   AUCTION_SCREEN: "auctionScreen",
   AUCTION_NAVIGATOR: "auctionNavigator",
-  AUCTION_ADD_PRODUCT_SCREEN: "auctionAddProductScreen"
+  AUCTION_ADD_PRODUCT_SCREEN: "auctionAddProductScreen",
+  CHAT_NAVIGATOR: "chatsNavigator",
+  MESSAGES_SCREEN: "messageScreen",
 };
