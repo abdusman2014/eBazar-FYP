@@ -15,11 +15,12 @@ import { AppNavigator } from "./AppNavigator";
 import UserProfileInputScreen from "../Screens/Auth/UserProfileInputScreen";
 import AuctionScreen from "../Screens/Auction/AuctionScreen";
 import AddAutionProductScreen from "../Screens/Auction/AddAutionProductScreen";
+import ChatScreen from "../Screens/ChatScreen";
 
 function AuctionNavigator() {
 
   const AuctionNavigator = createStackNavigator();
-
+  const [chatHeader, setChatHeader] = useState("");
   return (
     <AuctionNavigator.Navigator  screenOptions={{
       headerShown: false
@@ -36,7 +37,7 @@ function AuctionNavigator() {
         }}
       >
         {(props) => (
-          <AuctionScreen {...props}></AuctionScreen>
+          <AuctionScreen {...props} setChatHeader={setChatHeader}></AuctionScreen>
         )}
       </AuctionNavigator.Screen>
      
@@ -55,7 +56,18 @@ function AuctionNavigator() {
           <AddAutionProductScreen {...props}></AddAutionProductScreen>
         )}
       </AuctionNavigator.Screen>
-      
+      <AuctionNavigator.Screen
+        name={routes.CHAT_SCREEN}
+        options={{ headerStyle: {
+          backgroundColor: defaultStyles.Colors.grey100,
+        },
+        headerShown: true,
+        headerShadowVisible: false,
+        //headerShown: true,
+        headerTitle: chatHeader, }}
+      >
+        {(props) => <ChatScreen {...props} />}
+      </AuctionNavigator.Screen>
     </AuctionNavigator.Navigator>
   );
 }

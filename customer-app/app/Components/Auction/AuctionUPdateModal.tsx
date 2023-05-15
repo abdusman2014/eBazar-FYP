@@ -20,7 +20,8 @@ const AuctionUpdateModal = ({ setVisible, selectedProduct }) => {
 console.log(selectedProduct)
   const updateBidFunction = () => {
     if (Number(newPrice) > Number(selectedProduct.price)) {
-      socket.emit("updatePrice", { newPrice, selectedProduct });
+      const userName = user?.name
+      socket.emit("updatePrice", { newPrice, selectedProduct,userId,userName });
       setVisible(false);
     } else {
       Alert.alert("Error!", "New price must be more than the bidding price");
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "100%",
     backgroundColor: "#FAF7F0",
-    position: "fixed",
+   // position: "fixed",
     bottom: 10,
     height: 400,
     padding: 20,

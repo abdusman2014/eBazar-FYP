@@ -19,7 +19,10 @@ const AuctionComponent = ({
   description,
   id,
   isMe,
-  isReverseAuction
+  isReverseAuction,
+  bidUserId,
+  bidUserName,
+  props,
 }) => {
   console.log("*** ",description)
   return (
@@ -48,7 +51,14 @@ const AuctionComponent = ({
         </View>
         <AppSpaceComponent height={10} />
         {isMe ? (
-          <AppButtonWithShadow onPress={() => {}}>
+          <AppButtonWithShadow onPress={() => {
+            console.log('name: ',bidUserName);
+            props.setChatHeader(bidUserName);
+            props.navigation.navigate("chatScreen", {
+              name: bidUserName,
+              uid: bidUserId,
+            });
+          }}>
             <AppText
               style={{
                 color: defaultStyles.Colors.white,

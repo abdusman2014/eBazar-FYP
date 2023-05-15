@@ -27,14 +27,19 @@ socketIO.on("connection", (socket) => {
       owner: product.userId,
       isReverseAuction: product.isReverseAuction,
       userName: product.userName,
+      bidUserId: "",
+      bidUserName: "",
     });
     socketIO.emit("getProducts", productList);
   });
   socket.on("updatePrice", (data) => {
+    console.log(data);
     let result = productList.filter(
       (product) => product.id === data.selectedProduct.id
     );
     result[0].price = data.newPrice;
+    result[0].bidUserId = data.userId;
+    result[0].bidUserName = data.userName;
     //result[0].owner = data.userId;
     console.log("updated");
     socketIO.emit("getProducts", productList);
@@ -49,7 +54,7 @@ app.get("/products", (req, res) => {
   res.json(productList);
 });
 app.get("/recommendedItems", (req, res) => {
-  console.log("recommend user: ",req.query.userId);
+  console.log("recommend user: ", req.query.userId);
   const pythonProcess = spawn("python3", ["./top-secret.py", req.query.userId]);
   pythonProcess.stdout.on("data", function (data) {
     const myArr = JSON.parse(data.toString().replaceAll("'", '"'));

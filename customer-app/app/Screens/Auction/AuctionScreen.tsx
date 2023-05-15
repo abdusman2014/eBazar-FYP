@@ -41,6 +41,7 @@ export default function AuctionScreen(props) {
     console.log(":: ",description)
     setSelectedProduct({ name, price, id,description });
   };
+
   useLayoutEffect(() => {
     function fetchProducts() {
       fetch("http://192.168.10.8:4000/products")
@@ -163,6 +164,9 @@ export default function AuctionScreen(props) {
                 id={item.id}
                 isMe={item.owner === user.uid}
                 isReverseAuction={item.isReverseAuction}
+                bidUserId= {item.bidUserId}
+                bidUserName={item.bidUserName}
+                props={props}
               />
             )}
           />
