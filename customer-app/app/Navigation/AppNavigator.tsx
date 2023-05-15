@@ -21,7 +21,9 @@ import WalletNavigator from "./WalletNavigator";
 import TrackOrderNavigator from "./TrackOrdernavigator";
 import AuctionScreen from "../Screens/Auction/AuctionScreen";
 import AuctionNavigator from "./AuctionNavigation";
-
+import ChatScreen from "../Screens/ChatScreen";
+import MessageScreen from "../Screens/MessagesScreen";
+import ChatsNavigator from "./ChatsNavigator";
 const Tab = createBottomTabNavigator();
 
 const getTabBarVisibility = (route) => {
@@ -118,6 +120,21 @@ export const AppNavigator = () => {
             />
           ),
         })}
+      />
+      <Tab.Screen
+        name={routes.CHAT_NAVIGATOR}
+        component={ChatsNavigator}
+        options={{
+          // tabBarLabelStyle: {color: 'red'},
+          //tabBarIconStyle: {color: 'red'},
+          tabBarLabel: "Chat",
+
+          tabBarIcon: ({ color, size }) => (
+            <SimpleLineIcons name="bubble" size={size} color={color} />
+          ),
+          headerShown: false,
+          headerTitle: "Messages",
+        }}
       />
     </Tab.Navigator>
   );
