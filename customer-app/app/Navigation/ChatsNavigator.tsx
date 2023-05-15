@@ -25,7 +25,7 @@ function ChatsNavigator() {
         headerShown: true,
         headerShadowVisible: false,
         //headerShown: true,
-        headerTitle: 'Your Chats', }}
+        headerTitle: chatHeader, }}
       >
         {(props) => <MessagesScreen {...props} setChatHeader={setChatHeader} />}
       </ChatsNavigator.Screen>
