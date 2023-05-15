@@ -1,4 +1,5 @@
 const express = require("express");
+const spawn = require("child_process").spawn;
 const app = express();
 const http = require("http").Server(app);
 const cors = require("cors");
@@ -46,6 +47,16 @@ socketIO.on("connection", (socket) => {
 app.get("/products", (req, res) => {
   console.log("req");
   res.json(productList);
+});
+app.get("/recommendedItems", (req, res) => {
+  console.log("recommend user: ",req.query.userId);
+  const pythonProcess = spawn("python3", ["./top-secret.py", req.query.userId]);
+  pythonProcess.stdout.on("data", function (data) {
+    const myArr = JSON.parse(data.toString().replaceAll("'", '"'));
+    res.json(myArr);
+    //console.log('data: ',data.toString());
+    //res.send(data)
+  });
 });
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
