@@ -84,7 +84,7 @@ export default function AddAddressScreen(props) {
                 value={values.title}
                 label="Add title e.g. Home"
               />
-              <AppSpaceComponent height={errors.title ? 35 : 50} />
+              <AppSpaceComponent height={errors.title ? 5 : 15} />
               {errors.title && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.title}
@@ -96,7 +96,7 @@ export default function AddAddressScreen(props) {
                 value={values.description}
                 label="Add adddress e.g. House#668, Street#21 I10/4"
               />
-              <AppSpaceComponent height={errors.description ? 35 : 50} />
+              <AppSpaceComponent height={errors.description ? 5 : 15} />
               {errors.description && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.description}

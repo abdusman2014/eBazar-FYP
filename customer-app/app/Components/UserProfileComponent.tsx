@@ -15,10 +15,13 @@ function UserProfileComponent({ imageUrl, greetingmsg, name }) {
           setUser(null);
         }}
       >
-        <Image
-          source={require("../assets/images/user-profile.png")}
+      {imageUrl ? <Image
+          source={{uri: imageUrl}}
           style={styles.image}
-        />
+        />:<Image
+        source={require("../assets/images/user-profile.png")}
+        style={styles.image}
+      />}
       </Pressable>
       <View style={{ marginLeft: 8 }}>
         {greetingmsg && <AppText>{greetingmsg}</AppText>}

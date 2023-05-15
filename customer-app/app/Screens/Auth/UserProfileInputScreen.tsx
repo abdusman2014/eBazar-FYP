@@ -52,13 +52,8 @@ export default function UserProfileInputScreen(props) {
     console.log(result);
 
     if (!result.canceled) {
-      const manipResult = await manipulateAsync(
-        result.uri,
-        [{ resize: { height: 500, width: 500 } }],
-        { compress: 1, format: SaveFormat.JPEG }
-      );
-      console.log(manipResult);
-      setImage(manipResult.uri);
+    
+      setImage(result);
       //setImage(result.uri);
     }
   };
@@ -72,21 +67,8 @@ export default function UserProfileInputScreen(props) {
     setIsLoading(true);
     let link = null;
     if (image !== null) {
-      const base64 = await FileSystem.readAsStringAsync(image!, {
-        encoding: "base64",
-      });
-      // .then(async (base64) => {
-      var toUint8Array = require("base64-to-uint8array");
-      var unit8Array = toUint8Array(base64);
-
-      const reference = firebase.storage().ref("Users/" + user?.uid! + ".jpg");
-
-      const task = await reference.put(unit8Array);
-
-      link = await firebase
-        .storage()
-        .ref("Users/" + user?.uid! + ".jpg")
-        .getDownloadURL();
+    
+      link = await uploadImageAsync(image.uri, image.fileName);
     }
     const myUser: User = {
       name: values.firstName + " " + values.lastName,
@@ -152,7 +134,7 @@ export default function UserProfileInputScreen(props) {
       <View style={styles.image}>
         {image ? (
           <Image
-            source={{ uri: image }}
+            source={{ uri: image.uri }}
             style={{ width: 150, height: 150, borderRadius: 75 }}
           />
         ) : (
@@ -189,7 +171,7 @@ export default function UserProfileInputScreen(props) {
                 value={values.firstName}
                 label="First Name"
               />
-              <AppSpaceComponent height={errors.firstName ? 35 : 50} />
+              <AppSpaceComponent height={errors.firstName ? 5 : 15} />
               {errors.firstName && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.firstName}
@@ -208,7 +190,7 @@ export default function UserProfileInputScreen(props) {
                 value={values.email}
                 label="Email"
               />
-              <AppSpaceComponent height={errors.email ? 35 : 50} />
+              <AppSpaceComponent height={errors.email ? 5 : 15} />
               {errors.email && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.email}
@@ -221,7 +203,7 @@ export default function UserProfileInputScreen(props) {
                 keyboardType="numeric"
                 label="Age"
               />
-              <AppSpaceComponent height={errors.age ? 35 : 50} />
+              <AppSpaceComponent height={errors.age ? 5 : 15} />
               {errors.age && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.age}
@@ -278,7 +260,35 @@ const formValidationSchema = yup.object().shape({
   email: yup.string().email("Not a proper Email").nullable(),
   age: yup.string().required("Age is Required"),
 });
+async function uploadImageAsync(uri, fileName) {
+  // Why are we using XMLHttpRequest? See:
+  console.log(fileName);
+  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
 
+  const ref = firebase
+    .storage()
+    .ref()
+    .child("images/" + fileName);
+  const snapshot = await ref.put(blob);
+
+  // We're done with the blob, close and release it
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
+}
 const styles = StyleSheet.create({
   container: {
     top: 32,

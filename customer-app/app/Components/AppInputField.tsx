@@ -32,15 +32,15 @@ function AppInputField({ onValueChange, label,...inputProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
-    flex: 1,
+   // marginBottom: 10,
+   // flex: 1,
   },
 
   input: {
     borderStyle: "solid",
     borderWidth: 1,
     borderRadius: 5,
-    paddingVertical: 5,
+    //paddingVertical: 5,
     paddingLeft: 5,
     fontSize: 16,
     height: 40,

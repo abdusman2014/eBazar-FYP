@@ -52,10 +52,14 @@ const MessagesScreen = (props) => {
                 }}
               >
                 <View style={styles.card}>
-                  <Image
-                    style={styles.userImageST}
-                    source={{ uri: "https://placeimg.com/140/140/any" }}
-                  />
+                  {item.image ? (
+                    <Image source={{ uri: item.image }} style={styles.image} />
+                  ) : (
+                    <Image
+                      source={require("../assets/images/user-profile.png")}
+                      style={styles.image}
+                    />
+                  )}
                   <View style={styles.textArea}>
                     <Text style={styles.nameText}>{item.name}</Text>
                     <Text style={styles.msgContent}>{item.email}</Text>
@@ -92,6 +96,12 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 35,
     marginRight: 10,
+  },
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    resizeMode: "contain",
   },
   textArea: {
     flex: 1,

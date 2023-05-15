@@ -125,7 +125,7 @@ export default function AddAutionProductScreen(props) {
                 value={values.name}
                 label="Product Name"
               />
-              <AppSpaceComponent height={errors.name ? 35 : 50} />
+              <AppSpaceComponent height={errors.name ? 5 : 15} />
               {errors.name && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.name}
@@ -137,7 +137,7 @@ export default function AddAutionProductScreen(props) {
                 value={values.description}
                 label="Product Description"
               />
-              <AppSpaceComponent height={errors.description ? 35 : 50} />
+              <AppSpaceComponent height={errors.description ? 5 : 15} />
               {errors.description && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.description}
@@ -150,7 +150,7 @@ export default function AddAutionProductScreen(props) {
                 keyboardType="number-pad"
                 label="Price"
               />
-              <AppSpaceComponent height={errors.price ? 35 : 50} />
+              <AppSpaceComponent height={errors.price ? 5 : 15} />
               {errors.price && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.price}
@@ -188,7 +188,7 @@ export default function AddAutionProductScreen(props) {
                   />
                 </Pressable>
               </View>
-              <AppSpaceComponent height={errors.imgUrl ? 35 : 50} />
+              <AppSpaceComponent height={errors.imgUrl ? 5 : 15} />
               {errors.imgUrl && (
                 <AppText style={{ marginLeft: 8, fontSize: 12, color: "red" }}>
                   {errors.imgUrl}
