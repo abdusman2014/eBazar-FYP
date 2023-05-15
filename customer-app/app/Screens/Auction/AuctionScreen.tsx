@@ -43,10 +43,12 @@ export default function AuctionScreen(props) {
   };
   useLayoutEffect(() => {
     function fetchProducts() {
-      fetch("http://localhost:4000/products")
+      fetch("http://192.168.10.8:4000/products")
         .then((res) => res.json())
         .then(setAuctions)
-        .catch((err) => setError(err));
+        .catch((err) => {
+          console.log('err: ',err);
+          setError(err)});
     }
     fetchProducts();
   }, []);
@@ -199,7 +201,7 @@ export default function AuctionScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    //top: 12,
+    top: 12,
 
     flex: 1,
     backgroundColor: defaultStyles.Colors.primaeryGrey,

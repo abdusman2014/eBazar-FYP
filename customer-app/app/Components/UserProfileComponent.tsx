@@ -1,16 +1,25 @@
 import React from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, Pressable } from "react-native";
 
 import AppText from "./AppText";
 import defaultStyles from "../Config/styles";
+import userStore from "../state-management/AppUser";
 
 function UserProfileComponent({ imageUrl, greetingmsg, name }) {
+  const { setUser } = userStore();
   return (
     <View style={styles.container}>
-      <Image
-      source={require("../assets/images/user-profile.png")}
-        style={styles.image}
-      />
+      <Pressable
+        onPress={() => {
+          console.log("press");
+          setUser(null);
+        }}
+      >
+        <Image
+          source={require("../assets/images/user-profile.png")}
+          style={styles.image}
+        />
+      </Pressable>
       <View style={{ marginLeft: 8 }}>
         {greetingmsg && <AppText>{greetingmsg}</AppText>}
         <AppText style={defaultStyles.typography.body.large.bold}>
