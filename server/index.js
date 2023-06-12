@@ -63,6 +63,16 @@ app.get("/recommendedItems", (req, res) => {
     //res.send(data)
   });
 });
+app.get("/popular", (req, res) => {
+  
+  const pythonProcess = spawn("python3", ["./PopularityBased.py"]);
+  pythonProcess.stdout.on("data", function (data) {
+    const myArr = JSON.parse(data.toString().replaceAll("'", '"'));
+    console.log('data: ',data.toString());
+    res.json(myArr[0]);
+    //res.send(data)
+  });
+});
 http.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

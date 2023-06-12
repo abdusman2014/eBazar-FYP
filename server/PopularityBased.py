@@ -69,7 +69,8 @@ def PopularityBased():
 #     BestFive = dataset['item_id'].value_counts().head(5)
     top_items = dataset['item_id'].explode().value_counts().head(5).index.tolist()
 
-    print(top_items)
+    #print(top_items)
+    return top_items
 #     print(NewFive)
 #     return NewFive
 
@@ -77,7 +78,8 @@ def PopularityBased():
 # In[50]:
 
 
-PopularityBased()
+res = PopularityBased()
+print(res)
 
 
 # In[ ]:

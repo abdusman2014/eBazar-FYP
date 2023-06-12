@@ -44,7 +44,8 @@ function HomeScreen(props) {
   const [clicked, setClicked] = useState(false);
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
-  const { setUser } = userStore();
+  const [popularItem, setPopularItem] = useState(null);
+  const { setUser, user } = userStore();
   const mockCategoryData = HomeScreenMockData.mockCategoryData;
   const mockCategoryWithOutImageData =
     HomeScreenMockData.mockCategoryWithOutImageData;
@@ -60,44 +61,69 @@ function HomeScreen(props) {
     // ).then((res) => {
     //   console.log(res.json);
     // });
-    fetch("http://192.168.10.8:4000/recommendedItems?userId=uhN2qKUWMZRgkoUsE3IQ9dVttCh2")
-    .then((res) => res.json())
-    .then(res =>{
-      //console.log("reco: ",res);
-
-    firebase
-    .firestore()
-    .collection("Items")
-    .where("item_id", "in", res)
-    .get()
-    .then((querySnapshot) => {
-     // console.log("Total users: ", querySnapshot.size);
-      const data: Item[] = [];
-      querySnapshot.forEach((documentSnapshot) => {
-        const item: Item = documentSnapshot.data();
-        data.push(item);
+    fetch("http://192.168.10.8:4000/popular")
+      .then((res) => res.json())
+      .then(res =>{
+        firebase
+          .firestore()
+          .collection("Items")
+          .where("item_id", "==", res)
+          .get()
+          .then((querySnapshot) => {
+             console.log("Total users: ", querySnapshot.size);
+            const data: Item[] = [];
+            querySnapshot.forEach((documentSnapshot) => {
+              const item: Item = documentSnapshot.data();
+              setPopularItem(item);
+              //data.push(item);
+            });
+            // console.log("data no: ", data.length);
+            //setItems(data);
+            //setIsLoadingItems(false);
+          });
+      })
+      
+      .catch((err) => {
+        console.log("err: ", err);
       });
-     // console.log("data no: ", data.length);
-      setItems(data);
-      setIsLoadingItems(false);
-    });
-    })
-    .catch((err) => {
-      console.log('err: ',err);
-     });
+    fetch("http://192.168.10.8:4000/recommendedItems?userId=" + user?.uid)
+      .then((res) => res.json())
+      .then((res) => {
+        //console.log("reco: ",res);
+
+        firebase
+          .firestore()
+          .collection("Items")
+          .where("item_id", "in", res)
+          .get()
+          .then((querySnapshot) => {
+            // console.log("Total users: ", querySnapshot.size);
+            const data: Item[] = [];
+            querySnapshot.forEach((documentSnapshot) => {
+              const item: Item = documentSnapshot.data();
+              data.push(item);
+            });
+            // console.log("data no: ", data.length);
+            setItems(data);
+            setIsLoadingItems(false);
+          });
+      })
+      .catch((err) => {
+        console.log("err: ", err);
+      });
 
     firebase
       .firestore()
       .collection("Category")
       .get()
       .then((querySnapshot) => {
-       // console.log("Total users: ", querySnapshot.size);
+        // console.log("Total users: ", querySnapshot.size);
         const data: Item[] = [];
         querySnapshot.forEach((documentSnapshot) => {
           const category: Category = documentSnapshot.data();
           data.push(category);
         });
-       // console.log("data no: ", data.length);
+        // console.log("data no: ", data.length);
         setCategories(data);
         setIsLoadingCategories(false);
       });
@@ -155,12 +181,19 @@ function HomeScreen(props) {
         <AppSpaceComponent height={undefined} />
         <SectionHeader title={"Special Offers"} optionText={"See All"} />
         <AppSpaceComponent height={undefined} />
-        <AppSpecialOfferComponent
-          headerText={"25%"}
-          subHeaderText={"Today's Special"}
-          text={"Get discount for every order, only valid for today"}
-          image={"../assets/images/sofa.jpg"}
-        />
+       {popularItem && <AppSpecialOfferComponent
+          headerText={"Trending"}
+          subHeaderText={popularItem.name}
+          text={popularItem.description}
+          image={popularItem.image}
+          onPress={() => {
+            //const product: Item = item.item;
+           // console.log(item.item);
+            props.setItem(popularItem);
+           // console.log(props.item);
+            props.navigation.navigate(routes.ITEM_DETAILS_SCREEN);
+          }}
+        />}
         <AppSpaceComponent height={undefined} />
 
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>

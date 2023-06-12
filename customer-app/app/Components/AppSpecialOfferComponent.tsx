@@ -1,13 +1,13 @@
 import React from "react";
-import { Dimensions, StyleSheet, View, Image, Text } from "react-native";
+import { Dimensions, StyleSheet, View, Image, Text,Pressable } from "react-native";
 
 import defaultStyles from "../Config/styles";
 import AppSpaceComponent from "./AppSpaceComponent";
 import AppText from "./AppText";
 
-function AppSpecialOfferComponent({headerText, subHeaderText, text, image}) {
+function AppSpecialOfferComponent({headerText, subHeaderText, text, image,onPress}) {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress ={onPress}>
       <View style={{ flex: 1 }}>
         <AppText
           style={[defaultStyles.typography.body.large.bold, { fontSize: 36 }]}
@@ -26,11 +26,11 @@ function AppSpecialOfferComponent({headerText, subHeaderText, text, image}) {
 
       <View>
         <Image
-          source={require("../assets/images/sofa.jpg")}
+          source={{uri: image}}
           style={{ width: 100, height: 150,borderRadius: 20,resizeMode: 'contain' }}
         />
       </View>
-    </View>
+    </Pressable>
   );
 }
 
