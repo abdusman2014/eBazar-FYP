@@ -53,6 +53,9 @@ const AuctionComponent = ({
         {isMe ? (
           <AppButtonWithShadow onPress={() => {
             console.log('name: ',bidUserName);
+            if(bidUserName === ""){
+              return;
+            }
             props.setChatHeader(bidUserName);
             props.navigation.navigate("chatScreen", {
               name: bidUserName,

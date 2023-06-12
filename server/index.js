@@ -58,8 +58,8 @@ app.get("/recommendedItems", (req, res) => {
   const pythonProcess = spawn("python3", ["./top-secret.py", req.query.userId]);
   pythonProcess.stdout.on("data", function (data) {
     const myArr = JSON.parse(data.toString().replaceAll("'", '"'));
+    console.log('data: ',data.toString());
     res.json(myArr);
-    //console.log('data: ',data.toString());
     //res.send(data)
   });
 });
