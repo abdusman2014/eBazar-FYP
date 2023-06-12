@@ -16,7 +16,7 @@
     "@react-navigation/stack": "^6.3.3",
     "base-64": "^1.0.0",
     "base64-to-uint8array": "^1.0.0",
-    "expo": "^48.0.0",
+    "expo": "^48.0.19",
     "expo-checkbox": "~2.3.1",
     "expo-firebase-recaptcha": "~2.3.0",
     "expo-font": "~11.1.1",
