@@ -55,33 +55,49 @@ function HomeScreen(props) {
   ] = useState(mockCategoryWithOutImageData);
 
   useEffect(() => {
+    // fetch(
+    //   "http://192.168.72.240:4000/recommendedItems?userId=uhN2qKUWMZRgkoUsE3IQ9dVttCh2"
+    // ).then((res) => {
+    //   console.log(res.json);
+    // });
+    fetch("http://192.168.10.8:4000/recommendedItems?userId=uhN2qKUWMZRgkoUsE3IQ9dVttCh2")
+    .then((res) => res.json())
+    .then(res =>{
+      //console.log("reco: ",res);
+
     firebase
-      .firestore()
-      .collection("Items")
-      .get()
-      .then((querySnapshot) => {
-        console.log("Total users: ", querySnapshot.size);
-        const data: Item[] = [];
-        querySnapshot.forEach((documentSnapshot) => {
-          const item: Item = documentSnapshot.data();
-          data.push(item);
-        });
-        console.log("data no: ", data.length);
-        setItems(data);
-        setIsLoadingItems(false);
+    .firestore()
+    .collection("Items")
+    .where("item_id", "in", res)
+    .get()
+    .then((querySnapshot) => {
+     // console.log("Total users: ", querySnapshot.size);
+      const data: Item[] = [];
+      querySnapshot.forEach((documentSnapshot) => {
+        const item: Item = documentSnapshot.data();
+        data.push(item);
       });
+     // console.log("data no: ", data.length);
+      setItems(data);
+      setIsLoadingItems(false);
+    });
+    })
+    .catch((err) => {
+      console.log('err: ',err);
+     });
+
     firebase
       .firestore()
       .collection("Category")
       .get()
       .then((querySnapshot) => {
-        console.log("Total users: ", querySnapshot.size);
+       // console.log("Total users: ", querySnapshot.size);
         const data: Item[] = [];
         querySnapshot.forEach((documentSnapshot) => {
           const category: Category = documentSnapshot.data();
           data.push(category);
         });
-        console.log("data no: ", data.length);
+       // console.log("data no: ", data.length);
         setCategories(data);
         setIsLoadingCategories(false);
       });
@@ -122,7 +138,7 @@ function HomeScreen(props) {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{padding: 8}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 8 }}>
         <AppTopBar />
         <AppSpaceComponent height={undefined} />
         <AppSearch
@@ -187,7 +203,7 @@ function HomeScreen(props) {
         <AppSpaceComponent height={undefined} />
 
         <FlatList
-        nestedScrollEnabled={true}
+          nestedScrollEnabled={true}
           data={items}
           style={{ padding: 16 }}
           keyExtractor={(item, index) => item.item_id}
@@ -237,10 +253,9 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
+
     top: 42,
     backgroundColor: defaultStyles.Colors.white,
-    
   },
   contentContainer: {
     flex: 1,

@@ -1,0 +1,50 @@
+item_id,status,created_at,sku,price,qty_ordered,grand_total,increment_id,category_name_1,sales_commission_code,discount_amount,payment_method,Working Date,BI Status,MV,Year,Month,Customer Since,M-Y,FY,Customer ID
+ZlYFf7YglR8omA64NSe9,complete,07/02/2016,PHILIPS_HP8105_29,2340,1,2340,100147956,Groceries,\N,0,cod,07/02/2016,Net,"2,340",2016,7,2016-7,Jul-16,FY17,Oh6WDmdOmZS4aeDVYHcOzmiuBlx2
+7QnDO0DqaGzPwZPGWZCQ,complete,07/11/2016,UK_Tea Rusk Sugar Free 220 Gms,95,5,590,100149045,Furniture,\N,217.89,cod,07/11/2016,Net,475,2016,7,2016-7,Jul-16,FY17,Q9RQuokRCmdbKcbOz1SCUFcnolQ2
+7QnDO0DqaGzPwZPGWZCQ,complete,7/15/2016,UK_Tea Rusk Sugar Free 220 Gms,95,1,175,100150045,Furniture,34737,0,cod,7/15/2016,Net,95,2016,7,2016-7,Jul-16,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+WJ8B8nqI5ZAoxrbzG5AJ,complete,7/26/2016,ISN's 100% Whey Protein Chocolate,2500,1,2500,100152708,Health & Sports,\N,0,cod,7/26/2016,Net,"2,500",2016,7,2016-7,Jul-16,FY17,ddHmdYpGVFSquw5rpU86w5rdNNn1
+ZlYFf7YglR8omA64NSe9,complete,7/26/2016,PHILIPS_HP8105_29,2340,1,3140,100152796,Groceries,\N,0,ublcreditcard,7/26/2016,Net,"2,340",2016,7,2016-7,Jul-16,FY17,g5zvioVELpgiTWtMjmUbIbhgmlm2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,7/29/2016,ISN's 100% Whey Protein Chocolate,2500,1,2500,100154329,Health & Sports,\N,0,cod,7/29/2016,Net,"2,500",2016,7,2016-7,Jul-16,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+lzKZk6d2AmB9pQraCnar,complete,8/13/2016,nutrifactor_NF0025,3000,1,3000,100160073,Health & Sports,\N,0,cod,8/13/2016,Net,"3,000",2016,8,2016-8,Aug-16,FY17,l6MVvU8u7iM9nAuEj6XFIJryEGP2
+7d1LR9xuRpNqBnAehAAC,complete,8/28/2016,zuni16_312-B,2275,1,2275,100163709,Women's Fashion,C-HDD45229,0,cod,8/28/2016,Net,"2,275",2016,8,2016-7,Aug-16,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+T4uEDgpEB0HhetLCTyII,complete,09/04/2016,cr_MABROOM DATES (375 GM),695,1,2035,100165418,Furniture,\N,0,cod,09/04/2016,Net,695,2016,9,2016-7,Sep-16,FY17,uhN2qKUWMZRgkoUsE3IQ9dVttCh2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,09/08/2016,ISN's 100% Whey Protein Chocolate,2500,2,5000,100166539,Health & Sports,\N,0,cod,09/08/2016,Net,"5,000",2016,9,2016-9,Sep-16,FY17,xT3mQEPLq4QHLSgsS1zeSTb4Mjx2
+chiycztj7QLqfFPqJQ1L,complete,09/09/2016,joko_NJLA40063-B,320,1,320,100166731,Groceries,\N,0,cod,09/09/2016,Net,320,2016,9,2016-9,Sep-16,FY17,9iLiBbprYlh3KqC45Z1rWY27Be23
+KPMXCz1nRoUWYcrGY3mO,complete,10/04/2016,Bata_5615458-TPR-Red -40,300,1,300,100179962,Women's Fashion,R-KHW-104406,0,cod,10/04/2016,Net,300,2016,10,2016-7,Oct-16,FY17,OQlAf16zvERf5ME4LipZUEn7Daj1
+WJ8B8nqI5ZAoxrbzG5AJ,complete,10/25/2016,ISN's 100% Whey Protein Chocolate,2250,1,2250,100186301,Health & Sports,\N,0,cod,10/25/2016,Net,"2,250",2016,10,2016-10,Oct-16,FY17,Q9RQuokRCmdbKcbOz1SCUFcnolQ2
+dFxKIlWboIXxebBEWafE,complete,11/01/2016,shahi_Pack of 3 Shahi Munchy Mix,255,1,255,100188976,Furniture,R-LHW-105666,0,cod,11/01/2016,Net,255,2016,11,2016-10,Nov-16,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+dFxKIlWboIXxebBEWafE,complete,11/08/2016,shahi_Pack of 3 Shahi Munchy Mix,255,1,255,100191925,Furniture,R-LHE-104418,0,cod,11/08/2016,Net,255,2016,11,2016-7,Nov-16,FY17,ddHmdYpGVFSquw5rpU86w5rdNNn1
+dFxKIlWboIXxebBEWafE,complete,11/09/2016,shahi_Pack of 3 Shahi Munchy Mix,255,1,255,100192221,Furniture,R-LHW-105666,0,cod,11/09/2016,Net,255,2016,11,2016-11,Nov-16,FY17,g5zvioVELpgiTWtMjmUbIbhgmlm2
+dFxKIlWboIXxebBEWafE,complete,11/09/2016,shahi_Pack of 3 Shahi Munchy Mix,255,1,255,100192223,Furniture,R-LHW-105666,0,cod,11/09/2016,Net,255,2016,11,2016-11,Nov-16,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+e9UqwvKnVkElSBueY274,complete,11/09/2016,un_Hair Care Bundle_HC,495,2,990,100192369,Groceries,R-LHE-104418,0,cod,11/09/2016,Net,990,2016,11,2016-7,Nov-16,FY17,l6MVvU8u7iM9nAuEj6XFIJryEGP2
+dFxKIlWboIXxebBEWafE,complete,11/10/2016,shahi_Pack of 3 Shahi Munchy Mix,255,1,255,100192701,Furniture,R-LHE-103735,0,cod,11/10/2016,Net,255,2016,11,2016-7,Nov-16,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+e9UqwvKnVkElSBueY274,complete,11/11/2016,un_Hair Care Bundle_HC,495,1,3602,100193116,Groceries,\N,0,cod,11/11/2016,Net,495,2016,11,2016-9,Nov-16,FY17,qcZPrTf6EihIZf9FVZJODSK7zS03
+e9UqwvKnVkElSBueY274,complete,11/16/2016,un_Hair Care Bundle_HC,495,1,495,100194692,Groceries,R-FSD-58130,0,cod,11/16/2016,Net,495,2016,11,2016-7,Nov-16,FY17,uhN2qKUWMZRgkoUsE3IQ9dVttCh2
+0lvypTlhXrgb4fpVwEOW,complete,11/18/2016,RealLeather226_xlarge_black,1999,1,3997,100195703,Men's Fashion,\N,0,cod,11/18/2016,Net,"1,999",2016,11,2016-8,Nov-16,FY17,xT3mQEPLq4QHLSgsS1zeSTb4Mjx2
+7yciEIV56pRTotWAUIwn,complete,11/19/2016,Mardaz_MA305FA0IOEDGNAFAMZ-S,699,1,699,100199041,Men's Fashion,C-PEW-33480,0,cod,11/19/2016,Net,699,2016,11,2016-11,Nov-16,FY17,xT3mQEPLq4QHLSgsS1zeSTb4Mjx2
+kKVSHmX6xmVsMy7WzEBc,complete,11/25/2016,JayQeu_ZP001/ZP003-S,1099,1,3098,100226582,Women's Fashion,\N,0,cod,11/25/2016,Net,"1,099",2016,11,2016-11,Nov-16,FY17,9iLiBbprYlh3KqC45Z1rWY27Be23
+sPs6i8D7sPNpXSB3RDGx,complete,11/26/2016,TO_007-Pack Of 6 Ads Lipstic,600,1,870,100236246,Groceries,\N,0,cod,11/26/2016,Net,600,2016,11,2016-11,Nov-16,FY17,GJxgqJun68VVBn6aBKU0uOqtOpj1
+WJ8B8nqI5ZAoxrbzG5AJ,complete,11/30/2016,ISN's 100% Whey Protein Chocolate,2500,1,2500,100243836,Health & Sports,\N,0,cod,11/30/2016,Net,"2,500",2016,11,2016-10,Nov-16,FY17,OQlAf16zvERf5ME4LipZUEn7Daj1
+ZHlKJBDEDeZqb7UEx86X,complete,12/02/2016,Femina_8008081260285-1228,80,1,24,100244778,Groceries,\N,0,cod,12/02/2016,Net,80,2016,12,2016-7,Dec-16,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+JA5GPba3mhXOKMDTP7W0,complete,12/07/2016,emo_Emo-MH-33610-Heather Grey-M,750,1,750,100246809,Men's Fashion,\N,0,cod,12/07/2016,Net,750,2016,12,2016-9,Dec-16,FY17,ddHmdYpGVFSquw5rpU86w5rdNNn1
+WJ8B8nqI5ZAoxrbzG5AJ,complete,12/07/2016,ISN's 100% Whey Protein Chocolate,2500,2,5000,100246880,Health & Sports,\N,0,cod,12/07/2016,Net,"5,000",2016,12,2016-12,Dec-16,FY17,g5zvioVELpgiTWtMjmUbIbhgmlm2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,12/08/2016,ISN's 100% Whey Protein Chocolate,2500,1,2500,100247309,Health & Sports,\N,0,cod,12/08/2016,Net,"2,500",2016,12,2016-12,Dec-16,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+e9UqwvKnVkElSBueY274,complete,01/09/2017,un_Hair Care Bundle_HC,495,1,495,100258761,Groceries,C-MUX-5723,0,cod,01/09/2017,Net,495,2017,1,2016-8,Jan-17,FY17,qcZPrTf6EihIZf9FVZJODSK7zS03
+WJ8B8nqI5ZAoxrbzG5AJ,complete,1/24/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100263343,Health & Sports,\N,0,cod,1/24/2017,Net,"2,500",2017,1,2016-7,Jan-17,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+WJ8B8nqI5ZAoxrbzG5AJ,complete,1/25/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100263576,Health & Sports,\N,0,cod,1/25/2017,Net,"2,500",2017,1,2017-1,Jan-17,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+WJ8B8nqI5ZAoxrbzG5AJ,complete,1/28/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100264491,Health & Sports,\N,0,cod,1/28/2017,Net,"2,500",2017,1,2016-7,Jan-17,FY17,kpIDfqtaANNwsiFzyxZLhNGis762
+WJ8B8nqI5ZAoxrbzG5AJ,complete,1/31/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100265120,Health & Sports,\N,0,cod,1/31/2017,Net,"2,500",2017,1,2017-1,Jan-17,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+dFxKIlWboIXxebBEWafE,complete,02/09/2017,shahi_Pack of 3 Shahi Munchy Mix,255,1,1073,100268052,Furniture,R-LHW-103735,0,cod,02/09/2017,Net,255,2017,2,2016-7,Feb-17,FY17,uhN2qKUWMZRgkoUsE3IQ9dVttCh2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,04/07/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100289512,Health & Sports,\N,0,cod,04/07/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,Oh6WDmdOmZS4aeDVYHcOzmiuBlx2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,04/11/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100290626,Health & Sports,\N,0,cod,04/11/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,Q9RQuokRCmdbKcbOz1SCUFcnolQ2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,04/11/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100290663,Health & Sports,\N,0,cod,04/11/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+7QnDO0DqaGzPwZPGWZCQ,complete,5/26/2017,UK_Tea Rusk Sugar Free 220 Gms,95,2,1290,100319466,Furniture,\N,0,cod,5/26/2017,Net,190,2017,5,2017-5,May-17,FY17,xT3mQEPLq4QHLSgsS1zeSTb4Mjx2
+O80FvWvBUepdwt3fXv72,complete,6/15/2017,Q&Q_Q602J402Y,3000,1,2250,100326137,Men's Fashion,\N,750,Payaxis,6/15/2017,Net,"3,000",2017,6,2017-6,Jun-17,FY17,qcZPrTf6EihIZf9FVZJODSK7zS03
+WJ8B8nqI5ZAoxrbzG5AJ,complete,1/31/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100265120,Health & Sports,\N,0,cod,1/31/2017,Net,"2,500",2017,1,2017-1,Jan-17,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+WJ8B8nqI5ZAoxrbzG5AJ,complete,02/09/2017,shahi_Pack of 3 Shahi Munchy Mix,255,1,1073,100268052,Furniture,R-LHW-103735,0,cod,02/09/2017,Net,255,2017,2,2016-7,Feb-17,FY17,uhN2qKUWMZRgkoUsE3IQ9dVttCh2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,04/07/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100289512,Health & Sports,\N,0,cod,04/07/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,Oh6WDmdOmZS4aeDVYHcOzmiuBlx2
+WJ8B8nqI5ZAoxrbzG5AJ,complete,04/11/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100290626,Health & Sports,\N,0,cod,04/11/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,Q9RQuokRCmdbKcbOz1SCUFcnolQ2
+IXaBj3QRLgeiwm1nDpma,complete,04/11/2017,ISN's 100% Whey Protein Chocolate,2500,1,2500,100290663,Health & Sports,\N,0,cod,04/11/2017,Net,"2,500",2017,4,2017-4,Apr-17,FY17,QeYcNFWr6HYo0c9ojwOACAXWMhv1
+O80FvWvBUepdwt3fXv72,complete,4/13/2017,20-herbal_Honey Shampoo,240,1,390,100291518,Health & Sports,\N,0,cod,4/13/2017,Net,240,2017,4,2017-4,Apr-17,FY17,OQlAf16zvERf5ME4LipZUEn7Daj1
+O80FvWvBUepdwt3fXv72,complete,6/15/2017,Q&Q_Q602J402Y,3000,1,2250,100326137,Men's Fashion,\N,750,Payaxis,6/15/2017,Net,"3,000",2017,6,2017-6,Jun-17,FY17,qcZPrTf6EihIZf9FVZJODSK7zS03
+,,,,,,,,,,,,,,,,,,,,

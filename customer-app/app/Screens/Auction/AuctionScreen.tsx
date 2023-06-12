@@ -44,7 +44,7 @@ export default function AuctionScreen(props) {
 
   useLayoutEffect(() => {
     function fetchProducts() {
-      fetch("http://192.168.10.8:4000/products")
+      fetch("http://192.168.72.240:4000/products")
         .then((res) => res.json())
         .then(setAuctions)
         .catch((err) => {

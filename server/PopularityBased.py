@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-import sys
+# In[49]:
 
-def contentbased(cust_id):
+
+def PopularityBased():
     import pandas as pd
     import numpy as np
     import random
     import sys
     from itertools import chain
+    import re
     
     orders = pd.read_csv("Pakistan Largest Ecommerce Dataset - Copy.csv")
 
@@ -63,36 +64,20 @@ def contentbased(cust_id):
     category_items = pd.DataFrame(dataset.groupby('category_name_1')['item_id'].apply(list)).reset_index()
     category_items
 
-# Content Based Recommendation System
 
-# Group dataset by customer ID and aggregate category names
-    interests = pd.DataFrame(dataset.groupby('Customer ID')['category_name_1'].apply(list)).reset_index()
-    interests
+# Listing top 5 items for all users
+#     BestFive = dataset['item_id'].value_counts().head(5)
+    top_items = dataset['item_id'].explode().value_counts().head(5).index.tolist()
 
-# Removing same enteries from the list category_name_1
-
-    interests['category_name_1'] = interests['category_name_1'].apply(lambda x: list(set(x)))
-    interests['category_name_1']
+    print(top_items)
+#     print(NewFive)
+#     return NewFive
 
 
-
-# Performing SKU extraction based on customer interests
-
-    interests['item_id'] = interests['category_name_1'].apply(lambda x: category_items[category_items['category_name_1'].isin(x)]['item_id'].head(3).tolist())
-    rs_df = interests.groupby('Customer ID')['item_id'].apply(list).reset_index()
-    rs_df
-    rs_df[rs_df['Customer ID']==cust_id].item_id
-# res = [int(x) for x in str(rs_df[rs_df['Customer ID']==2].item_id.values.tolist()[0][0][0][0])]
-    new_rs = rs_df[rs_df['Customer ID']==cust_id].item_id.values.tolist()[0][0][0]
-    new_rs = list(set(new_rs))
-    return(new_rs)
+# In[50]:
 
 
-# In[4]:
-
-
-res = contentbased(sys.argv[1])#"qcZPrTf6EihIZf9FVZJODSK7zS03"
-print(res)
+PopularityBased()
 
 
 # In[ ]:
