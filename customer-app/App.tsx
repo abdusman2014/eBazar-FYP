@@ -14,6 +14,7 @@ import firebase from "./firebase";
 import OrdersScreen from "./app/Screens/OrdersScreen";
 import TrackOrderScreen from "./app/Screens/TrackOrderScreen";
 import userStore from "./app/state-management/AppUser";
+//useless commtn
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const {user} = userStore();
